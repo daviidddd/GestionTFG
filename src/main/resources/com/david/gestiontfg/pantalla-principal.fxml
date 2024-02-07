@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -16,11 +17,17 @@
                   <MenuItem fx:id="miSalir" mnemonicParsing="false" text="Salir" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Cargar">
+              <items>
+                <MenuItem id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Nuevos alumnos" />
+                  <MenuItem id="miCargarTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="Nuevos TFG" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Consultar">
             <items>
-              <MenuItem fx:id="miConsultaAlumnosActivos" mnemonicParsing="false" text="Alumnos activos" />
                   <MenuItem fx:id="miConsultaTFGActivos" mnemonicParsing="false" text="TFG activos" />
                   <MenuItem fx:id="miConsultaPersonalizada" mnemonicParsing="false" text="Consulta personalizada" />
+              <MenuItem fx:id="miConsultaAlumnosActivos" mnemonicParsing="false" text="Alumnos activos" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Personalizar" />
@@ -37,5 +44,7 @@
             </Menu>
         </menus>
       </MenuBar>
+      <Label layoutX="147.0" layoutY="62.0" text="Alumnos Totales: " AnchorPane.bottomAnchor="720.5" AnchorPane.leftAnchor="147.0" AnchorPane.rightAnchor="756.5" AnchorPane.topAnchor="60.0" />
+      <Label layoutX="491.0" layoutY="60.0" text="TFG Totales: " AnchorPane.bottomAnchor="722.5" AnchorPane.leftAnchor="491.0" AnchorPane.rightAnchor="437.0" AnchorPane.topAnchor="60.0" />
    </children>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package com.david.gestiontfg.database;
+package com.david.gestiontfg.bbdd;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -36,6 +36,24 @@ public class BDController {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, usuario);
             statement.setString(2, contrasena);
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0; // Si se insertó al menos una fila, el registro fue exitoso
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean registrarAlumno(int idUcam, int nombre, String apellido1, String apellido2, String correo, int nia) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "INSERT INTO alumnos (id_ucam, nombre, apellido1, apellido2, correo, nia) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, idUcam);
+            statement.setInt(2, nombre);
+            statement.setString(3, apellido1);
+            statement.setString(4, apellido2);
+            statement.setString(5, correo);
+            statement.setInt(6, nia);
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0; // Si se insertó al menos una fila, el registro fue exitoso
         } catch (SQLException e) {

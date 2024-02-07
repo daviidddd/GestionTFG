@@ -1,7 +1,6 @@
 package com.david.gestiontfg;
 
-import com.david.gestiontfg.database.BDController;
-import com.david.gestiontfg.modelos.Usuario;
+import com.david.gestiontfg.bbdd.BDController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,10 +30,10 @@ public class MainController {
     private TextField txtCorreoReg;
     @FXML
     private PasswordField txtContrasenaReg;
-    private BDController databaseManager;
+    private BDController bdController;
 
     public MainController() {
-        this.databaseManager = new BDController();
+        this.bdController = new BDController();
     }
 
     @FXML
@@ -47,7 +46,7 @@ public class MainController {
             lblMainStatus.setTextFill(Color.RED);
             lblMainStatus.setTextAlignment(TextAlignment.CENTER);
         } else {
-            boolean inicioExitoso = databaseManager.iniciarSesionUsuario(correo, contrasena);
+            boolean inicioExitoso = bdController.iniciarSesionUsuario(correo, contrasena);
             if (inicioExitoso) {
                 lblMainStatus.setText("Usuario loggeado correctamente");
                 lblMainStatus.setTextFill(Color.GREEN);
@@ -86,7 +85,7 @@ public class MainController {
             lblMainStatus.setTextFill(Color.RED);
             lblMainStatus.setTextAlignment(TextAlignment.CENTER);
         } else {
-            boolean registroExitoso = databaseManager.registrarUsuario(correo, contrasena);
+            boolean registroExitoso = bdController.registrarUsuario(correo, contrasena);
             if (registroExitoso) {
                 lblMainStatus.setText("Usuario registrado correctamente");
                 lblMainStatus.setTextFill(Color.GREEN);
