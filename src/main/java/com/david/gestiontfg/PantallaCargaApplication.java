@@ -22,7 +22,7 @@ public class PantallaCargaApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 
         // Configurar la escena
-        stage.setTitle("UCAM");
+        stage.setTitle("UCAM - Gestión TFG");
         stage.setScene(scene);
         stage.show();
 
@@ -36,6 +36,7 @@ public class PantallaCargaApplication extends Application {
                 // Obtener la referencia al escenario actual y establecer la segunda escena
                 Stage currentStage = (Stage) stage.getScene().getWindow();
                 currentStage.setScene(secondScene);
+                currentStage.setTitle("Bienvenido");
             } catch (IOException e) {
                 e.printStackTrace();
             }

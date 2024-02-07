@@ -61,4 +61,21 @@ public class BDController {
             return false;
         }
     }
+
+    public boolean registrarTFG(String codigo, String titulo, String descripcion, String tutor, String asignaturas) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "INSERT INTO tfgs (codigo, titulo, descripcion, tutor, asignaturas) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, codigo);
+            statement.setString(2, titulo);
+            statement.setString(3, descripcion);
+            statement.setString(4, tutor);
+            statement.setString(5, asignaturas);
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0; // Si se insertó al menos una fila, el registro fue exitoso
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

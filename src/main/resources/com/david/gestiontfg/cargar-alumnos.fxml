@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.CargarAlumnosController">
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.CargarAlumnosController">
    <children>
       <Pane prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #004379;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,7 +34,7 @@
       <TextField fx:id="txtNIA" layoutX="129.0" layoutY="274.0" prefHeight="26.0" prefWidth="237.0" AnchorPane.leftAnchor="129.0" AnchorPane.topAnchor="274.0" />
       <Button fx:id="btnAltaAlumno" layoutX="129.0" layoutY="314.0" mnemonicParsing="false" onMouseClicked="#altaAlumnoClick" prefHeight="26.0" prefWidth="237.0" text="Dar de alta" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="129.0" AnchorPane.topAnchor="314.0" />
       <Button fx:id="btnAltaAlumnoFichero" layoutX="138.0" layoutY="360.0" mnemonicParsing="false" onMouseClicked="#altaAlumnoFicheroClick" prefHeight="26.0" prefWidth="429.0" text="Subir mediante fichero" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="354.0" />
-      <TableView layoutX="386.0" layoutY="76.0" prefHeight="264.0" prefWidth="170.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="74.0">
+      <TableView id="tbAlumnosAlta" layoutX="389.0" layoutY="74.0" prefHeight="266.0" prefWidth="267.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="74.0">
         <columns>
           <TableColumn prefWidth="75.0" />
         </columns>

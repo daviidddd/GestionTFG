@@ -3,6 +3,7 @@ package com.david.gestiontfg;
 import com.david.gestiontfg.bbdd.BDController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -34,6 +35,8 @@ public class CargarAlumnosController {
     private Button btnAltaAlumno;
     @FXML
     private Button btnAltaAlumnoFichero;
+    @FXML
+    private TableView tbAlumnosAlta;
     private BDController bdController;
     private Stage stage;
 
@@ -59,9 +62,9 @@ public class CargarAlumnosController {
         else {
             boolean altaExitosa = bdController.registrarAlumno(idUcam, nombre, apellido1, apellido2, correo, nia);
             if(altaExitosa){
-                Alert alerta = new Alert(AlertType.CONFIRMATION);
+                Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Usuario Añadido");
-                alerta.setHeaderText("Inserción");
+                alerta.setHeaderText("Usuario añadido");
                 alerta.setContentText("El usuario ha sido añadido correctamente.");
 
                 alerta.showAndWait();
@@ -75,6 +78,7 @@ public class CargarAlumnosController {
         FileChooser selectorFichero = new FileChooser();
         selectorFichero.setTitle("Seleccionar archivo XLSX");
         selectorFichero.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos XLSX", "*.xlsx"));
+        int contador = 0;
 
         // Se abre el buscador de archivos
         File archivoSeleccionado = selectorFichero.showOpenDialog(stage);
@@ -107,6 +111,7 @@ public class CargarAlumnosController {
 
                     // Llamar al método para registrar al alumno con los valores leídos
                     boolean altaExitosa = bdController.registrarAlumno(Integer.parseInt(idUcam), nombre, apellido1, apellido2, correo, Integer.parseInt(nia));
+                    contador++;
 
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
@@ -115,6 +120,13 @@ public class CargarAlumnosController {
                         System.out.println("Error al registrar alumno: " + idUcam);
                     }
                 }
+
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Alta de alumno");
+                alerta.setHeaderText(contador + " alumnos añadidos");
+                alerta.setContentText("Los alumnos han sido añadidos correctamente.");
+
+                alerta.showAndWait();
 
                 // Cerrar el FileInputStream y liberar recursos
                 fileInputStream.close();

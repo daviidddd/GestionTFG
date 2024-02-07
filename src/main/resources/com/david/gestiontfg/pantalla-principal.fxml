@@ -13,8 +13,8 @@
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
                   <MenuItem fx:id="miInformacion" mnemonicParsing="false" text="Información" />
-              <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" text="Cerrar sesión" />
-                  <MenuItem fx:id="miSalir" mnemonicParsing="false" text="Salir" />
+              <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesionClick" text="Cerrar sesión" />
+                  <MenuItem fx:id="miSalir" mnemonicParsing="false" onAction="#salirClick" text="Salir" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Cargar">
