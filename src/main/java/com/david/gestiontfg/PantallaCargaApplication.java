@@ -4,14 +4,19 @@ import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
+import java.util.Objects;
 
 public class PantallaCargaApplication extends Application {
-
     @Override
     public void start(Stage stage) throws IOException {
+        Image icono = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/ucam_tfg.icns")));
+        stage.getIcons().add(icono);
+
         // Cargar el archivo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(PantallaCargaApplication.class.getResource("pantalla-carga.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);

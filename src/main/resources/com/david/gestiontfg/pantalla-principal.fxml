@@ -5,28 +5,34 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #DBDBDB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
    <children>
-      <MenuBar layoutX="125.0" layoutY="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.bottomAnchor="772.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Información" />
-              <MenuItem mnemonicParsing="false" text="Salir" />
+                  <MenuItem fx:id="miInformacion" mnemonicParsing="false" text="Información" />
+              <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" text="Cerrar sesión" />
+                  <MenuItem fx:id="miSalir" mnemonicParsing="false" text="Salir" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Consultar">
             <items>
-              <MenuItem mnemonicParsing="false" text="Alumnos activos" />
-                  <MenuItem mnemonicParsing="false" text="TFG activos" />
-                  <MenuItem mnemonicParsing="false" text="Personalizada" />
+              <MenuItem fx:id="miConsultaAlumnosActivos" mnemonicParsing="false" text="Alumnos activos" />
+                  <MenuItem fx:id="miConsultaTFGActivos" mnemonicParsing="false" text="TFG activos" />
+                  <MenuItem fx:id="miConsultaPersonalizada" mnemonicParsing="false" text="Consulta personalizada" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Personalizar" />
+            <Menu mnemonicParsing="false" text="Perfil">
+              <items>
+                <MenuItem fx:id="miVerPerfil" mnemonicParsing="false" text="Ver perfil" />
+                  <MenuItem fx:id="miModificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="miManualUsuario" mnemonicParsing="false" text="Manual de usuario" />
               </items>
             </Menu>
         </menus>

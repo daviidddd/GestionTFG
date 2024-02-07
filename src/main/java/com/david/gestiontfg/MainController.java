@@ -1,13 +1,20 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.database.BDController;
+import com.david.gestiontfg.modelos.Usuario;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainController {
     @FXML
@@ -46,6 +53,20 @@ public class MainController {
                 lblMainStatus.setTextFill(Color.GREEN);
                 lblMainStatus.setTextAlignment(TextAlignment.CENTER);
 
+                Stage currentStage = (Stage) lblMainStatus.getScene().getWindow(); // Obtener el escenario actual
+                currentStage.close(); // Cerrar la ventana actual
+
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("pantalla-principal.fxml"));
+                try {
+                    Parent root = fxmlLoader.load();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("Pantalla Principal");
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 lblMainStatus.setText("Error al registrar usuario");
