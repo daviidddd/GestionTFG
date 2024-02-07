@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
+   <children>
+      <MenuBar layoutX="125.0" layoutY="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Gestion TFG">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Información" />
+              <MenuItem mnemonicParsing="false" text="Salir" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Consultar">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Alumnos activos" />
+                  <MenuItem mnemonicParsing="false" text="TFG activos" />
+                  <MenuItem mnemonicParsing="false" text="Personalizada" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Personalizar" />
+            <Menu mnemonicParsing="false" text="Ayuda">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

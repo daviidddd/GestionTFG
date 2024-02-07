@@ -4,6 +4,7 @@ module com.david.gestiontfg {
 
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
+    requires java.sql;
 
     exports com.david.gestiontfg;
     opens com.david.gestiontfg to javafx.fxml;

@@ -24,8 +24,8 @@ public class PantallaCargaApplication extends Application {
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         pauseTransition.setOnFinished(event -> {
             try {
-                // Cargar la segunda vista (main.fxml)
-                FXMLLoader secondLoader = new FXMLLoader(PantallaCargaApplication.class.getResource("main.fxml"));
+                // Cargar la segunda vista (login-registro.fxml)
+                FXMLLoader secondLoader = new FXMLLoader(PantallaCargaApplication.class.getResource("login-registro.fxml"));
                 Scene secondScene = new Scene(secondLoader.load(), 600, 400);
 
                 // Obtener la referencia al escenario actual y establecer la segunda escena

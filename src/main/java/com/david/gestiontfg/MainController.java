@@ -1,5 +1,6 @@
 package com.david.gestiontfg;
 
+import com.david.gestiontfg.database.BDController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +24,11 @@ public class MainController {
     private TextField txtCorreoReg;
     @FXML
     private PasswordField txtContrasenaReg;
+    private BDController databaseManager;
+
+    public MainController() {
+        this.databaseManager = new BDController();
+    }
 
     @FXML
     protected void iniciarSesionClick() {
@@ -34,9 +40,18 @@ public class MainController {
             lblMainStatus.setTextFill(Color.RED);
             lblMainStatus.setTextAlignment(TextAlignment.CENTER);
         } else {
-            lblMainStatus.setText("Iniciando sesion. . .");
-            lblMainStatus.setTextFill(Color.GREEN);
-            lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+            boolean inicioExitoso = databaseManager.iniciarSesionUsuario(correo, contrasena);
+            if (inicioExitoso) {
+                lblMainStatus.setText("Usuario loggeado correctamente");
+                lblMainStatus.setTextFill(Color.GREEN);
+                lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+
+
+            } else {
+                lblMainStatus.setText("Error al registrar usuario");
+                lblMainStatus.setTextFill(Color.RED);
+                lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+            }
         }
     }
 
@@ -50,9 +65,16 @@ public class MainController {
             lblMainStatus.setTextFill(Color.RED);
             lblMainStatus.setTextAlignment(TextAlignment.CENTER);
         } else {
-            lblMainStatus.setText("Registrando nuevo usuario. . .");
-            lblMainStatus.setTextFill(Color.GREEN);
-            lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+            boolean registroExitoso = databaseManager.registrarUsuario(correo, contrasena);
+            if (registroExitoso) {
+                lblMainStatus.setText("Usuario registrado correctamente");
+                lblMainStatus.setTextFill(Color.GREEN);
+                lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+            } else {
+                lblMainStatus.setText("Error al registrar usuario");
+                lblMainStatus.setTextFill(Color.RED);
+                lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+            }
         }
     }
 

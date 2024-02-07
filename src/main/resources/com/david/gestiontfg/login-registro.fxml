@@ -34,8 +34,8 @@
                      <children>
                         <Label prefHeight="17.0" prefWidth="106.0" text="Correo electrónico:" AnchorPane.bottomAnchor="122.5" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="331.0" AnchorPane.topAnchor="29.0" />
                         <Label layoutX="43.0" layoutY="89.0" prefHeight="17.0" prefWidth="106.0" text="Contraseña:" AnchorPane.bottomAnchor="76.5" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="331.0" AnchorPane.topAnchor="75.0" />
-                        <TextField fx:id="txtCorreoReg" layoutX="182.0" layoutY="71.0" prefHeight="26.0" prefWidth="254.0" AnchorPane.bottomAnchor="71.5" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="71.0" />
-                        <PasswordField fx:id="txtContrasenaReg" layoutX="182.0" layoutY="25.0" prefHeight="26.0" prefWidth="254.0" AnchorPane.bottomAnchor="117.5" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="25.0" />
+                        <TextField fx:id="txtCorreoReg" layoutX="184.0" layoutY="25.0" prefHeight="26.0" prefWidth="254.0" AnchorPane.bottomAnchor="117.5" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="25.0" />
+                        <PasswordField fx:id="txtContrasenaReg" layoutX="184.0" layoutY="71.0" prefHeight="26.0" prefWidth="254.0" AnchorPane.bottomAnchor="71.5" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="71.0" />
                         <Button fx:id="btnRegistrarse" mnemonicParsing="false" onMouseClicked="#registrarseClick" prefHeight="26.0" prefWidth="177.0" text="Registrarse" AnchorPane.bottomAnchor="21.5" AnchorPane.leftAnchor="151.0" AnchorPane.rightAnchor="151.0" AnchorPane.topAnchor="121.0" />
                      </children>
                   </AnchorPane>
@@ -57,6 +57,6 @@
             </Label>
          </children>
       </Pane>
-      <Label fx:id="lblMainStatus" layoutX="232.0" layoutY="327.0" text="Complete su información" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="232.0" />
+      <Label fx:id="lblMainStatus" alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="327.0" prefHeight="17.0" prefWidth="404.0" text="Complete su información" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="98.0" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="327.0" />
    </children>
 </AnchorPane>
