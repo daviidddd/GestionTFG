@@ -61,7 +61,7 @@ public class MainController {
                     Parent root = fxmlLoader.load();
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
-                    stage.setTitle("Pantalla Principal");
+                    stage.setTitle("Ventana Principaltest");
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

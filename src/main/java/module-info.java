@@ -7,6 +7,7 @@ module com.david.gestiontfg {
     requires java.sql;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
+    requires icepdf.viewer;
 
     exports com.david.gestiontfg;
     opens com.david.gestiontfg to javafx.fxml;

@@ -1,7 +1,12 @@
 package com.david.gestiontfg.bbdd;
 
+import com.david.gestiontfg.modelos.Alumno;
+import com.david.gestiontfg.modelos.TFG;
+
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BDController {
     private static final String URL = "jdbc:mysql://localhost:3306/gestion";
@@ -78,4 +83,56 @@ public class BDController {
             return false;
         }
     }
+
+    public List<Alumno> obtenerAlumnos() {
+        List<Alumno> alumnosActivos = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT * FROM alumnos";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_ucam");
+                int nombre = resultSet.getInt("nombre");
+                String apellido1 = resultSet.getString("apellido1");
+                String apellido2 = resultSet.getString("apellido2");
+                String correo = resultSet.getString("correo");
+                int nia = resultSet.getInt("nia");
+
+                Alumno alumno = new Alumno(id, nombre, apellido1, apellido2, correo, nia); // Aquí crea el objeto Alumno con los datos obtenidos
+                alumnosActivos.add(alumno);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alumnosActivos;
+    }
+
+    public List<TFG> obtenerTFGs() {
+        List<TFG> tfgActivos = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT * FROM tfgs";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String codigo = resultSet.getString("codigo");
+                String titulo = resultSet.getString("titulo");
+                String descripcion = resultSet.getString("descripcion");
+                String tutor = resultSet.getString("tutor");
+                String asignaturas = resultSet.getString("asignaturas");
+                int solicitantes = resultSet.getInt("solicitantes");
+                int adjudicado = resultSet.getInt("adjudicado");
+
+                TFG tfg = new TFG(codigo, titulo, descripcion, tutor, asignaturas, solicitantes, adjudicado); // Aquí crea el objeto Alumno con los datos obtenidos
+                tfgActivos.add(tfg);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tfgActivos;
+    }
+
 }
