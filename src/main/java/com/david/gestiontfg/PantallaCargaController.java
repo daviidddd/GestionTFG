@@ -14,16 +14,22 @@ public class PantallaCargaController implements Initializable {
 
     @FXML
     private ImageView imgViewCarga;
+    @FXML
+    private ImageView imgViewCarga2;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             // Cargar la imagen desde el archivo
-            FileInputStream inputStream = new FileInputStream("src/main/resources/image/ucam_azul.png");
+            FileInputStream inputStream = new FileInputStream("src/main/resources/image/ucam_transparente_azul.png");
             Image image = new Image(inputStream);
+
+            FileInputStream inputStream2 = new FileInputStream("src/main/resources/image/logo_universidad.png");
+            Image image2 = new Image(inputStream2);
 
             // Establecer la imagen en el ImageView
             imgViewCarga.setImage(image);
+            imgViewCarga2.setImage(image2);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

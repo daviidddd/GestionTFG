@@ -12,12 +12,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -64,6 +69,12 @@ public class PantallaPrincipalController {
     private TableColumn<Alumno, Integer> colNIA;
     @FXML
     private AnchorPane visualizadorPDF;
+    @FXML
+    private Label lblTFGEst;
+    @FXML
+    private Label lblAlumnosEst;
+    @FXML
+    private ImageView imgUcam;
 
     private final BDController bdController;
 
@@ -71,7 +82,7 @@ public class PantallaPrincipalController {
         this.bdController = new BDController();
     }
 
-    public void initialize() {
+    public void initialize() throws FileNotFoundException {
         // Configurar las columnas de las tablas
         colIDUcamAlumno.setCellValueFactory(cellData -> cellData.getValue().idUcamProperty().asObject());
         colCorreoAlumno.setCellValueFactory(cellData -> cellData.getValue().correoProperty());
@@ -88,6 +99,9 @@ public class PantallaPrincipalController {
         colCodigoTFG.setStyle("-fx-alignment: CENTER;");
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
 
+        lblAlumnosEst.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        lblTFGEst.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+
         // Obtener los datos de la base de datos y mostrarlos en la tabla
         cargarDatosAlumnos();
         cargarDatosTFGs();
@@ -96,11 +110,13 @@ public class PantallaPrincipalController {
     private void cargarDatosAlumnos() {
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         tbAlumnos.getItems().addAll(listaAlumnos);
+        lblAlumnosEst.setText(listaAlumnos.size() + " ALUMNOS");
     }
 
     private void cargarDatosTFGs() {
         List<TFG> listaTFG = bdController.obtenerTFGs();
         tbTFGs.getItems().addAll(listaTFG);
+        lblTFGEst.setText(listaTFG.size() + " DISPONIBLES");
     }
 
     @FXML
