@@ -1,12 +1,14 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.logs.LogController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.ss.formula.functions.Log;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -53,12 +55,15 @@ public class CargarTfgsController {
         String asignaturas3 = txtAsignaturas3.getText();
 
         String asignaturas = String.valueOf(asignaturas1 + ", " + asignaturas2 + ", " + asignaturas3);
+        String tfg = String.valueOf(codigo + " " + titulo);
 
         if(codigo.isEmpty() || titulo.isEmpty() || descripcion.isEmpty() || tutor.isEmpty() || asignaturas1.isEmpty())
             System.out.println("Campos vacios");
         else {
             boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas);
             if(altaExitosa){
+                LogController.registrarAccion("Alta TFG - " + tfg);
+
                 Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
                 alerta.setTitle("TFG Añadido");
                 alerta.setHeaderText("TFG Añadido");
@@ -81,6 +86,7 @@ public class CargarTfgsController {
         File archivoSeleccionado = selectorFichero.showOpenDialog(stage);
 
         if (archivoSeleccionado != null) {
+            LogController.registrarAccion("Alta TFG por fichero " + "(" + archivoSeleccionado.getName() + ")" + ": ");
             try {
                 // Crear un objeto FileInputStream para leer el archivo XLSX
                 FileInputStream fileInputStream = new FileInputStream(archivoSeleccionado);
@@ -107,6 +113,8 @@ public class CargarTfgsController {
                     int solicitantes = (int) row.getCell(4).getNumericCellValue();
                     String adjudicado = row.getCell(5).getStringCellValue();
 
+                    String tfg = String.valueOf(codigo + " " + titulo);
+
                     // Llamar al método para registrar al alumno con los valores leídos
                     boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas);
                     contador++;
@@ -114,8 +122,10 @@ public class CargarTfgsController {
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
                         System.out.println("TFG registrado correctamente: " + codigo);
+                        LogController.registrarAccion("\tAlta - " + tfg);
                     } else {
                         System.out.println("Error al registrar tfg: " + codigo);
+                        LogController.registrarAccion("\tError Alta - " + tfg);
                     }
                 }
 

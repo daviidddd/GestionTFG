@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.logs.LogController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,6 +53,8 @@ public class MainController {
                 lblMainStatus.setTextFill(Color.GREEN);
                 lblMainStatus.setTextAlignment(TextAlignment.CENTER);
 
+                LogController.registrarAccion("Inicio de sesión " + correo);
+
                 Stage currentStage = (Stage) lblMainStatus.getScene().getWindow(); // Obtener el escenario actual
                 currentStage.close(); // Cerrar la ventana actual
 
@@ -90,6 +93,7 @@ public class MainController {
                 lblMainStatus.setText("Usuario registrado correctamente");
                 lblMainStatus.setTextFill(Color.GREEN);
                 lblMainStatus.setTextAlignment(TextAlignment.CENTER);
+                LogController.registrarAccion("Registro de usuario " + correo);
             } else {
                 lblMainStatus.setText("Error al registrar usuario");
                 lblMainStatus.setTextFill(Color.RED);

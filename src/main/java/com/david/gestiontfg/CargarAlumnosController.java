@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.logs.LogController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
@@ -62,6 +63,8 @@ public class CargarAlumnosController {
         else {
             boolean altaExitosa = bdController.registrarAlumno(idUcam, nombre, apellido1, apellido2, correo, nia);
             if(altaExitosa){
+                LogController.registrarAccion("Alta Alumno - " + correo);
+
                 Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Usuario Añadido");
                 alerta.setHeaderText("Usuario añadido");
@@ -84,6 +87,7 @@ public class CargarAlumnosController {
         File archivoSeleccionado = selectorFichero.showOpenDialog(stage);
 
         if (archivoSeleccionado != null) {
+            LogController.registrarAccion("Alta ALUMNO por fichero " + "(" + archivoSeleccionado.getName() + ")" + ": ");
             try {
                 // Crear un objeto FileInputStream para leer el archivo XLSX
                 FileInputStream fileInputStream = new FileInputStream(archivoSeleccionado);
@@ -116,8 +120,10 @@ public class CargarAlumnosController {
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
                         System.out.println("Alumno registrado correctamente: " + idUcam);
+                        LogController.registrarAccion("\tAlta - " + correo);
                     } else {
                         System.out.println("Error al registrar alumno: " + idUcam);
+                        LogController.registrarAccion("\tError Alta - " + correo);
                     }
                 }
 
@@ -133,7 +139,6 @@ public class CargarAlumnosController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 

@@ -135,4 +135,20 @@ public class BDController {
         return tfgActivos;
     }
 
+    public int obtenerTFGAdjudicado() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT COUNT(*) FROM tfgs WHERE adjudicado IS NOT NULL";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int contador = resultSet.getInt(1);
+                return contador;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

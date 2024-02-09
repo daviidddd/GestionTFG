@@ -5,15 +5,17 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
    <children>
-      <MenuBar layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.bottomAnchor="772.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="menuBar" layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.bottomAnchor="772.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
@@ -81,12 +83,12 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="68.0" layoutY="122.0" text="Gestión General">
+      <Label layoutX="68.0" layoutY="123.0" text="Gestión General" AnchorPane.topAnchor="123.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Pane layoutX="147.0" layoutY="216.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="170.0">
+      <Pane layoutX="69.0" layoutY="174.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="174.0">
          <children>
             <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Gestionar" />
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Alumnos" />
@@ -97,18 +99,26 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="157.0" layoutY="226.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="250.0">
+      <Pane layoutX="69.0" layoutY="254.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="254.0">
          <children>
             <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Gestionar" />
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Trabajos Fin de Grado" />
-            <Label fx:id="lblTFGEst" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0" />
+            <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="578.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
+            <Label layoutX="707.0" layoutY="22.0" text="Disp." />
+            <Label layoutX="548.0" layoutY="22.0" text="Adj." />
          </children>
       </Pane>
-      <Pane layoutX="167.0" layoutY="236.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="330.0">
+      <Pane layoutX="69.0" layoutY="334.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="334.0">
          <children>
             <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Visualizar" />
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Actividad reciente" />
          </children>
       </Pane>
+      <TextField fx:id="txtBusqueda" layoutX="453.0" layoutY="119.0" prefHeight="26.0" prefWidth="489.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.topAnchor="120.0" />
+      <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="88.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
    </children>
 </AnchorPane>
