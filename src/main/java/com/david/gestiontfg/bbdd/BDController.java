@@ -271,5 +271,24 @@ public class BDController {
         return contador;
     }
 
+    public void limpiarAlumnos() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM alumnos";
+            PreparedStatement statement = connection.prepareStatement(query);
+            int resultSet = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void limpiarTFGs() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM tfgs";
+            PreparedStatement statement = connection.prepareStatement(query);
+            int resultSet = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -112,6 +112,8 @@ public class PantallaPrincipalController {
     private MenuItem miVerActividad;
     @FXML
     private MenuItem miExportarActividad;
+    @FXML
+    private MenuItem miFormatearSistema;
     private Timer timer;
     private final BDController bdController;
 
@@ -333,6 +335,33 @@ public class PantallaPrincipalController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void formatearSistemaClick() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Estás seguro de que quieres borrar todo el contenido?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                bdController.limpiarAlumnos();
+                bdController.limpiarTFGs();
+                mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
+                LogController.registrarAccion("IMPORTANTE - Formateo del sistema");
+            } else {
+
+            }
+        });
+    }
+
+    private void mostrarAlerta(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
     }
 
     @FXML

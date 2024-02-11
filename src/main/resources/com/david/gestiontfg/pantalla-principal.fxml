@@ -21,6 +21,7 @@
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
                   <MenuItem fx:id="miInformacion" mnemonicParsing="false" text="Información" />
+                  <MenuItem fx:id="miFormatearSistema" mnemonicParsing="false" onAction="#formatearSistemaClick" text="Formatear sistema" />
               <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesionClick" text="Cerrar sesión" />
                   <MenuItem fx:id="miSalir" mnemonicParsing="false" onAction="#salirClick" text="Salir" />
             </items>
@@ -53,12 +54,13 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="tbAlumnos" layoutX="628.0" layoutY="457.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="494.0">
+      <TableView fx:id="tbAlumnos" layoutX="628.0" layoutY="457.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="494.0">
         <columns>
-          <TableColumn fx:id="colIDUcamAlumno" prefWidth="87.0" resizable="false" text="ID Ucam" />
-            <TableColumn fx:id="colNIA" prefWidth="87.0" text="NIA" />
-          <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="166.89404296875" resizable="false" text="Correo" />
-            <TableColumn prefWidth="71.689453125" text="TFG" />
+          <TableColumn fx:id="colIDUcamAlumno" prefWidth="78.95196533203125" resizable="false" text="ID Ucam" />
+            <TableColumn fx:id="colNIA" prefWidth="87.45196533203125" text="NIA" />
+          <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="165.5" resizable="false" text="Correo" />
+            <TableColumn fx:id="colExp" prefWidth="45.0" text="Exp." />
+            <TableColumn prefWidth="79.0" text="TFG" />
         </columns>
       </TableView>
       <TableView fx:id="tbTFGs" layoutX="59.0" layoutY="503.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="494.0">
@@ -114,9 +116,9 @@
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font></Label>
-            <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="578.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
-            <Label layoutX="707.0" layoutY="22.0" text="Disp." />
-            <Label layoutX="548.0" layoutY="22.0" text="Adj." />
+            <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="609.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
+            <Label layoutX="740.0" layoutY="22.0" text="100%" />
+            <Label layoutX="535.0" layoutY="22.0" text="Asignados:" />
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
                   <MenuItem fx:id="miAltaTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="Alta de TFGs" />
@@ -134,6 +136,9 @@
                 <MenuItem fx:id="miBajaExpedientes" mnemonicParsing="false" text="Baja de expedientes" />
               </items>
             </MenuButton>
+            <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioExpedientes" layoutX="609.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
+            <Label layoutX="740.0" layoutY="22.0" text="100%" />
+            <Label layoutX="546.0" layoutY="22.0" text="Subidos:" />
          </children>
       </Pane>
       <TextField fx:id="txtBusqueda" layoutX="421.0" layoutY="120.0" prefHeight="26.0" prefWidth="489.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.topAnchor="120.0" />
