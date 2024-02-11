@@ -154,13 +154,11 @@ public class PantallaPrincipalController {
     }
 
     private void actualizarTablas() {
-        // Actualizar la tabla de alumnos
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         lblAlumnosEst.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
 
-        // Actualizar la tabla de TFGs
         tbTFGs.getItems().clear();
         tbTFGs.getItems().addAll(bdController.obtenerTFGs());
         List<TFG> listaTFG = bdController.obtenerTFGs();
