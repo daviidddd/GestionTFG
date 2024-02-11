@@ -8,6 +8,7 @@ module com.david.gestiontfg {
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     requires icepdf.viewer;
+    requires org.apache.pdfbox;
 
     exports com.david.gestiontfg;
     opens com.david.gestiontfg to javafx.fxml;

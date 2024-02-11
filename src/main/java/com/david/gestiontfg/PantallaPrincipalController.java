@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.TFG;
@@ -16,15 +17,18 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -88,8 +92,25 @@ public class PantallaPrincipalController {
     private TextField txtBusqueda;
     @FXML
     private Button btnBusqueda;
+    @FXML
+    private MenuItem miAltaAlumnos;
+    @FXML
+    private MenuItem miBajaAlumnos;
+    @FXML
+    private MenuItem miAltaTFG;
+    @FXML
+    private MenuItem miBajaTFG;
+    @FXML
+    private MenuItem miAltaExpedientes;
+    @FXML
+    private MenuItem miBajaExpedientes;
+    @FXML
+    private MenuItem miVerActividad;
+    @FXML
+    private MenuItem miExportarActividad;
     private Timer timer;
     private final BDController bdController;
+    private Stage stage;
 
     public PantallaPrincipalController() {
         this.bdController = new BDController();
@@ -290,6 +311,65 @@ public class PantallaPrincipalController {
             stage.showAndWait(); // Esperar hasta que se cierre el modal
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void exportarActividad() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar archivo PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
+
+        // Mostrar el cuadro de diálogo y obtener la ruta de destino
+        File fileDestino = fileChooser.showSaveDialog(stage);
+        if (fileDestino != null) {
+            try {
+                // Ruta del archivo de texto de origen
+                String rutaTexto = "src/main/resources/logs/activity_log.txt";
+
+                // Crear documento PDF
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage();
+                document.addPage(page);
+
+                // Configurar stream para escribir en el documento PDF
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                // Leer contenido del archivo de texto
+                try (BufferedReader reader = new BufferedReader(new FileReader(rutaTexto))) {
+                    float margin = 50;
+                    float y = page.getMediaBox().getHeight() - margin; // Posición inicial en la página
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        // Verificar si hay espacio en la página actual
+                        if (y - margin < 0) {
+                            // Si no hay espacio, añadir una nueva página
+                            contentStream.close();
+                            page = new PDPage();
+                            document.addPage(page);
+                            contentStream = new PDPageContentStream(document, page);
+                            y = page.getMediaBox().getHeight() - margin; // Resetear la posición inicial
+                        }
+                        contentStream.beginText();
+                        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+                        contentStream.newLineAtOffset(margin, y); // Mover a la siguiente línea
+                        contentStream.showText(line); // Escribir la línea en el PDF
+                        contentStream.endText();
+                        y -= 15; // Espacio entre líneas
+                    }
+                }
+
+                // Cerrar stream y guardar el documento
+                contentStream.close();
+                document.save(fileDestino);
+                document.close();
+
+                System.out.println("El archivo PDF ha sido creado exitosamente en: " + fileDestino.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No se seleccionó ninguna ruta de destino.");
         }
     }
 
