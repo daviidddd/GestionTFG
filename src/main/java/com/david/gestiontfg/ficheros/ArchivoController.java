@@ -1,18 +1,18 @@
 package com.david.gestiontfg.ficheros;
 
-import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.logs.LogController;
 import javafx.scene.control.*;
-
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
+import java.io.*;
+import java.nio.file.Paths;
 
 public class ArchivoController {
 

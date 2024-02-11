@@ -120,10 +120,10 @@ public class CargarAlumnosController {
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
                         System.out.println("Alumno registrado correctamente: " + idUcam);
-                        LogController.registrarAccion("\tAlta - " + correo);
+                        LogController.registrarAccion("    Alta - " + correo);
                     } else {
                         System.out.println("Error al registrar alumno: " + idUcam);
-                        LogController.registrarAccion("\tError Alta - " + correo);
+                        LogController.registrarAccion("    Error Alta - " + correo);
                     }
                 }
 

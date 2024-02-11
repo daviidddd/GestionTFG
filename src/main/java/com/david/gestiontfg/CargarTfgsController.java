@@ -122,10 +122,10 @@ public class CargarTfgsController {
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
                         System.out.println("TFG registrado correctamente: " + codigo);
-                        LogController.registrarAccion("\tAlta - " + tfg);
+                        LogController.registrarAccion("    Alta - " + tfg);
                     } else {
                         System.out.println("Error al registrar tfg: " + codigo);
-                        LogController.registrarAccion("\tError Alta - " + tfg);
+                        LogController.registrarAccion("    Error Alta - " + tfg);
                     }
                 }
 

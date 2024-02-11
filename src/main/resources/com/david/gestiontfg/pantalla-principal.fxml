@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableColumn?>
@@ -52,27 +53,28 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="tbAlumnos" layoutX="628.0" layoutY="457.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="500.0">
+      <TableView fx:id="tbAlumnos" layoutX="628.0" layoutY="457.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="494.0">
         <columns>
           <TableColumn fx:id="colIDUcamAlumno" prefWidth="87.0" resizable="false" text="ID Ucam" />
             <TableColumn fx:id="colNIA" prefWidth="87.0" text="NIA" />
-          <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="200.0" resizable="false" text="Correo" />
+          <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="166.89404296875" resizable="false" text="Correo" />
+            <TableColumn prefWidth="71.689453125" text="TFG" />
         </columns>
       </TableView>
-      <TableView fx:id="tbTFGs" layoutX="59.0" layoutY="503.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="500.0">
+      <TableView fx:id="tbTFGs" layoutX="59.0" layoutY="503.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="494.0">
         <columns>
-          <TableColumn fx:id="colCodigoTFG" prefWidth="87.0" resizable="false" text="Código" />
-          <TableColumn fx:id="colTituloTFG" prefWidth="300.0" resizable="false" text="Título" />
+          <TableColumn fx:id="colCodigoTFG" prefWidth="77.06816864013672" resizable="false" text="Código" />
+          <TableColumn fx:id="colTituloTFG" prefWidth="309.93177795410156" resizable="false" text="Título" />
         </columns>
       </TableView>
       <Pane layoutX="99.0" layoutY="16.0" prefHeight="60.0" prefWidth="686.0" style="-fx-background-color: #004973;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
-            <Label layoutX="65.0" layoutY="17.0" text="Gestión de TFGs " textFill="WHITE">
+            <Label layoutX="70.0" layoutY="17.0" text="Gestión de TFGs " textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="267.0" layoutY="22.0" text="/Ventana Principal" textFill="WHITE">
+            <Label layoutX="270.0" layoutY="22.0" text="/Ventana Principal" textFill="WHITE">
                <font>
                   <Font name="Arial Italic" size="18.0" />
                </font>
@@ -84,25 +86,29 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="68.0" layoutY="123.0" text="Gestión General" AnchorPane.topAnchor="123.0">
+      <Label layoutX="70.0" layoutY="123.0" text="Panel administrador" AnchorPane.topAnchor="123.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
       <Pane layoutX="69.0" layoutY="174.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="174.0">
          <children>
-            <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Gestionar" />
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Alumnos" />
             <Label fx:id="lblAlumnosEst" layoutX="263.0" layoutY="17.0" prefHeight="26.0">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font>
             </Label>
+            <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
+               <items>
+                  <MenuItem fx:id="miAltaAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alta de alumnos" />
+                  <MenuItem fx:id="miBajaAlumnos" mnemonicParsing="false" text="Baja de alumnos" />
+               </items>
+            </MenuButton>
          </children>
       </Pane>
       <Pane layoutX="69.0" layoutY="254.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="254.0">
          <children>
-            <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Gestionar" />
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Trabajos Fin de Grado" />
             <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0">
                <font>
@@ -111,15 +117,37 @@
             <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="578.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
             <Label layoutX="707.0" layoutY="22.0" text="Disp." />
             <Label layoutX="548.0" layoutY="22.0" text="Adj." />
+            <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
+               <items>
+                  <MenuItem fx:id="miAltaTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="Alta de TFGs" />
+                  <MenuItem fx:id="miBajaTFG" mnemonicParsing="false" text="Baja de TFGs" />
+               </items>
+            </MenuButton>
          </children>
       </Pane>
       <Pane layoutX="69.0" layoutY="334.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="334.0">
          <children>
-            <Button layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" text="Visualizar" />
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Actividad reciente" />
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Expedientes" />
+            <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
+              <items>
+                <MenuItem fx:id="miAltaExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Alta de expedientes" />
+                <MenuItem fx:id="miBajaExpedientes" mnemonicParsing="false" text="Baja de expedientes" />
+              </items>
+            </MenuButton>
          </children>
       </Pane>
-      <TextField fx:id="txtBusqueda" layoutX="453.0" layoutY="119.0" prefHeight="26.0" prefWidth="489.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.topAnchor="120.0" />
-      <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="88.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
+      <TextField fx:id="txtBusqueda" layoutX="421.0" layoutY="120.0" prefHeight="26.0" prefWidth="489.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.topAnchor="120.0" />
+      <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
+      <Pane layoutX="83.0" layoutY="418.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="414.0">
+         <children>
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Actividad reciente" />
+            <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
+               <items>
+                  <MenuItem fx:id="miVerActividad" mnemonicParsing="false" text="Ver actividad" />
+                  <MenuItem fx:id="miExportarActividad" mnemonicParsing="false" onAction="#exportarActividad" text="Exportar actividad" />
+               </items>
+            </MenuButton>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
