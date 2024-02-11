@@ -32,7 +32,6 @@ public class CargarTfgsController {
     private TextField txtAsignaturas2;
     @FXML
     private TextField txtAsignaturas3;
-
     private BDController bdController;
     private Stage stage;
 
