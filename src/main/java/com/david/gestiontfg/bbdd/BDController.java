@@ -66,7 +66,7 @@ public class BDController {
 
     public boolean registrarAlumno(int idUcam, int nombre, String apellido1, String apellido2, String correo, int nia) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
-            String query = "INSERT INTO alumnos (id_ucam, nombre, apellido1, apellido2, correo, nia) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO alumnos (id_ucam, nombre, apellido1, apellido2, correo, nia, expediente) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, idUcam);
             statement.setInt(2, nombre);
@@ -74,6 +74,7 @@ public class BDController {
             statement.setString(4, apellido2);
             statement.setString(5, correo);
             statement.setInt(6, nia);
+            statement.setString(7, "NO");
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0; // Si se insertó al menos una fila, el registro fue exitoso
         } catch (SQLException e) {
@@ -114,8 +115,9 @@ public class BDController {
                 String apellido2 = resultSet.getString("apellido2");
                 String correo = resultSet.getString("correo");
                 int nia = resultSet.getInt("nia");
+                String expediente = resultSet.getString("expediente");
 
-                Alumno alumno = new Alumno(id, nombre, apellido1, apellido2, correo, nia); // Aquí crea el objeto Alumno con los datos obtenidos
+                Alumno alumno = new Alumno(id, nombre, apellido1, apellido2, correo, nia, expediente); // Aquí crea el objeto Alumno con los datos obtenidos
                 alumnosActivos.add(alumno);
             }
         } catch (SQLException e) {
@@ -195,6 +197,78 @@ public class BDController {
             e.printStackTrace();
         }
         return tfgActivos;
+    }
+
+    public boolean existeNIAEnBaseDeDatos(int nia) {
+        // Establecer la conexión con la base de datos
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta para verificar si el NIA existe en la base de datos
+            String consulta = "SELECT COUNT(*) FROM alumnos WHERE nia = ?";
+
+            // Ejecutar la consulta
+            try (PreparedStatement stmt = conn.prepareStatement(consulta)) {
+                stmt.setInt(1, nia);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt(1) > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void actualizarExpedienteEnBaseDeDatos(int nia) {
+        // Establecer la conexión con la base de datos
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta para actualizar el campo expediente en la base de datos
+            String consulta = "UPDATE alumnos SET expediente = 'SI' WHERE nia = ?";
+
+            // Ejecutar la consulta
+            try (PreparedStatement stmt = conn.prepareStatement(consulta)) {
+                stmt.setInt(1, nia);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int obtenerExpedientes() {
+        int contador = 0;
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT COUNT(*) FROM alumnos WHERE expediente LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, "SI"); // Índice 1 en lugar de 0
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                contador = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contador;
+    }
+
+    public int obtenerAlumnosTam() {
+        int contador = 0;
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT COUNT(*) FROM alumnos";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                contador = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contador;
     }
 
 

@@ -10,14 +10,16 @@ public class Alumno {
     private final SimpleStringProperty apellido2;
     private final SimpleStringProperty correo;
     private final SimpleIntegerProperty NIA;
+    private final SimpleStringProperty expediente;
 
-    public Alumno(int idUcam, int nombre, String apellido1, String apellido2, String correo, int NIA) {
+    public Alumno(int idUcam, int nombre, String apellido1, String apellido2, String correo, int NIA, String expediente) {
         this.idUcam = new SimpleIntegerProperty(idUcam);
         this.nombre = new SimpleIntegerProperty(nombre);
         this.apellido1 = new SimpleStringProperty(apellido1);
         this.apellido2 = new SimpleStringProperty(apellido2);
         this.correo = new SimpleStringProperty(correo);
         this.NIA = new SimpleIntegerProperty(NIA);
+        this.expediente = new SimpleStringProperty(expediente);
     }
 
     public int getIdUcam() {
@@ -90,5 +92,21 @@ public class Alumno {
 
     public void setNIA(int NIA) {
         this.NIA.set(NIA);
+    }
+
+    public int getNIA() {
+        return NIA.get();
+    }
+
+    public String getExpediente() {
+        return expediente.get();
+    }
+
+    public SimpleStringProperty expedienteProperty() {
+        return expediente;
+    }
+
+    public void setExpediente(String expediente) {
+        this.expediente.set(expediente);
     }
 }

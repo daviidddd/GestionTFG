@@ -79,6 +79,8 @@ public class PantallaPrincipalController {
     @FXML
     private TableColumn<Alumno, Integer> colNIA;
     @FXML
+    private TableColumn<Alumno, String> colExp;
+    @FXML
     private AnchorPane visualizadorPDF;
     @FXML
     private Label lblTFGActivos;
@@ -88,6 +90,8 @@ public class PantallaPrincipalController {
     private ImageView imgUcam;
     @FXML
     private ProgressBar ratioDisponiblesOcupados;
+    @FXML
+    private ProgressBar ratioExpedientes;
     @FXML
     private TextField txtBusqueda;
     @FXML
@@ -110,10 +114,14 @@ public class PantallaPrincipalController {
     private MenuItem miExportarActividad;
     private Timer timer;
     private final BDController bdController;
+
+    private final ArchivoController archivoController;
+
     private Stage stage;
 
     public PantallaPrincipalController() {
         this.bdController = new BDController();
+        this.archivoController = new ArchivoController();
     }
 
     public void initialize() throws FileNotFoundException {
@@ -123,6 +131,7 @@ public class PantallaPrincipalController {
         colNIA.setCellValueFactory(cellData -> cellData.getValue().niaProperty().asObject());
         colCodigoTFG.setCellValueFactory(cellData -> cellData.getValue().codigoProperty());
         colTituloTFG.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
+        colExp.setCellValueFactory(cellData -> cellData.getValue().expedienteProperty());
 
         tbAlumnos.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         tbTFGs.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -132,6 +141,7 @@ public class PantallaPrincipalController {
         colNIA.setStyle("-fx-alignment: CENTER;");
         colCodigoTFG.setStyle("-fx-alignment: CENTER;");
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
+        colExp.setStyle("-fx-alignment: CENTER;");
 
         lblAlumnosEst.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
@@ -148,19 +158,20 @@ public class PantallaPrincipalController {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(() -> actualizarTablas());
+                Platform.runLater(() -> {
+                    actualizarTablas();
+                    archivoController.observarDirectorio();
+                });
             }
         }, 0, 5000); // Consultar cada 5 segundos (ajusta este valor según tus necesidades)
     }
 
     private void actualizarTablas() {
-        // Actualizar la tabla de alumnos
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         lblAlumnosEst.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
 
-        // Actualizar la tabla de TFGs
         tbTFGs.getItems().clear();
         tbTFGs.getItems().addAll(bdController.obtenerTFGs());
         List<TFG> listaTFG = bdController.obtenerTFGs();
@@ -172,11 +183,21 @@ public class PantallaPrincipalController {
         int contadorTotal = bdController.obtenerTFGs().size();
         double ratio = (double) contadorAdjudicados / contadorTotal;
 
+        int contadorSi = bdController.obtenerExpedientes();
+        int contadorNo = bdController.obtenerAlumnosTam();
+        double ratio2 = (double) contadorSi / contadorNo;
+
         ratioDisponiblesOcupados.setProgress(ratio);
         if(ratio == 1.0)
             ratioDisponiblesOcupados.setStyle("-fx-accent: green;");
         else
             ratioDisponiblesOcupados.setStyle("-fx-accent: #004379;");
+
+        ratioExpedientes.setProgress(ratio2);
+        if(ratio2 == 1.0)
+            ratioExpedientes.setStyle("-fx-accent: green;");
+        else
+            ratioExpedientes.setStyle("-fx-accent: #004379;");
     }
 
     @FXML
