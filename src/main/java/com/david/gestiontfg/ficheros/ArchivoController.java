@@ -1,5 +1,6 @@
 package com.david.gestiontfg.ficheros;
 
+import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.logs.LogController;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ArchivoController {
@@ -80,6 +82,32 @@ public class ArchivoController {
                 e.printStackTrace();
                 mostrarAlerta("Error", "Hubo un error al ejecutar los scripts de Python.");
                 LogController.registrarAccion("ERROR Ejecucion scripts python " + archivoPDF.getName());
+            }
+        }
+    }
+
+    public void observarDirectorio() {
+        BDController bdController = new BDController();
+
+        // Ruta al directorio de expedientes
+        Path directorioExpedientes = Paths.get("src", "main", "resources", "expedientes");
+
+        // Obtener la lista de archivos en el directorio
+        File[] archivos = directorioExpedientes.toFile().listFiles();
+
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                if (archivo.isFile() && archivo.getName().endsWith(".txt")) {
+                    // Obtener el NIA del nombre del archivo
+                    String nombreArchivo = archivo.getName();
+                    int nia = Integer.parseInt(nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.')));
+
+                    // Verificar si el NIA existe en la base de datos
+                    if (bdController.existeNIAEnBaseDeDatos(nia)) {
+                        // Actualizar el campo expediente en la base de datos
+                        bdController.actualizarExpedienteEnBaseDeDatos(nia);
+                    }
+                }
             }
         }
     }
