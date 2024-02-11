@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import org.icepdf.ri.common.SwingController;
@@ -31,6 +32,8 @@ import java.util.TimerTask;
 public class PantallaPrincipalController {
     private static final long INTERVALO_ACTUALIZACION = 5000; // 50 segundos
 
+    @FXML
+    private AnchorPane panePrincipal;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -55,6 +58,8 @@ public class PantallaPrincipalController {
     private MenuItem miCargarAlumnos;
     @FXML
     private MenuItem miCargarTFG;
+    @FXML
+    private MenuItem miCargarExpedientes;
     @FXML
     private TableView<TFG> tbTFGs;
     @FXML
@@ -83,7 +88,6 @@ public class PantallaPrincipalController {
     private TextField txtBusqueda;
     @FXML
     private Button btnBusqueda;
-
     private Timer timer;
     private final BDController bdController;
 
@@ -111,8 +115,6 @@ public class PantallaPrincipalController {
         lblAlumnosEst.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
 
-        /*cargarDatosAlumnos();
-        cargarDatosTFGs();*/
         cargarProgressBar();
         timer = new Timer();
         // Realizar una consulta inicial al iniciar la aplicación
@@ -144,26 +146,6 @@ public class PantallaPrincipalController {
         lblTFGActivos.setText(listaTFG + " DISPONIBLES");
     }
 
-    public void cargarDatosAlumnos() {
-        List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
-        tbAlumnos.getItems().addAll(listaAlumnos);
-        lblAlumnosEst.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
-    }
-
-    public void cargarDatosTFGs() {
-        List<TFG> listaTFG = bdController.obtenerTFGs();
-        tbTFGs.getItems().addAll(listaTFG);
-        lblTFGActivos.setText(listaTFG + " DISPONIBLES");
-    }
-
-    public void limpiarTablaAlumnos() {
-        tbAlumnos.getItems().clear();
-    }
-
-    public void limpiarTablaTFGs() {
-        tbTFGs.getItems().clear();
-    }
-
     private void cargarProgressBar() {
         int contadorAdjudicados = bdController.obtenerTFGAdjudicado();
         int contadorTotal = bdController.obtenerTFGs().size();
@@ -179,6 +161,8 @@ public class PantallaPrincipalController {
     @FXML
     public void cargarAlumnosClick() {
         // Ventana para cargar alumnos manualmente o mediante fichero
+        panePrincipal.setDisable(true);
+
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-alumnos.fxml"));
         try {
@@ -187,7 +171,15 @@ public class PantallaPrincipalController {
             stage.setScene(scene);
             stage.setTitle("Subida de alumnos");
             stage.setResizable(false);
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -196,6 +188,8 @@ public class PantallaPrincipalController {
     @FXML
     public void cargarTFGClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-tfgs.fxml"));
         try {
@@ -204,7 +198,42 @@ public class PantallaPrincipalController {
             stage.setScene(scene);
             stage.setTitle("Subida de TFGs");
             stage.setResizable(false);
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void cargarExpendientesClick() {
+        // Ventana para cargar TFGs manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-expedientes.fxml"));
+        try {
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Subida de Expedientes");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -235,16 +264,30 @@ public class PantallaPrincipalController {
 
     @FXML
     protected void busquedaClick() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("modal-busqueda.fxml"));
+        String valorBusqueda = txtBusqueda.getText();
+        System.out.println(valorBusqueda);
+
+        // Deshabilita el panel principal
+        panePrincipal.setDisable(true);
+        // Abrir la pantalla de inicio de sesión
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("modal-busqueda.fxml"));
         try {
-            Region content = loader.load();
-            // Crear un diálogo modal
-            Dialog<Void> dialog = new Dialog<>();
-            dialog.getDialogPane().setContent(content);
-            // Configurar el título del diálogo
-            dialog.setTitle("Resultado de la búsqueda");
-            // Mostrar el diálogo
-            dialog.showAndWait();
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Resultados de la búsqueda");
+
+            // Abre modal y no deja interactuar con el padre hasta que se cierra
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait(); // Esperar hasta que se cierre el modal
         } catch (IOException e) {
             e.printStackTrace();
         }

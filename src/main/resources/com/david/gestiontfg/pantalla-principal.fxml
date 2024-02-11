@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
+<AnchorPane fx:id="panePrincipal" prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
    <children>
       <MenuBar fx:id="menuBar" layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.bottomAnchor="772.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -26,8 +26,9 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Cargar">
               <items>
-                <MenuItem id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Nuevos alumnos" />
-                  <MenuItem id="miCargarTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="Nuevos TFG" />
+                <MenuItem id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alumnos" />
+                  <MenuItem id="miCargarTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="TFG" />
+                  <MenuItem id="miCargarExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Expedientes" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Consultar">

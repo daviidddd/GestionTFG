@@ -35,6 +35,21 @@ public class BDController {
         return false;
     }
 
+    public boolean registrarExpediente(int idUcam, String archivo, byte[] contenido) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "INSERT INTO expediente2 (id_ucam, nombre_archivo, contenido_pdf) VALUES (?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, idUcam);
+            statement.setString(2, archivo);
+            statement.setBytes(3, contenido);
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean registrarUsuario(String usuario, String contrasena) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "INSERT INTO autorizados (correo, contrasena) VALUES (?, ?)";
@@ -150,5 +165,37 @@ public class BDController {
         }
         return 0;
     }
+
+    public List<TFG> obtenerTFGsFiltro(String parametroBusqueda) {
+        List<TFG> tfgActivos = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM tfgs WHERE codigo LIKE ? OR titulo LIKE ? OR descripcion LIKE ? OR tutor LIKE ? OR asignaturas LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            // Asignar el parámetro de búsqueda a cada campo en la consulta SQL
+            for (int i = 1; i <= 5; i++) {
+                statement.setString(i, "%" + parametroBusqueda + "%");
+            }
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String codigo = resultSet.getString("codigo");
+                String titulo = resultSet.getString("titulo");
+                String descripcion = resultSet.getString("descripcion");
+                String tutor = resultSet.getString("tutor");
+                String asignaturas = resultSet.getString("asignaturas");
+                int solicitantes = resultSet.getInt("solicitantes");
+                int adjudicado = resultSet.getInt("adjudicado");
+
+                TFG tfg = new TFG(codigo, titulo, descripcion, tutor, asignaturas, solicitantes, adjudicado);
+                tfgActivos.add(tfg);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tfgActivos;
+    }
+
 
 }
