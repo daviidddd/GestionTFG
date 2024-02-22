@@ -1,5 +1,6 @@
 package com.david.gestiontfg;
 
+import com.david.gestiontfg.config.Configuracion;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ public class PantallaCargaApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+        // Transición de Xs
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1));
         pauseTransition.setOnFinished(event -> {
             try {
@@ -45,6 +47,9 @@ public class PantallaCargaApplication extends Application {
     }
 
     public static void main(String[] args) {
+        Configuracion configuracion = Configuracion.getInstance();
+        String pythonPath = configuracion.obtenerPythonPath();
+        System.out.println("Python Path: " + pythonPath);
         launch(args);
     }
 }

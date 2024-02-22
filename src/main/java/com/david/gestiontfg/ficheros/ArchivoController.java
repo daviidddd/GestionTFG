@@ -1,5 +1,6 @@
 package com.david.gestiontfg.ficheros;
 
+import com.david.gestiontfg.config.Configuracion;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.bbdd.BDController;
 import javafx.scene.control.*;
@@ -15,77 +16,90 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class ArchivoController {
 
+    // PROCESAR TODOS LOS EXPEDIENTES SELECCIONADOS
     public void procesarPDF() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar archivo PDF");
+        fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
         );
-        File archivoPDF = fileChooser.showOpenDialog(new Stage());
+        List<File> archivosPDF = fileChooser.showOpenMultipleDialog(new Stage());
 
-        if (archivoPDF != null) {
-            try {
-                // Obtener el NIA usando el script nia.py
-                String rutaScriptNIA = Paths.get("src", "main", "resources", "scripts", "nia.py").toAbsolutePath().toString();
-                ProcessBuilder niaProcessBuilder = new ProcessBuilder();
-                niaProcessBuilder.command("python3", rutaScriptNIA, archivoPDF.getAbsolutePath());
-                Process niaProcess = niaProcessBuilder.start();
-
-                // Leer el resultado del script nia.py
-                BufferedReader niaReader = new BufferedReader(new InputStreamReader(niaProcess.getInputStream()));
-                String nia = niaReader.readLine();
-
-                // Esperar a que el proceso termine
-                int niaExitVal = niaProcess.waitFor();
-                if (niaExitVal == 0) {
-                    if (nia != null) {
-                        int numeroExpediente = Integer.parseInt(nia.trim());
-
-                        // Ejecutar el script expediente.py
-                        String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "expediente.py").toAbsolutePath().toString();
-                        ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
-                        expedienteProcessBuilder.command("python3", rutaScriptExpediente, archivoPDF.getAbsolutePath());
-                        Process expedienteProcess = expedienteProcessBuilder.start();
-
-                        // Leer el resultado del script expediente.py
-                        BufferedReader expedienteReader = new BufferedReader(new InputStreamReader(expedienteProcess.getInputStream()));
-                        StringBuilder resultado = new StringBuilder();
-                        String linea;
-                        while ((linea = expedienteReader.readLine()) != null) {
-                            resultado.append(linea).append("\n");
-                        }
-
-                        // Esperar a que el proceso termine
-                        int expedienteExitVal = expedienteProcess.waitFor();
-                        if (expedienteExitVal == 0) {
-                            // Guardar el resultado en un archivo con el nombre del NIA
-                            guardarEnArchivo(numeroExpediente, resultado.toString());
-                            String nombre = numeroExpediente + ".txt";
-                            mostrarAlerta2(nombre,"Expediente leído y procesado", resultado.toString());
-                            LogController.registrarAccion("Alta y procesamiento expediente " + archivoPDF.getName());
-                        } else {
-                            mostrarAlerta("Error", "Hubo un error al procesar el archivo PDF.");
-                            LogController.registrarAccion("ERROR Alta y procesamiento expediente " + archivoPDF.getName());
-                        }
-                    } else {
-                        mostrarAlerta("Error", "No se pudo obtener el NIA del archivo PDF.");
-                        LogController.registrarAccion("ERROR Obtención de NIA fallida " + archivoPDF.getName());
-                    }
-                } else {
-                    mostrarAlerta("Error", "Hubo un error al obtener el NIA del archivo PDF.");
-                    LogController.registrarAccion("ERROR Obtención de NIA fallida " + archivoPDF.getName());
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-                mostrarAlerta("Error", "Hubo un error al ejecutar los scripts de Python.");
-                LogController.registrarAccion("ERROR Ejecucion scripts python " + archivoPDF.getName());
+        if (archivosPDF != null && !archivosPDF.isEmpty()) {
+            for (File archivoPDF : archivosPDF) {
+                procesarArchivoPDF(archivoPDF);
             }
         }
     }
 
+    // PROCESAR EXPEDIENTE EN FORMATO PDF - ASIGNATURAS, NOTAS y NIA
+    private void procesarArchivoPDF(File archivoPDF) {
+        try {
+            // Obtener el NIA usando el script nia.py
+            Configuracion configuracion = Configuracion.getInstance();
+            String pythonPath = configuracion.obtenerPythonPath();
+
+            String rutaScriptNIA = Paths.get("src", "main", "resources", "scripts", "nia.py").toAbsolutePath().toString();
+            ProcessBuilder niaProcessBuilder = new ProcessBuilder();
+            niaProcessBuilder.command(pythonPath, rutaScriptNIA, archivoPDF.getAbsolutePath());
+            Process niaProcess = niaProcessBuilder.start();
+
+            // Leer el resultado del script nia.py
+            BufferedReader niaReader = new BufferedReader(new InputStreamReader(niaProcess.getInputStream()));
+            String nia = niaReader.readLine();
+
+            // Esperar a que el proceso termine
+            int niaExitVal = niaProcess.waitFor();
+            if (niaExitVal == 0) {
+                if (nia != null) {
+                    int numeroExpediente = Integer.parseInt(nia.trim());
+
+                    // Ejecutar el script expediente.py
+                    String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "expediente.py").toAbsolutePath().toString();
+                    ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
+                    expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+                    Process expedienteProcess = expedienteProcessBuilder.start();
+
+                    // Leer el resultado del script expediente.py
+                    BufferedReader expedienteReader = new BufferedReader(new InputStreamReader(expedienteProcess.getInputStream()));
+                    StringBuilder resultado = new StringBuilder();
+                    String linea;
+                    while ((linea = expedienteReader.readLine()) != null) {
+                        resultado.append(linea).append("\n");
+                    }
+
+                    // Esperar a que el proceso termine
+                    int expedienteExitVal = expedienteProcess.waitFor();
+                    if (expedienteExitVal == 0) {
+                        // Guardar el resultado en un archivo con el nombre del NIA
+                        guardarEnArchivo(numeroExpediente, resultado.toString());
+                        String nombre = numeroExpediente + ".txt";
+                        mostrarAlerta2(nombre,"Expediente leído y procesado", resultado.toString());
+                        LogController.registrarAccion("Alta y procesamiento expediente " + archivoPDF.getName());
+                    } else {
+                        mostrarAlerta("Error", "Hubo un error al procesar el archivo PDF.");
+                        LogController.registrarAccion("ERROR Alta y procesamiento expediente " + archivoPDF.getName());
+                    }
+                } else {
+                    mostrarAlerta("Error", "No se pudo obtener el NIA del archivo PDF.");
+                    LogController.registrarAccion("ERROR Obtención de NIA fallida " + archivoPDF.getName());
+                }
+            } else {
+                mostrarAlerta("Error", "Hubo un error al obtener el NIA del archivo PDF.");
+                LogController.registrarAccion("ERROR Obtención de NIA fallida " + archivoPDF.getName());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "Hubo un error al ejecutar los scripts de Python.");
+            LogController.registrarAccion("ERROR Ejecucion scripts python " + archivoPDF.getName());
+        }
+    }
+
+    // OBSERVAR LOS CAMBIOS (ALTAS/BAJAS) DE LOS EXPEDIENTES EN RESOURCES/EXPEDIENTES
     public void observarDirectorio() {
         BDController bdController = new BDController();
 
@@ -112,6 +126,7 @@ public class ArchivoController {
         }
     }
 
+    // GUARDAR INFORMACION DEL EXPEDIENTE EN RESOURCES/EXPEDIENTES
     public void guardarEnArchivo(int numeroExpediente, String contenido) {
         // Directorio donde se guardarán los archivos
         String rutaDirectorio = "src/main/resources/expedientes";
@@ -128,6 +143,7 @@ public class ArchivoController {
         }
     }
 
+    // ALERTA ESTANDAR
     public void mostrarAlerta(String titulo, String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle(titulo);
@@ -136,6 +152,7 @@ public class ArchivoController {
         alerta.showAndWait();
     }
 
+    // ALERTA DE EXPEDIENTE LEIDO CORRECTAMENTE
     public void mostrarAlerta2(String nombre, String titulo, String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle(titulo);
@@ -185,4 +202,5 @@ public class ArchivoController {
 
         alerta.showAndWait();
     }
+
 }

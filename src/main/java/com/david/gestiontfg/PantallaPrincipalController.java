@@ -6,9 +6,6 @@ import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.TFG;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,8 +21,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.icepdf.ri.common.SwingController;
-import org.icepdf.ri.common.SwingViewBuilder;
 
 import java.io.*;
 import java.util.List;
@@ -34,8 +28,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PantallaPrincipalController {
-    private static final long INTERVALO_ACTUALIZACION = 5000; // 50 segundos
-
     @FXML
     private AnchorPane panePrincipal;
     @FXML
@@ -85,7 +77,9 @@ public class PantallaPrincipalController {
     @FXML
     private Label lblTFGActivos;
     @FXML
-    private Label lblAlumnosEst;
+    private Label lblAlumnosActivos;
+    @FXML
+    private Label lblExpedientesActivos;
     @FXML
     private ImageView imgUcam;
     @FXML
@@ -114,6 +108,10 @@ public class PantallaPrincipalController {
     private MenuItem miExportarActividad;
     @FXML
     private MenuItem miFormatearSistema;
+    @FXML
+    private Label lblProgresoTFG;
+    @FXML
+    private Label lblProgresoExp;
     private Timer timer;
     private final BDController bdController;
 
@@ -145,13 +143,14 @@ public class PantallaPrincipalController {
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
 
-        lblAlumnosEst.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
 
-        cargarProgressBar();
         timer = new Timer();
         // Realizar una consulta inicial al iniciar la aplicación
         actualizarTablas();
+        //cargarProgressBar();
         // Programar consultas periódicas cada X segundos
         programarActualizacionesPeriodicas();
     }
@@ -163,43 +162,54 @@ public class PantallaPrincipalController {
                 Platform.runLater(() -> {
                     actualizarTablas();
                     archivoController.observarDirectorio();
+                    cargarProgressBar();
                 });
             }
-        }, 0, 5000); // Consultar cada 5 segundos (ajusta este valor según tus necesidades)
+        }, 0, 2000); // Consultar cambios cada 5s
     }
 
     private void actualizarTablas() {
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
-        lblAlumnosEst.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
+        lblAlumnosActivos.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
 
         tbTFGs.getItems().clear();
         tbTFGs.getItems().addAll(bdController.obtenerTFGs());
         List<TFG> listaTFG = bdController.obtenerTFGs();
-        lblTFGActivos.setText(listaTFG + " DISPONIBLES");
+        if(listaTFG.isEmpty())
+            lblTFGActivos.setText("0 TFG DISPONIBLES");
+
+        int expedientes = bdController.obtenerExpedientes();
+        lblExpedientesActivos.setText(expedientes + " EXPEDIENTES DISPONIBLES");
     }
 
     private void cargarProgressBar() {
         int contadorAdjudicados = bdController.obtenerTFGAdjudicado();
         int contadorTotal = bdController.obtenerTFGs().size();
-        double ratio = (double) contadorAdjudicados / contadorTotal;
+        double ratioTFG = (double) contadorAdjudicados / contadorTotal;
 
         int contadorSi = bdController.obtenerExpedientes();
         int contadorNo = bdController.obtenerAlumnosTam();
-        double ratio2 = (double) contadorSi / contadorNo;
+        double ratioExpedientes = (double) contadorSi / contadorNo;
 
-        ratioDisponiblesOcupados.setProgress(ratio);
-        if(ratio == 1.0)
+        String progresoExp = String.format("%.2f%%", ratioExpedientes * 100);
+        String progresoTFG = String.format("%.2f%%", ratioTFG * 100);
+
+        lblProgresoExp.setText(progresoExp);
+        lblProgresoTFG.setText(progresoTFG);
+
+        ratioDisponiblesOcupados.setProgress(ratioTFG);
+        if(ratioTFG == 1.0)
             ratioDisponiblesOcupados.setStyle("-fx-accent: green;");
         else
             ratioDisponiblesOcupados.setStyle("-fx-accent: #004379;");
 
-        ratioExpedientes.setProgress(ratio2);
-        if(ratio2 == 1.0)
-            ratioExpedientes.setStyle("-fx-accent: green;");
+        this.ratioExpedientes.setProgress(ratioExpedientes);
+        if(ratioExpedientes == 1.0)
+            this.ratioExpedientes.setStyle("-fx-accent: green;");
         else
-            ratioExpedientes.setStyle("-fx-accent: #004379;");
+            this.ratioExpedientes.setStyle("-fx-accent: #004379;");
     }
 
     @FXML
@@ -343,7 +353,6 @@ public class PantallaPrincipalController {
         alert.setTitle("Confirmación");
         alert.setHeaderText("¿Estás seguro de que quieres borrar todo el contenido?");
         alert.setContentText("Esta acción no se puede deshacer.");
-
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 bdController.limpiarAlumnos();

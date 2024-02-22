@@ -290,5 +290,15 @@ public class BDController {
             e.printStackTrace();
         }
     }
+    public void eliminarAlumno(String id) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM alumnos WHERE id_ucam = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

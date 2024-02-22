@@ -7,9 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Timer;
 
 public class ModalBusquedaController {
 
@@ -37,9 +35,7 @@ public class ModalBusquedaController {
         colTituloTFG.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         colSolicitantesTFG.setCellValueFactory(cellData -> cellData.getValue().solicitantesProperty().asObject());
         colAdjudicadoTFG.setCellValueFactory(cellData -> cellData.getValue().adjudicadoProperty().asObject());
-
         tbResultadoTFG.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
         colCodigoTFG.setStyle("-fx-alignment: CENTER;");
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colSolicitantesTFG.setStyle("-fx-alignment: CENTER;");
