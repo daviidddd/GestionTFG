@@ -63,7 +63,7 @@ public class CargarAlumnosController {
         else {
             boolean altaExitosa = bdController.registrarAlumno(idUcam, nombre, apellido1, apellido2, correo, nia);
             if(altaExitosa){
-                LogController.registrarAccion("Alta Alumno - " + correo);
+                LogController.registrarAccion("Alta Alumno " + correo);
 
                 Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Usuario Añadido");
@@ -120,10 +120,10 @@ public class CargarAlumnosController {
                     // Manejar el resultado de la inserción
                     if (altaExitosa) {
                         //System.out.println("Alumno registrado correctamente: " + idUcam);
-                        LogController.registrarAccion("    Alta - " + correo);
+                        LogController.registrarAccion("    Alta  " + correo);
                     } else {
                         //System.out.println("Error al registrar alumno: " + idUcam);
-                        LogController.registrarAccion("    Error Alta - " + correo);
+                        LogController.registrarAccion("    Error Alta  " + correo);
                     }
                 }
 

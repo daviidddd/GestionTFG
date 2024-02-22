@@ -358,7 +358,7 @@ public class PantallaPrincipalController {
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
-                LogController.registrarAccion("IMPORTANTE - Formateo del sistema");
+                LogController.registrarAccion("IMPORTANTE: Formateo del sistema");
             } else {
 
             }
@@ -377,6 +377,7 @@ public class PantallaPrincipalController {
     protected void exportarActividad() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo PDF");
+        fileChooser.setInitialFileName("Actividad");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
 
         // Mostrar el cuadro de diálogo y obtener la ruta de destino

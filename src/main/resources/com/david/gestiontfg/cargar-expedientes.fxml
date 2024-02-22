@@ -19,6 +19,6 @@
          </children>
       </Pane>
       <Button fx:id="btnCargarExpediente" layoutX="171.0" layoutY="263.0" mnemonicParsing="false" onMouseClicked="#altaExpedienteClick" prefHeight="37.0" prefWidth="258.0" text="Cargar expedientes" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="263.0" />
-      <TextArea editable="false" layoutX="43.0" layoutY="103.0" prefHeight="97.0" prefWidth="514.0" text="Seleccione todos los expedientes, en formato PDF, de aquellos expedientes que &#10;correspondan a los alumnos dados de alta actualmente." AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
+      <TextArea editable="false" layoutX="43.0" layoutY="103.0" prefHeight="97.0" prefWidth="514.0" text="Seleccione todos los expedientes, en formato PDF, de aquellos alumnos que estén dados &#10;de alta en el sistema actualmente.&#10;&#10;Recomendaciones: expediente completo de las asignaturas superadas." AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" />
    </children>
 </AnchorPane>

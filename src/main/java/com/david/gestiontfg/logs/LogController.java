@@ -18,7 +18,7 @@ public class LogController {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath.toFile(), true))) {
             String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-            writer.write("[" + timeStamp + " - Acción: " + accion + "\n");
+            writer.write("[" + timeStamp + " Acción: " + accion + "\n");
         } catch (IOException e) {
             System.err.println("Error al escribir en el archivo de registro: " + e.getMessage());
         }
