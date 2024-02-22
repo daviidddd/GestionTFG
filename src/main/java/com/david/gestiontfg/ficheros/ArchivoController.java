@@ -99,6 +99,105 @@ public class ArchivoController {
         }
     }
 
+    // PROCESAR DOCUMENTO PDF DE TFGs
+    public void procesarTFGs() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivos PDF");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
+        );
+        List<File> archivosPDF = fileChooser.showOpenMultipleDialog(new Stage());
+
+        if (archivosPDF != null && !archivosPDF.isEmpty()) {
+            for (File archivoPDF : archivosPDF) {
+                procesarTfgPDF(archivoPDF);
+                obtenerInfoTFG(archivoPDF);
+                purgarTFG();
+                mostrarAlerta("Alta de TFGs", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
+            }
+        }
+    }
+
+    // FORMATEAR Y CREAR .txt CON LOS DATOS EN RAW DEL FICHERO ORIGINAL
+    public void procesarTfgPDF(File archivoPDF) {
+        try {
+            // Definir la ruta del script tfg.py
+            Configuracion configuracion = Configuracion.getInstance();
+            String pythonPath = configuracion.obtenerPythonPath();
+
+            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "tfg.py").toAbsolutePath().toString();
+            ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
+            expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+
+            // Construir el proceso para ejecutar el script tfg.py
+            ProcessBuilder tfgProcessBuilder = new ProcessBuilder(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+            Process tfgProcess = tfgProcessBuilder.start();
+
+            // Esperar a que el proceso termine
+            int exitVal = tfgProcess.waitFor();
+            if (exitVal == 0) {
+                System.out.println("Proceso tfg.py completado exitosamente.");
+            } else {
+                System.out.println("Error al ejecutar el proceso tfg.py.");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ELIMINAR EL RAW DE LOS TFG.TXT
+    public void purgarTFG() {
+        // Directorio que contiene los archivos
+        String directorio = "src/main/resources/tfgs";
+
+        // Obtener una lista de archivos en el directorio
+        File[] archivos = new File(directorio).listFiles();
+
+        // Verificar si la lista de archivos no está vacía
+        if (archivos != null) {
+            // Iterar sobre cada archivo en el directorio
+            for (File archivo : archivos) {
+                // Verificar si el archivo no tiene el sufijo "_formateado.txt"
+                if (!archivo.getName().endsWith("_formateado.txt")) {
+                    // Eliminar el archivo
+                    if (archivo.delete())
+                        System.out.println("Se ha eliminado el archivo: " + archivo.getName());
+                    else
+                        System.out.println("No se pudo eliminar el archivo: " + archivo.getName());
+                }
+            }
+        } else {
+            System.out.println("El directorio está vacío o no se pudo acceder.");
+        }
+    }
+
+    // FORMATEAR Y PREPARAR INFO DE LOS FICHEROS RAW .txt DE LOS TFG
+    public void obtenerInfoTFG(File archivoPDF) {
+        try {
+            // Definir la ruta del script tfg.py
+            Configuracion configuracion = Configuracion.getInstance();
+            String pythonPath = configuracion.obtenerPythonPath();
+
+            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "obtener_info_tfg.py").toAbsolutePath().toString();
+            ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
+            expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+
+            // Construir el proceso para ejecutar el script tfg.py
+            ProcessBuilder tfgProcessBuilder = new ProcessBuilder(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+            Process tfgProcess = tfgProcessBuilder.start();
+
+            // Esperar a que el proceso termine
+            int exitVal = tfgProcess.waitFor();
+            if (exitVal == 0) {
+                //System.out.println("Proceso obtener_info_tfg.py completado exitosamente.");
+            } else {
+                //System.out.println("Error al ejecutar el proceso obtener_info_tfg.py.");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     // OBSERVAR LOS CAMBIOS (ALTAS/BAJAS) DE LOS EXPEDIENTES EN RESOURCES/EXPEDIENTES
     public void observarDirectorio() {
         BDController bdController = new BDController();
@@ -117,10 +216,10 @@ public class ArchivoController {
                     int nia = Integer.parseInt(nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.')));
 
                     // Verificar si el NIA existe en la base de datos
-                    if (bdController.existeNIAEnBaseDeDatos(nia)) {
+                    if (bdController.existeNIAEnBaseDeDatos(nia))
                         // Actualizar el campo expediente en la base de datos
                         bdController.actualizarExpedienteEnBaseDeDatos(nia);
-                    }
+
                 }
             }
         }
@@ -137,7 +236,7 @@ public class ArchivoController {
         // Guardar el contenido en el archivo
         try (FileWriter writer = new FileWriter(archivoGuardado)) {
             writer.write(contenido);
-            System.out.println("El archivo se ha guardado correctamente en: " + archivoGuardado.getAbsolutePath());
+            //System.out.println("El archivo se ha guardado correctamente en: " + archivoGuardado.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,6 +300,24 @@ public class ArchivoController {
         stage.setAlwaysOnTop(true);
 
         alerta.showAndWait();
+    }
+
+    public static void borrarArchivosEnDirectorio(String rutaDirectorio) {
+        File directorio = new File(rutaDirectorio);
+        if (directorio.exists() && directorio.isDirectory()) {
+            File[] archivos = directorio.listFiles();
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    if (archivo.isFile()) {
+                        archivo.delete();
+                    }
+                }
+            } else {
+                //System.out.println("El directorio está vacío.");
+            }
+        } else {
+            //System.out.println("El directorio no existe o no es válido.");
+        }
     }
 
 }

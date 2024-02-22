@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,9 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class CargarTfgsController {
     @FXML
@@ -52,6 +51,7 @@ public class CargarTfgsController {
         String asignaturas1 = txtAsignaturas1.getText();
         String asignaturas2 = txtAsignaturas2.getText();
         String asignaturas3 = txtAsignaturas3.getText();
+        String tecnologias = "";
 
         String asignaturas = String.valueOf(asignaturas1 + ", " + asignaturas2 + ", " + asignaturas3);
         String tfg = String.valueOf(codigo + " " + titulo);
@@ -59,7 +59,7 @@ public class CargarTfgsController {
         if(codigo.isEmpty() || titulo.isEmpty() || descripcion.isEmpty() || tutor.isEmpty() || asignaturas1.isEmpty())
             System.out.println("Campos vacios");
         else {
-            boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas);
+            boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas, tecnologias);
             if(altaExitosa){
                 LogController.registrarAccion("Alta TFG - " + tfg);
 
@@ -76,71 +76,64 @@ public class CargarTfgsController {
 
     @FXML
     protected void altaTFGFicheroClick() {
-        FileChooser selectorFichero = new FileChooser();
-        selectorFichero.setTitle("Seleccionar archivo XLSX");
-        selectorFichero.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos XLSX", "*.xlsx"));
-        int contador = 0;
+        ArchivoController archivoController = new ArchivoController();
+        archivoController.procesarTFGs();
+        altaTFG();
+    }
 
-        // Se abre el buscador de archivos
-        File archivoSeleccionado = selectorFichero.showOpenDialog(stage);
+    private void altaTFG() {
+        String directorio = "src/main/resources/tfgs";
 
-        if (archivoSeleccionado != null) {
-            LogController.registrarAccion("Alta TFG por fichero " + "(" + archivoSeleccionado.getName() + ")" + ": ");
-            try {
-                // Crear un objeto FileInputStream para leer el archivo XLSX
-                FileInputStream fileInputStream = new FileInputStream(archivoSeleccionado);
+        // Obtener una lista de archivos en el directorio
+        File[] archivos = new File(directorio).listFiles();
 
-                // Crear un objeto XSSFWorkbook para representar el archivo XLSX
-                XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-
-                // Obtener la primera hoja del libro de trabajo (workbook)
-                XSSFSheet sheet = workbook.getSheetAt(0);
-
-                // Iterar sobre las filas de la hoja
-                for (Row row : sheet) {
-                    // Ignorar la primera fila que contiene los encabezados
-                    if (row.getRowNum() == 0) {
-                        continue;
-                    }
-
-                    // Leer los valores de cada celda de la fila
-                    String codigo = row.getCell(0).getStringCellValue();
-                    String titulo = row.getCell(1).getStringCellValue();
-                    String descripcion = row.getCell(2).getStringCellValue();
-                    String tutor = row.getCell(3).getStringCellValue();
-                    String asignaturas = row.getCell(4).getStringCellValue();
-                    int solicitantes = (int) row.getCell(4).getNumericCellValue();
-                    String adjudicado = row.getCell(5).getStringCellValue();
-
-                    String tfg = String.valueOf(codigo + " " + titulo);
-
-                    // Llamar al método para registrar al alumno con los valores leídos
-                    boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas);
-                    contador++;
-
-                    // Manejar el resultado de la inserción
-                    if (altaExitosa) {
-                        System.out.println("TFG registrado correctamente: " + codigo);
-                        LogController.registrarAccion("    Alta " + tfg);
-                    } else {
-                        System.out.println("Error al registrar tfg: " + codigo);
-                        LogController.registrarAccion("    Error Alta " + tfg);
-                    }
+        // Verificar si la lista de archivos no está vacía
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                if (archivo.isFile()) {  // Verificar si es un archivo
+                    // Procesar el archivo
+                    procesarArchivo(archivo);
                 }
+            }
+        } else {
+            System.out.println("El directorio está vacío o no se pudo acceder.");
+        }
+    }
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Alta de TFG");
-                alerta.setHeaderText(contador + " TFGs añadidos");
-                alerta.setContentText("Los TFGs han sido añadidos correctamente.");
+    private void procesarArchivo(File archivo) {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            String n = null;
+            String titulo = null;
+            String tutor = null;
+            String descripcion = null;
+            String tecnologias = null;
+            String asignaturas = null;
 
-                alerta.showAndWait();
-
-                // Cerrar el FileInputStream y liberar recursos
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((linea = br.readLine()) != null) {
+                // Verificar si la línea es un encabezado y extraer el valor correspondiente
+                if (linea.startsWith("Nº")) {
+                    n = br.readLine().trim(); // Lee la siguiente línea y elimina espacios en blanco al principio y al final
+                } else if (linea.startsWith("Titulo")) {
+                    titulo = br.readLine().trim();
+                } else if (linea.startsWith("Tutor")) {
+                    tutor = br.readLine().trim();
+                } else if (linea.startsWith("Descr")) {
+                    descripcion = br.readLine().trim();
+                } else if (linea.startsWith("Tecnologias")) {
+                    tecnologias = br.readLine().trim();
+                } else if (linea.startsWith("Asignaturas")) {
+                    asignaturas = br.readLine().trim();
+                }
             }
 
+
+            // Ahora tienes los valores de cada columna en las variables correspondientes
+            // Puedes insertarlos en la tabla SQL aquí
+            bdController.registrarTFG(n, titulo, descripcion, tutor, asignaturas, tecnologias);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

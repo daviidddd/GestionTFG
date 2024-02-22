@@ -12,9 +12,10 @@ import java.time.format.DateTimeFormatter;
 public class LogController {
     private static final String LOG_FILE_PATH = "src/main/resources/logs/activity_log.txt";
 
+    // REGISTRAR ACCION EN EL LOG
     public static void registrarAccion(String accion) {
         Path logFilePath = Paths.get(LOG_FILE_PATH);
-        crearDirectorioSiNoExiste(logFilePath.getParent());
+        crearLog(logFilePath.getParent());
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath.toFile(), true))) {
             String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
@@ -24,7 +25,7 @@ public class LogController {
         }
     }
 
-    // Método para limpiar el archivo de registro
+    // LIMPIAR LOG
     public static void limpiarRegistro() {
         Path logFilePath = Paths.get(LOG_FILE_PATH);
 
@@ -35,7 +36,8 @@ public class LogController {
         }
     }
 
-    private static void crearDirectorioSiNoExiste(Path directorio) {
+    // CREAR LOG SI NO EXISTE
+    private static void crearLog(Path directorio) {
         try {
             Files.createDirectories(directorio);
         } catch (IOException e) {

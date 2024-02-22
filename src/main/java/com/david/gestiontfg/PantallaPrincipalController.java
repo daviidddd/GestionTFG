@@ -150,7 +150,6 @@ public class PantallaPrincipalController {
         timer = new Timer();
         // Realizar una consulta inicial al iniciar la aplicación
         actualizarTablas();
-        //cargarProgressBar();
         // Programar consultas periódicas cada X segundos
         programarActualizacionesPeriodicas();
     }
@@ -357,6 +356,8 @@ public class PantallaPrincipalController {
             if (response == ButtonType.OK) {
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
+                ArchivoController.borrarArchivosEnDirectorio("src/main/resources/expedientes/");
+                ArchivoController.borrarArchivosEnDirectorio("src/main/resources/tfgs/");
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
                 LogController.registrarAccion("IMPORTANTE: Formateo del sistema");
             } else {
@@ -424,12 +425,9 @@ public class PantallaPrincipalController {
                 document.save(fileDestino);
                 document.close();
 
-                System.out.println("El archivo PDF ha sido creado exitosamente en: " + fileDestino.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("No se seleccionó ninguna ruta de destino.");
         }
     }
 
