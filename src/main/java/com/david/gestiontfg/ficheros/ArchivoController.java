@@ -118,6 +118,88 @@ public class ArchivoController {
         }
     }
 
+    public void procesarSolicitud() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivos PDF");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
+        );
+        List<File> archivosPDF = fileChooser.showOpenMultipleDialog(new Stage());
+
+        if (archivosPDF != null && !archivosPDF.isEmpty()) {
+            for (File archivoPDF : archivosPDF) {
+                procesarSolicitudPDF(archivoPDF);
+            }
+        }
+    }
+
+    public void procesarSolicitudPDF(File archivoPDF) {
+        try {
+            // Definir la ruta del script tfg.py
+            Configuracion configuracion = Configuracion.getInstance();
+            String pythonPath = configuracion.obtenerPythonPath();
+
+            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "solicitud_info.py").toAbsolutePath().toString();
+            ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
+            expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+
+            // Construir el proceso para ejecutar el script tfg.py
+            ProcessBuilder tfgProcessBuilder = new ProcessBuilder(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
+            Process tfgProcess = tfgProcessBuilder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(tfgProcess.getInputStream()));
+
+            // Variables para almacenar los campos
+            String correo = null;
+            String tfg1 = null;
+            String tfg2 = null;
+            String tfg3 = null;
+            String tfg4 = null;
+            String tfg5 = null;
+
+            String linea;
+            int contador = 0;
+            while ((linea = reader.readLine()) != null) {
+                // Parsear cada línea y almacenar los valores en las variables correspondientes
+                switch (contador) {
+                    case 0:
+                        correo = linea;
+                        break;
+                    case 1:
+                        tfg1 = linea;
+                        break;
+                    case 2:
+                        tfg2 = linea;
+                        break;
+                    case 3:
+                        tfg3 = linea;
+                        break;
+                    case 4:
+                        tfg4 = linea;
+                        break;
+                    case 5:
+                        tfg5 = linea;
+                        break;
+                }
+                contador++;
+            }
+
+            // Esperar a que el proceso termine
+            int exitVal = tfgProcess.waitFor();
+            if (exitVal == 0) {
+                BDController bdController = new BDController();
+                boolean alta = bdController.registrarSolicitud(correo, tfg1, tfg2, tfg3, tfg4, tfg5);
+                if(alta){
+                    System.out.println("Alta correcta");
+                }
+            } else {
+                System.out.println("Error al ejecutar el proceso solicitud_info.py.");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     // FORMATEAR Y CREAR .txt CON LOS DATOS EN RAW DEL FICHERO ORIGINAL
     public void procesarTfgPDF(File archivoPDF) {
         try {
@@ -171,7 +253,7 @@ public class ArchivoController {
         }
     }
 
-    // FORMATEAR Y PREPARAR INFO DE LOS FICHEROS RAW .txt DE LOS TFG
+    // FORMATEAR Y PREPARAR INFO DE LOS FICHEROS .txt DE LOS TFG
     public void obtenerInfoTFG(File archivoPDF) {
         try {
             // Definir la ruta del script tfg.py

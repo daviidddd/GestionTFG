@@ -86,6 +86,27 @@ public class BDController {
         }
     }
 
+    public boolean registrarSolicitud(String correo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5){
+        try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Crear la consulta SQL para insertar los valores
+            String consulta = "INSERT INTO solicitudes (correo, tfg1, tfg2, tfg3, tfg4, tfg5) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, correo);
+            statement.setString(2, tfg1);
+            statement.setString(3, tfg2);
+            statement.setString(4, tfg3);
+            statement.setString(5, tfg4);
+            statement.setString(6, tfg5);
+
+            // Ejecutar la consulta SQL
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Alumno> obtenerAlumnos() {
         List<Alumno> alumnosActivos = new ArrayList<>();
 

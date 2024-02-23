@@ -128,8 +128,7 @@ public class CargarTfgsController {
             }
 
 
-            // Ahora tienes los valores de cada columna en las variables correspondientes
-            // Puedes insertarlos en la tabla SQL aquí
+            // Insertar valores
             bdController.registrarTFG(n, titulo, descripcion, tutor, asignaturas, tecnologias);
 
         } catch (IOException e) {

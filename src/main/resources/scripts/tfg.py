@@ -46,6 +46,8 @@ def procesar_pdf(nombre_archivo):
             page_text = page_text.replace("Descr ipcion", "Descripcion")
             page_text = page_text.replace("Descripc ion", "Descripcion")
             page_text = page_text.replace("Desc ripcion", "Descripcion")
+            page_text = page_text.replace("Titul o", "Titulo")
+            page_text = page_text.replace("Asignatur as", "Asignaturas")
 
             lineas = page_text.split("\n")
 

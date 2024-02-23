@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.config.Configuracion;
 import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.modelos.Alumno;
@@ -8,11 +9,15 @@ import com.david.gestiontfg.modelos.TFG;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -56,6 +61,7 @@ public class PantallaPrincipalController {
     private MenuItem miCargarTFG;
     @FXML
     private MenuItem miCargarExpedientes;
+
     @FXML
     private TableView<TFG> tbTFGs;
     @FXML
@@ -290,6 +296,59 @@ public class PantallaPrincipalController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void cargarSolicitudesClick() {
+        // Ventana para cargar TFGs manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-solicitudes.fxml"));
+        try {
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Subida de Solicitudes");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void cargarInformacionSistema() {
+        // Obtener la información del sistema
+        String osName = System.getProperty("os.name");
+        String osVersion = System.getProperty("os.version");
+        String javaVersion = System.getProperty("java.version");
+        Configuracion configuracion = Configuracion.getInstance();
+
+        // Crear el contenido de la alerta
+        Label osLabel = new Label("Sistema Operativo: " + osName + " " + osVersion);
+        Label javaLabel = new Label("Versión de Java: " + javaVersion);
+        Label pythonLabel = new Label("Python: " + configuracion.obtenerPythonPath());
+        
+        VBox content = new VBox(10, osLabel, javaLabel, pythonLabel);
+        content.setPadding(new Insets(20));
+
+        // Crear la alerta
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información del Sistema");
+        alert.setHeaderText(null);
+        alert.getDialogPane().setContent(content);
+
+        // Mostrar la alerta
+        alert.showAndWait();
     }
 
     @FXML

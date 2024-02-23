@@ -20,7 +20,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
-                  <MenuItem fx:id="miInformacion" mnemonicParsing="false" text="Información" />
+                  <MenuItem fx:id="miInformacion" mnemonicParsing="false" onAction="#cargarInformacionSistema" text="Información" />
                   <MenuItem fx:id="miFormatearSistema" mnemonicParsing="false" onAction="#formatearSistemaClick" text="Formatear sistema" />
               <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesionClick" text="Cerrar sesión" />
                   <MenuItem fx:id="miSalir" mnemonicParsing="false" onAction="#salirClick" text="Salir" />
@@ -31,6 +31,7 @@
                 <MenuItem id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alumnos" />
                   <MenuItem id="miCargarTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="TFG" />
                   <MenuItem id="miCargarExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Expedientes" />
+                  <MenuItem fx:id="miCargarSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Solicitudes" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Consultar">
