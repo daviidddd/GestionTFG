@@ -134,7 +134,7 @@ public class PantallaPrincipalController {
         // Configurar las columnas de las tablas
         colIDUcamAlumno.setCellValueFactory(cellData -> cellData.getValue().idUcamProperty().asObject());
         colCorreoAlumno.setCellValueFactory(cellData -> cellData.getValue().correoProperty());
-        colNIA.setCellValueFactory(cellData -> cellData.getValue().niaProperty().asObject());
+        colNIA.setCellValueFactory(cellData -> cellData.getValue().NIAProperty().asObject());
         colCodigoTFG.setCellValueFactory(cellData -> cellData.getValue().codigoProperty());
         colTituloTFG.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         colExp.setCellValueFactory(cellData -> cellData.getValue().expedienteProperty());
@@ -377,7 +377,6 @@ public class PantallaPrincipalController {
     @FXML
     protected void busquedaClick() {
         String valorBusqueda = txtBusqueda.getText();
-        System.out.println(valorBusqueda);
 
         // Deshabilita el panel principal
         panePrincipal.setDisable(true);
@@ -386,6 +385,8 @@ public class PantallaPrincipalController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("modal-busqueda.fxml"));
         try {
             Parent root = fxmlLoader.load();
+            ModalBusquedaController modalController = fxmlLoader.getController();
+            modalController.setValorBusqueda(valorBusqueda); // Pasar el valor de búsqueda al modal
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Resultados de la búsqueda");

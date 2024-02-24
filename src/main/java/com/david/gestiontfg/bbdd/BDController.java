@@ -1,6 +1,7 @@
 package com.david.gestiontfg.bbdd;
 
 import com.david.gestiontfg.modelos.Alumno;
+import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
 
 import java.sql.*;
@@ -204,6 +205,67 @@ public class BDController {
             e.printStackTrace();
         }
         return tfgActivos;
+    }
+
+    public List<Alumno> obtenerAlumnosFiltro(String parametroBusqueda) {
+        List<Alumno> alumnosActivos = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM alumnos WHERE id_ucam = ? OR nia = ? OR correo LIKE ? OR expediente LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            // Asignar el parámetro de búsqueda a cada campo en la consulta SQL
+            for (int i = 1; i <= 4; i++) {
+                statement.setString(i, "%" + parametroBusqueda + "%");
+            }
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id_ucam = resultSet.getInt("id_ucam");
+                int nia = resultSet.getInt("nia");
+                int nombre = resultSet.getInt("nombre");
+                String apellido1 = resultSet.getString("apellido1");
+                String apellido2 = resultSet.getString("apellido2");
+                String correo = resultSet.getString("correo");
+                String expediente = resultSet.getString("expediente");
+
+                Alumno alumno = new Alumno(id_ucam, nombre, apellido1, apellido2, correo, nia, expediente);
+                alumnosActivos.add(alumno);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alumnosActivos;
+    }
+
+    public List<Solicitud> obtenerSolicitudesFiltro(String parametroBusqueda) {
+        List<Solicitud> solicitudesActivas = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM solicitudes WHERE correo LIKE ? OR tfg1 LIKE ? OR tfg2 LIKE ? OR tfg3 LIKE ? OR tfg4 LIKE ? OR tfg5 LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            // Asignar el parámetro de búsqueda a cada campo en la consulta SQL
+            for (int i = 1; i <= 6; i++) {
+                statement.setString(i, "%" + parametroBusqueda + "%");
+            }
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String correo = resultSet.getString("correo");
+                String tfg1 = resultSet.getString("tfg1");
+                String tfg2 = resultSet.getString("tfg2");
+                String tfg3 = resultSet.getString("tfg3");
+                String tfg4 = resultSet.getString("tfg4");
+                String tfg5 = resultSet.getString("tfg5");
+
+                Solicitud solicitud = new Solicitud(correo, tfg1, tfg2, tfg3, tfg4, tfg5);
+                solicitudesActivas.add(solicitud);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return solicitudesActivas;
     }
 
     public boolean existeNIAEnBaseDeDatos(int nia) {

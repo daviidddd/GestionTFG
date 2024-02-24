@@ -82,10 +82,6 @@ public class Alumno {
         this.correo.set(correo);
     }
 
-    public SimpleIntegerProperty niaProperty() {
-        return NIA;
-    }
-
     public SimpleIntegerProperty NIAProperty() {
         return NIA;
     }

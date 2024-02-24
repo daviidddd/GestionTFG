@@ -28,10 +28,10 @@
                      <children>
                         <TableView fx:id="tbResultadoTFG" layoutX="176.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                           <columns>
-                            <TableColumn fx:id="colCodigoTFG" prefWidth="70.0" text="Código" />
-                            <TableColumn fx:id="colTituloTFG" prefWidth="400.0" text="Título" />
-                              <TableColumn fx:id="colSolicitantesTFG" prefWidth="84.19406127929688" text="Solicitantes" />
-                              <TableColumn fx:id="colAdjudicadoTFG" prefWidth="190.11962890625" text="Adjudicado" />
+                            <TableColumn fx:id="colCodigoTFG" prefWidth="83.0" text="Código" />
+                            <TableColumn fx:id="colTituloTFG" prefWidth="504.0" text="Título" />
+                              <TableColumn fx:id="colSolicitantesTFG" prefWidth="77.5" text="Solicitantes" />
+                              <TableColumn fx:id="colAdjudicadoTFG" prefWidth="76.5" text="Adjudicado" />
                           </columns>
                         </TableView>
                      </children>
@@ -42,16 +42,37 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="245.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                        <TableView fx:id="tbResultadoAlumno" layoutX="245.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn fx:id="colNIA" prefWidth="75.0" text="NIA" />
+                            <TableColumn fx:id="colIDUcam" prefWidth="75.0" text="ID UCAM" />
+                              <TableColumn fx:id="colCorreo" prefWidth="267.0" text="Correo Electronico" />
+                              <TableColumn fx:id="colExpediente" prefWidth="83.0" text="Expediente" />
+                              <TableColumn fx:id="colSolicitud" prefWidth="78.0" text="Solicitud" />
                           </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Solicitudes">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbResultadoSolicitud" layoutX="154.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                          <columns>
+                            <TableColumn fx:id="colCorreoSolicitud" prefWidth="175.0" text="Correo Electronico" />
+                            <TableColumn fx:id="colTFG1" minWidth="0.0" prefWidth="83.0" text="TFG 1" />
+                              <TableColumn fx:id="colTFG2" minWidth="7.0" prefWidth="83.0" text="TFG 2" />
+                              <TableColumn fx:id="colTFG3" prefWidth="83.0" text="TFG 3" />
+                              <TableColumn fx:id="colTFG4" prefWidth="83.0" text="TFG 4" />
+                              <TableColumn fx:id="colTFG5" prefWidth="83.0" text="TFG 5" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

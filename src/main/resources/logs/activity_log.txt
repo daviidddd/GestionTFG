@@ -534,3 +534,16 @@
 [23-02-2024 22:05:18 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
 [23-02-2024 22:05:19 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
 [23-02-2024 22:05:21 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[23-02-2024 23:15:33 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:17:29 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:19:15 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:38:26 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:43:46 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:47:53 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:48:57 Acción: Inicio de sesión test3@gmail.com
+[23-02-2024 23:50:31 Acción: Inicio de sesión test3@gmail.com
+[24-02-2024 11:49:46 Acción: Inicio de sesión test3@gmail.com
+[24-02-2024 11:51:29 Acción: Inicio de sesión test3@gmail.com
+[24-02-2024 11:53:08 Acción: Inicio de sesión test3@gmail.com
+[24-02-2024 12:00:56 Acción: Inicio de sesión test3@gmail.com
+[24-02-2024 12:03:30 Acción: Inicio de sesión test3@gmail.com
