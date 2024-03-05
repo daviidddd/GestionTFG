@@ -8,10 +8,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -21,7 +17,7 @@ import java.util.List;
 public class ArchivoController {
 
     // PROCESAR TODOS LOS EXPEDIENTES SELECCIONADOS
-    public void procesarPDF() {
+    public void procesarExpedientes() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(
@@ -31,13 +27,13 @@ public class ArchivoController {
 
         if (archivosPDF != null && !archivosPDF.isEmpty()) {
             for (File archivoPDF : archivosPDF) {
-                procesarArchivoPDF(archivoPDF);
+                procesarExpedientePDF(archivoPDF);
             }
         }
     }
 
     // PROCESAR EXPEDIENTE EN FORMATO PDF - ASIGNATURAS, NOTAS y NIA
-    private void procesarArchivoPDF(File archivoPDF) {
+    private void procesarExpedientePDF(File archivoPDF) {
         try {
             // Obtener el NIA usando el script nia.py
             Configuracion configuracion = Configuracion.getInstance();
@@ -118,7 +114,7 @@ public class ArchivoController {
         }
     }
 
-    public void procesarSolicitud() {
+    public void procesarSolicitudes() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(
@@ -187,13 +183,13 @@ public class ArchivoController {
             // Esperar a que el proceso termine
             int exitVal = tfgProcess.waitFor();
             if (exitVal == 0) {
-                BDController bdController = new BDController();
+                 BDController bdController = new BDController();
                 boolean alta = bdController.registrarSolicitud(correo, tfg1, tfg2, tfg3, tfg4, tfg5);
                 if(alta){
-                    System.out.println("Alta correcta");
+                    mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
                 }
             } else {
-                System.out.println("Error al ejecutar el proceso solicitud_info.py.");
+                mostrarAlerta("Alta de solicitudes", "No se pudo procesar el fichero " + archivoPDF.getName());
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

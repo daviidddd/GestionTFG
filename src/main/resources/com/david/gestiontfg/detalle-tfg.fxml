@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="detalleTFG" prefHeight="707.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.DetalleTFGController">
+   <children>
+      <Pane layoutX="-5.0" layoutY="-11.0" prefHeight="60.0" prefWidth="660.0" style="-fx-background-color: #004379;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="50.0" layoutY="17.0" text="TFG" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTFGDetalle" layoutX="125.0" layoutY="22.0" text="Detalle tfg" textFill="WHITE">
+               <font>
+                  <Font name="Arial Italic" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="45.0" layoutY="80.0" text="Código" AnchorPane.leftAnchor="50.0" />
+      <Label layoutX="45.0" layoutY="208.0" text="Tutor" AnchorPane.leftAnchor="50.0" />
+      <Label layoutX="49.0" layoutY="421.0" text="Descripción" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="405.0" />
+      <TextField fx:id="txtCodigoDetalle" layoutX="155.0" layoutY="76.0" prefHeight="26.0" prefWidth="123.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="375.0" />
+      <Label layoutX="45.0" layoutY="145.0" text="Título" AnchorPane.leftAnchor="50.0" />
+      <TextArea fx:id="txtTituloDetalle" layoutX="155.0" layoutY="127.0" prefHeight="53.0" prefWidth="426.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" />
+      <ComboBox fx:id="cbTutorDetalle" layoutX="150.0" layoutY="204.0" prefHeight="26.0" prefWidth="308.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="204.0" />
+      <Button fx:id="btnAnadirTutorDetalle" layoutX="462.0" layoutY="204.0" mnemonicParsing="false" onAction="#insertarTutor" prefHeight="26.0" prefWidth="121.0" text="Añadir" AnchorPane.leftAnchor="462.0" AnchorPane.rightAnchor="110.0" />
+      <TextArea fx:id="txtDescripcionDetalle" layoutX="159.0" layoutY="321.0" prefHeight="216.0" prefWidth="432.0" AnchorPane.bottomAnchor="186.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="305.0" />
+      <Label layoutX="49.0" layoutY="549.0" text="Asignaturas" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="549.0" />
+      <ComboBox fx:id="cbAsignaturaDetalle" layoutX="159.0" layoutY="545.0" prefHeight="26.0" prefWidth="347.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="545.0" />
+      <Button fx:id="btnAnadirAsignaturaDetalle" layoutX="466.0" layoutY="545.0" mnemonicParsing="false" onAction="#insertarAsignatura" prefHeight="26.0" prefWidth="82.0" text="Añadir" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="106.0" />
+      <Button fx:id="btnModificarTFGDetalle" layoutX="156.0" layoutY="651.0" mnemonicParsing="false" onAction="#modificarTFG" prefHeight="30.0" prefWidth="235.0" text="Modificar" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="200.0" />
+      <Button fx:id="btnEliminarTFGDetalle" layoutX="420.0" layoutY="650.0" mnemonicParsing="false" onAction="#eliminarTFG" prefHeight="30.0" prefWidth="114.0" text="Eliminar" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="469.0" AnchorPane.rightAnchor="70.0" />
+      <Button fx:id="btnEliminarTutores" layoutX="557.0" layoutY="204.0" mnemonicParsing="false" onAction="#limpiarTutores" prefHeight="26.0" prefWidth="26.0" text="X" textFill="RED" AnchorPane.leftAnchor="557.0" AnchorPane.rightAnchor="70.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnEliminarAsignaturas" layoutX="561.0" layoutY="544.0" mnemonicParsing="false" onAction="#limpiarAsignaturas" prefHeight="26.0" prefWidth="26.0" text="X" textFill="RED" AnchorPane.leftAnchor="557.0" AnchorPane.rightAnchor="70.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="txtTutoresAsignados" layoutX="169.0" layoutY="235.0" prefHeight="30.0" prefWidth="427.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="240.0" />
+      <TextArea fx:id="txtAsignaturasAsignadas" layoutX="190.0" layoutY="579.0" prefHeight="48.0" prefWidth="428.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" />
+      <Button fx:id="btnHabilitarEdicion" layoutX="407.0" layoutY="76.0" mnemonicParsing="false" onAction="#habilitarEdicion" prefHeight="26.0" prefWidth="176.0" text="Habilitar edición" AnchorPane.bottomAnchor="605.0" AnchorPane.leftAnchor="407.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="76.0" />
+   </children>
+</AnchorPane>

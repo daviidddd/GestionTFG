@@ -149,9 +149,9 @@ public class PantallaPrincipalController {
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
 
-        lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        /*lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
-        lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");*/
 
         timer = new Timer();
         // Realizar una consulta inicial al iniciar la aplicación
@@ -416,6 +416,7 @@ public class PantallaPrincipalController {
             if (response == ButtonType.OK) {
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
+                bdController.limpiarSolicitudes();
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/expedientes/");
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/tfgs/");
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");

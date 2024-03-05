@@ -38,14 +38,6 @@ public class Alumno {
         return nombre.get();
     }
 
-    public SimpleIntegerProperty nombreProperty() {
-        return nombre;
-    }
-
-    public void setNombre(int nombre) {
-        this.nombre.set(nombre);
-    }
-
     public String getApellido1() {
         return apellido1.get();
     }

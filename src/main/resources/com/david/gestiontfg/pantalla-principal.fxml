@@ -96,7 +96,10 @@
       </Label>
       <Pane layoutX="69.0" layoutY="174.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="174.0">
          <children>
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Alumnos" />
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="ALUMNOS">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
             <Label fx:id="lblAlumnosActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
@@ -112,11 +115,11 @@
       </Pane>
       <Pane layoutX="69.0" layoutY="254.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="254.0">
          <children>
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Trabajos Fin de Grado" />
-            <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0">
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="TRABAJOS FIN DE GRADO">
                <font>
-                  <Font name="System Bold Italic" size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font></Label>
+            <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0" />
             <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="609.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
             <Label fx:id="lblProgresoTFG" layoutX="740.0" layoutY="22.0" text="100%" />
             <Label layoutX="535.0" layoutY="22.0" text="Asignados:" />
@@ -130,8 +133,11 @@
       </Pane>
       <Pane layoutX="69.0" layoutY="334.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="334.0">
          <children>
-            <Label fx:id="lblExpedientesActivos" layoutX="263.0" layoutY="17.0" />
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Expedientes" />
+            <Label fx:id="lblExpedientesActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0" />
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="EXPEDIENTES">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
               <items>
                 <MenuItem fx:id="miAltaExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Alta de expedientes" />
@@ -147,7 +153,10 @@
       <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
       <Pane layoutX="83.0" layoutY="418.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="414.0">
          <children>
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="Actividad reciente" />
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="ACTIVIDAD RECIENTE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
                   <MenuItem fx:id="miVerActividad" mnemonicParsing="false" text="Ver actividad" />

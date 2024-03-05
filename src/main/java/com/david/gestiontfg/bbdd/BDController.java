@@ -340,6 +340,63 @@ public class BDController {
         return contador;
     }
 
+    public List<String> obtenerAsignaturasGrado() {
+        List<String> asignaturasGrado = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM asignatura";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String asignatura = resultSet.getString("nombre");
+                asignaturasGrado.add(asignatura);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return asignaturasGrado;
+    }
+
+    public List<String> obtenerTutoresGrado() {
+        List<String> tutoresGrado = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM tutor";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String tutores = resultSet.getString("nombre");
+                tutoresGrado.add(tutores);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tutoresGrado;
+    }
+
+    public List<String> obtenerTFGSCodigo() {
+        List<String> tfgs = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT * FROM tfgs";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String tfg = resultSet.getString("codigo");
+                tfgs.add(tfg);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tfgs;
+    }
+
     public void limpiarAlumnos() {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "DELETE FROM alumnos";
@@ -359,14 +416,101 @@ public class BDController {
             e.printStackTrace();
         }
     }
-    public void eliminarAlumno(String id) {
+
+    public void limpiarSolicitudes() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM solicitudes";
+            PreparedStatement statement = connection.prepareStatement(query);
+            int resultSet = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean modificarTFGPorCodigo(String codigoNuevo, String codigoAntiguo, String titulo, String descripcion, String tutor, String asignaturas, String tecnologias) {
+        try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Crear la consulta SQL para actualizar los valores
+            String consulta = "UPDATE tfgs SET codigo = ?, titulo = ?, descripcion = ?, tutor = ?, asignaturas = ?, tecnologias = ? WHERE codigo = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, codigoNuevo);
+            statement.setString(2, titulo);
+            statement.setString(3, descripcion);
+            statement.setString(4, tutor);
+            statement.setString(5, asignaturas);
+            statement.setString(6, tecnologias);
+            statement.setString(7, codigoAntiguo);
+
+            // Ejecutar la consulta SQL de actualización
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean modificarSolicitudPorCodigo(String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5) {
+        try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Crear la consulta SQL para actualizar los valores
+            String consulta = "UPDATE solicitudes SET tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ? WHERE correo = ?";
+            PreparedStatement statement = conexion.prepareStatement(consulta);
+            statement.setString(1, tfg1);
+            statement.setString(2, tfg2);
+            statement.setString(3, tfg3);
+            statement.setString(4, tfg4);
+            statement.setString(5, tfg5);
+            statement.setString(6, correoAntiguo);
+
+            // Ejecutar la consulta SQL de actualización
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+    public boolean eliminarAlumno(String id) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "DELETE FROM alumnos WHERE id_ucam = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, id);
-            statement.executeUpdate();
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarTFGPorCodigo(String nombre) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM tfgs WHERE codigo = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, nombre);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarSolicitudPorCorreo(String correo) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "DELETE FROM solicitudes WHERE correo = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, correo);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

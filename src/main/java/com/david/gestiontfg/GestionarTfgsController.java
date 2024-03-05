@@ -4,19 +4,12 @@ import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.apache.poi.ss.formula.functions.Log;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 
-public class CargarTfgsController {
+public class GestionarTfgsController {
     @FXML
     private TextField txtCodigo;
     @FXML
@@ -31,6 +24,7 @@ public class CargarTfgsController {
     private TextField txtAsignaturas2;
     @FXML
     private TextField txtAsignaturas3;
+
     private BDController bdController;
     private Stage stage;
 
@@ -38,7 +32,7 @@ public class CargarTfgsController {
         this.stage = stage;
     }
 
-    public CargarTfgsController() {
+    public GestionarTfgsController() {
         this.bdController = new BDController();
     }
 
@@ -113,7 +107,8 @@ public class CargarTfgsController {
             while ((linea = br.readLine()) != null) {
                 // Verificar si la línea es un encabezado y extraer el valor correspondiente
                 if (linea.startsWith("Nº")) {
-                    n = br.readLine().trim(); // Lee la siguiente línea y elimina espacios en blanco al principio y al final
+                    n = br.readLine().trim();// Lee la siguiente línea y elimina espacios en blanco al principio y al final
+                    n = n.replace(" ", ""); // Quita el espacio en blanco  (CXXXX - XX --> CXXXX-XX)
                 } else if (linea.startsWith("Titulo")) {
                     titulo = br.readLine().trim();
                 } else if (linea.startsWith("Tutor")) {
@@ -126,7 +121,6 @@ public class CargarTfgsController {
                     asignaturas = br.readLine().trim();
                 }
             }
-
 
             // Insertar valores
             bdController.registrarTFG(n, titulo, descripcion, tutor, asignaturas, tecnologias);

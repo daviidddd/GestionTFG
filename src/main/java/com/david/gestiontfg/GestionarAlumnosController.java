@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class CargarAlumnosController {
+public class GestionarAlumnosController {
 
     @FXML
     private TextField txtIDUcam;
@@ -45,7 +45,7 @@ public class CargarAlumnosController {
         this.stage = stage;
     }
 
-    public CargarAlumnosController() {
+    public GestionarAlumnosController() {
         this.bdController = new BDController();
     }
 
