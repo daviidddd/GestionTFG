@@ -53,6 +53,7 @@ public class DetalleTFGController {
         cargarTutores();
         estadoElementos(true);
 
+        btnModificarTFGDetalle.setVisible(false);
         lblTFGDetalle.setText("/" + tfg.getCodigo());
         txtCodigoDetalle.setText(tfg.getCodigo() != null ? tfg.getCodigo() : "");
         txtAsignaturasAsignadas.setText(tfg.getAsignaturas() != null ? tfg.getAsignaturas() : "");
@@ -113,6 +114,7 @@ public class DetalleTFGController {
     @FXML
     private void habilitarEdicion() {
         estadoElementos(false);
+        btnModificarTFGDetalle.setVisible(true);
     }
 
     @FXML

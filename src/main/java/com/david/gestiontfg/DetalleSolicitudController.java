@@ -28,10 +28,13 @@ public class DetalleSolicitudController {
     private TextField txtAlumnoSolicitud;
     @FXML
     private Label lblSolicitud;
+    @FXML
+    private Button btnModificarSolicitudDetalle;
     private String correoAntiguoAlumno;
 
     private Set<String> elementosSeleccionados = new HashSet<>();
     public void initData(Solicitud solicitud) {
+        btnModificarSolicitudDetalle.setVisible(false);
         lblSolicitud.setText("/" + solicitud.getCorreoElectronico());
         txtAlumnoSolicitud.setText(solicitud.getCorreoElectronico());
         txtAlumnoSolicitud.setDisable(true);
@@ -152,6 +155,7 @@ public class DetalleSolicitudController {
     @FXML
     private void habilitarEdicionSolicitud() {
         estadoCombo(false);
+        btnModificarSolicitudDetalle.setVisible(true);
     }
 
     private void estadoCombo(Boolean estado) {

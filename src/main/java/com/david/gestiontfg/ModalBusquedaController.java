@@ -9,15 +9,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class ModalBusquedaController {
 
@@ -102,16 +102,15 @@ public class ModalBusquedaController {
 
         // Elemento de click
         tbResultadoTFG.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Verificar si se hizo doble clic
-                TFG tfgSeleccionado = tbResultadoTFG.getSelectionModel().getSelectedItem();
+            TFG tfgSeleccionado = tbResultadoTFG.getSelectionModel().getSelectedItem();
+            if (tfgSeleccionado != null) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { // Doble clic izquierdo
+                    // Lógica para el doble clic izquierdo
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-tfg.fxml"));
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-tfg.fxml"));
-
-                if (tfgSeleccionado != null) {
-                    Parent root = null;
                     try {
-                        root = fxmlLoader.load();
+                        Parent root = fxmlLoader.load();
                         DetalleTFGController controller = fxmlLoader.getController();
                         controller.initData(tfgSeleccionado);
 
@@ -126,21 +125,31 @@ public class ModalBusquedaController {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar este TFG?");
+                    alert.setTitle("Eliminar TFG");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbResultadoTFG.getItems().remove(tfgSeleccionado);
+                        bdController.eliminarTFGPorCodigo(tfgSeleccionado.getCodigo());
+                    }
                 }
             }
         });
 
         tbResultadoAlumno.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Verificar si se hizo doble clic
-                Alumno alumnoSeleccionado = tbResultadoAlumno.getSelectionModel().getSelectedItem();
+            Alumno alumnoSeleccionado = tbResultadoAlumno.getSelectionModel().getSelectedItem();
+            if (alumnoSeleccionado != null) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { // Doble clic izquierdo
+                    // Lógica para el doble clic izquierdo
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-alumno.fxml"));
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-alumno.fxml"));
-
-                if (alumnoSeleccionado != null) {
-                    Parent root = null;
                     try {
-                        root = fxmlLoader.load();
+                        Parent root = fxmlLoader.load();
                         DetalleAlumnoController controller = fxmlLoader.getController();
                         controller.initData(alumnoSeleccionado);
 
@@ -154,21 +163,32 @@ public class ModalBusquedaController {
                         actualizarAlumno(alumnoSeleccionado);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }                }
+                    }
+                } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar este alumno?");
+                    alert.setTitle("Eliminar alumno");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbResultadoAlumno.getItems().remove(alumnoSeleccionado);
+                        bdController.eliminarAlumno(String.valueOf(alumnoSeleccionado.getIdUcam()));
+                    }
+                }
             }
         });
 
         tbResultadoSolicitud.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Verificar si se hizo doble clic
-                Solicitud solicitudSeleccionada = tbResultadoSolicitud.getSelectionModel().getSelectedItem();
+            Solicitud solicitudSeleccionada = tbResultadoSolicitud.getSelectionModel().getSelectedItem();
+            if (solicitudSeleccionada != null) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { // Doble clic izquierdo
+                    // Lógica para el doble clic izquierdo
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-solicitud.fxml"));
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-solicitud.fxml"));
-
-                if (solicitudSeleccionada != null) {
-                    Parent root = null;
                     try {
-                        root = fxmlLoader.load();
+                        Parent root = fxmlLoader.load();
                         DetalleSolicitudController controller = fxmlLoader.getController();
                         controller.initData(solicitudSeleccionada);
 
@@ -183,9 +203,22 @@ public class ModalBusquedaController {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar esta solicitud?");
+                    alert.setTitle("Eliminar solicitud");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbResultadoSolicitud.getItems().remove(solicitudSeleccionada);
+                        bdController.eliminarSolicitudPorCorreo(solicitudSeleccionada.getCorreoElectronico());
+                    }
                 }
             }
         });
+
+
     }
 
     public void cargarDatosTFGs() {
