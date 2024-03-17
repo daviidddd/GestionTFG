@@ -34,13 +34,10 @@
                   <MenuItem fx:id="miCargarSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Solicitudes" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Consultar">
-            <items>
-                  <MenuItem fx:id="miConsultaTFGActivos" mnemonicParsing="false" text="TFG activos" />
-                  <MenuItem fx:id="miConsultaPersonalizada" mnemonicParsing="false" text="Consulta personalizada" />
-              <MenuItem fx:id="miConsultaAlumnosActivos" mnemonicParsing="false" text="Alumnos activos" />
-            </items>
-          </Menu>
+          <Menu mnemonicParsing="false" text="Asginaciones">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#asignacionesClick" text="Automática" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Personalizar" />
             <Menu mnemonicParsing="false" text="Perfil">
               <items>

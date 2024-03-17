@@ -87,17 +87,26 @@ public class BDController {
         }
     }
 
-    public boolean registrarSolicitud(String correo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5){
+    public boolean registrarSolicitud(String correoElectronico, double nota, double creditos, double mesesExperiencia, String meritos, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, int expTfg1, int expTfg2, int expTfg3,int expTfg4, int expTfg5){
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Crear la consulta SQL para insertar los valores
-            String consulta = "INSERT INTO solicitudes (correo, tfg1, tfg2, tfg3, tfg4, tfg5) VALUES (?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO solicitudes (correo, nota_media, creditos_restantes, meses_experiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, exp_tfg1, exp_tfg2, exp_tfg3, exp_tfg4, exp_tfg5) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(consulta);
-            statement.setString(1, correo);
-            statement.setString(2, tfg1);
-            statement.setString(3, tfg2);
-            statement.setString(4, tfg3);
-            statement.setString(5, tfg4);
-            statement.setString(6, tfg5);
+            statement.setString(1, correoElectronico);
+            statement.setDouble(2, nota);
+            statement.setDouble(3, creditos);
+            statement.setDouble(4, mesesExperiencia);
+            statement.setString(5, meritos);
+            statement.setString(6, tfg1);
+            statement.setString(7, tfg2);
+            statement.setString(8, tfg3);
+            statement.setString(9, tfg4);
+            statement.setString(10, tfg5);
+            statement.setInt(11, expTfg1);
+            statement.setInt(12, expTfg2);
+            statement.setInt(13, expTfg3);
+            statement.setInt(14, expTfg4);
+            statement.setInt(15, expTfg5);
 
             // Ejecutar la consulta SQL
             int rowsInserted = statement.executeUpdate();

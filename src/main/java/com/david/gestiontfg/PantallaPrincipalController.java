@@ -44,12 +44,6 @@ public class PantallaPrincipalController {
     @FXML
     private MenuItem miSalir;
     @FXML
-    private MenuItem miConsultaAlumnosActivos;
-    @FXML
-    private MenuItem miConsultaTFGActivos;
-    @FXML
-    private MenuItem miConsultaPersonalizada;
-    @FXML
     private MenuItem miVerPerfil;
     @FXML
     private MenuItem miModificarPerfil;
@@ -427,14 +421,6 @@ public class PantallaPrincipalController {
         });
     }
 
-    private void mostrarAlerta(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(contenido);
-        alert.showAndWait();
-    }
-
     @FXML
     protected void exportarActividad() {
         FileChooser fileChooser = new FileChooser();
@@ -490,6 +476,41 @@ public class PantallaPrincipalController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    protected void asignacionesClick() {
+        // Ventana para cargar alumnos manualmente o mediante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-asignaciones.fxml"));
+        try {
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Asignaciones");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
     }
 
 }

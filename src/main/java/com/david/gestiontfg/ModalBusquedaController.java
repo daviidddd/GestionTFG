@@ -5,6 +5,7 @@ import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,6 +49,8 @@ public class ModalBusquedaController {
     @FXML
     private TableColumn<Solicitud, String> colCorreoSolicitud;
     @FXML
+    private TableColumn<Solicitud, Double> colNotaMedia;
+    @FXML
     private TableColumn<Solicitud, String> colTFG1;
     @FXML
     private TableColumn<Solicitud, String> colTFG2;
@@ -87,6 +90,7 @@ public class ModalBusquedaController {
         colExpediente.setStyle("-fx-alignment: CENTER;");
 
         colCorreoSolicitud.setCellValueFactory(cellData -> cellData.getValue().correoElectronicoProperty());
+        colNotaMedia.setCellValueFactory(cellData -> cellData.getValue().notaMediaProperty().asObject());
         colTFG1.setCellValueFactory(cellData -> cellData.getValue().tfg1Property());
         colTFG2.setCellValueFactory(cellData -> cellData.getValue().tfg2Property());
         colTFG3.setCellValueFactory(cellData -> cellData.getValue().tfg3Property());
@@ -94,6 +98,7 @@ public class ModalBusquedaController {
         colTFG5.setCellValueFactory(cellData -> cellData.getValue().tfg5Property());
         tbResultadoSolicitud.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         colCorreoSolicitud.setStyle("-fx-alignment: CENTER;");
+        colNotaMedia.setStyle("-fx-alignment: CENTER;");
         colTFG1.setStyle("-fx-alignment: CENTER;");
         colTFG2.setStyle("-fx-alignment: CENTER;");
         colTFG3.setStyle("-fx-alignment: CENTER;");
@@ -121,7 +126,8 @@ public class ModalBusquedaController {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
 
-                        actualizarTFG(tfgSeleccionado);
+                        tbResultadoTFG.getItems().clear();
+                        cargarDatosTFGs();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -160,7 +166,8 @@ public class ModalBusquedaController {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
 
-                        actualizarAlumno(alumnoSeleccionado);
+                        tbResultadoAlumno.getItems().clear();
+                        cargarDatosAlumnos();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -199,7 +206,8 @@ public class ModalBusquedaController {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
 
-                        actualizarSolicitud(solicitudSeleccionada);
+                        tbResultadoSolicitud.getItems().clear();
+                        cargarDatosSolicitud();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -235,33 +243,6 @@ public class ModalBusquedaController {
         String valorParseado = valorBusqueda.replace(" ", "");
         List<Solicitud> listaSolicitudes = bdController.obtenerSolicitudesFiltro(valorParseado);
         tbResultadoSolicitud.getItems().addAll(listaSolicitudes);
-    }
-
-    public void actualizarAlumno(Alumno alumnoActualizado) {
-        // Find the index of the updated Alumno in the table's items
-        int index = tbResultadoAlumno.getItems().indexOf(alumnoActualizado);
-        if (index != -1) {
-            // Update the Alumno in the table's items list
-            tbResultadoAlumno.getItems().set(index, alumnoActualizado);
-        }
-    }
-
-    public void actualizarSolicitud(Solicitud solicitudActualizada) {
-        // Find the index of the updated Solicitud in the table's items
-        int index = tbResultadoSolicitud.getItems().indexOf(solicitudActualizada);
-        if (index != -1) {
-            // Update the Solicitud in the table's items list
-            tbResultadoSolicitud.getItems().set(index, solicitudActualizada);
-        }
-    }
-
-    public void actualizarTFG(TFG tfgActualizado) {
-        // Find the index of the updated TFG in the table's items
-        int index = tbResultadoTFG.getItems().indexOf(tfgActualizado);
-        if (index != -1) {
-            // Update the TFG in the table's items list
-            tbResultadoTFG.getItems().set(index, tfgActualizado);
-        }
     }
 
     public void setValorBusqueda(String valorBusqueda) {

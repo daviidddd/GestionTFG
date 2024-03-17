@@ -147,33 +147,70 @@ public class ArchivoController {
 
             // Variables para almacenar los campos
             String correo = null;
+            double creditosRestantes = 0;
+            double mediaExpediente = 0;
+            double totalMesesExperiencia = 0;
+            String meritos = null;
             String tfg1 = null;
             String tfg2 = null;
             String tfg3 = null;
             String tfg4 = null;
             String tfg5 = null;
+            int expTfg1 = 0;
+            int expTfg2 = 0;
+            int expTfg3 = 0;
+            int expTfg4 = 0;
+            int expTfg5 = 0;
 
             String linea;
             int contador = 0;
             while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
                 // Parsear cada línea y almacenar los valores en las variables correspondientes
                 switch (contador) {
                     case 0:
                         correo = linea;
                         break;
                     case 1:
-                        tfg1 = linea;
+                        creditosRestantes = Double.parseDouble(linea);
                         break;
                     case 2:
-                        tfg2 = linea;
+                        mediaExpediente = Double.parseDouble(linea);
                         break;
                     case 3:
-                        tfg3 = linea;
+                        totalMesesExperiencia = Double.parseDouble(linea);
                         break;
                     case 4:
-                        tfg4 = linea;
+                        meritos = linea;
                         break;
                     case 5:
+                        expTfg1 = Integer.parseInt(linea);
+                        break;
+                    case 6:
+                        expTfg2 = Integer.parseInt(linea);
+                        break;
+                    case 7:
+                        expTfg3 = Integer.parseInt(linea);
+                        break;
+                    case 8:
+                        expTfg4 = Integer.parseInt(linea);
+                        break;
+                    case 9:
+                        expTfg5 = Integer.parseInt(linea);
+                        break;
+                    case 10:
+                        tfg1 = linea;
+                        break;
+                    case 11:
+                        tfg2 = linea;
+                        break;
+                    case 12:
+                        tfg3 = linea;
+                        break;
+                    case 13:
+                        tfg4 = linea;
+                        break;
+                    case 14:
                         tfg5 = linea;
                         break;
                 }
@@ -184,7 +221,7 @@ public class ArchivoController {
             int exitVal = tfgProcess.waitFor();
             if (exitVal == 0) {
                  BDController bdController = new BDController();
-                boolean alta = bdController.registrarSolicitud(correo, tfg1, tfg2, tfg3, tfg4, tfg5);
+                boolean alta = bdController.registrarSolicitud(correo, mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5);
                 if(alta){
                     mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
                 }
