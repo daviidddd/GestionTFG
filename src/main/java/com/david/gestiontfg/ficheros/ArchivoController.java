@@ -198,19 +198,19 @@ public class ArchivoController {
                     case 9:
                         expTfg5 = Integer.parseInt(linea);
                         break;
-                    case 10:
+                    case 11:
                         tfg1 = linea;
                         break;
-                    case 11:
+                    case 12:
                         tfg2 = linea;
                         break;
-                    case 12:
+                    case 13:
                         tfg3 = linea;
                         break;
-                    case 13:
+                    case 14:
                         tfg4 = linea;
                         break;
-                    case 14:
+                    case 15:
                         tfg5 = linea;
                         break;
                 }

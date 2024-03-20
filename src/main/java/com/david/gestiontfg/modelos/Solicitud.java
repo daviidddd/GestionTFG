@@ -38,24 +38,6 @@ public class Solicitud {
         this.expTFG5 = new SimpleIntegerProperty(expTfg5);
     }
 
-    public Solicitud(String correoElectronico, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5) {
-        this.correoElectronico = new SimpleStringProperty(correoElectronico);
-        this.notaMedia = new SimpleDoubleProperty(0.0);
-        this.creditosRestantes = new SimpleDoubleProperty(0);
-        this.totalMesesExperiencia = new SimpleDoubleProperty(0);
-        this.meritos = new SimpleStringProperty("NO");
-        this.tfg1 = new SimpleStringProperty(tfg1);
-        this.tfg2 = new SimpleStringProperty(tfg2);
-        this.tfg3 = new SimpleStringProperty(tfg3);
-        this.tfg4 = new SimpleStringProperty(tfg4);
-        this.tfg5 = new SimpleStringProperty(tfg5);
-        this.expTFG1 = new SimpleIntegerProperty(0);
-        this.expTFG2 = new SimpleIntegerProperty(0);
-        this.expTFG3 = new SimpleIntegerProperty(0);
-        this.expTFG4 = new SimpleIntegerProperty(0);
-        this.expTFG5 = new SimpleIntegerProperty(0);
-    }
-
     public String getCorreoElectronico() {
         return correoElectronico.get();
     }

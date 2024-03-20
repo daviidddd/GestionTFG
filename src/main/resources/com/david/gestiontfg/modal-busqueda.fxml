@@ -62,7 +62,8 @@
                         <TableView fx:id="tbResultadoSolicitud" layoutX="154.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                           <columns>
                             <TableColumn fx:id="colCorreoSolicitud" prefWidth="168.0" text="Correo Electronico" />
-                              <TableColumn fx:id="colNotaMedia" prefWidth="82.0" text="Nota Media" />
+                              <TableColumn fx:id="colNotaMedia" prefWidth="64.0" text="Media" />
+                              <TableColumn fx:id="colCreditos" prefWidth="64.0" text="Cred." />
                             <TableColumn fx:id="colTFG1" minWidth="0.0" prefWidth="83.0" text="TFG 1" />
                               <TableColumn fx:id="colTFG2" minWidth="7.0" prefWidth="83.0" text="TFG 2" />
                               <TableColumn fx:id="colTFG3" prefWidth="83.0" text="TFG 3" />

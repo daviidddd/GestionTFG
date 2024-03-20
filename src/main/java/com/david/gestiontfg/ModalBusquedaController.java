@@ -51,6 +51,8 @@ public class ModalBusquedaController {
     @FXML
     private TableColumn<Solicitud, Double> colNotaMedia;
     @FXML
+    private TableColumn<Solicitud, Double> colCreditos;
+    @FXML
     private TableColumn<Solicitud, String> colTFG1;
     @FXML
     private TableColumn<Solicitud, String> colTFG2;
@@ -91,6 +93,7 @@ public class ModalBusquedaController {
 
         colCorreoSolicitud.setCellValueFactory(cellData -> cellData.getValue().correoElectronicoProperty());
         colNotaMedia.setCellValueFactory(cellData -> cellData.getValue().notaMediaProperty().asObject());
+        colCreditos.setCellValueFactory(cellData -> cellData.getValue().creditosRestantesProperty().asObject());
         colTFG1.setCellValueFactory(cellData -> cellData.getValue().tfg1Property());
         colTFG2.setCellValueFactory(cellData -> cellData.getValue().tfg2Property());
         colTFG3.setCellValueFactory(cellData -> cellData.getValue().tfg3Property());
@@ -99,6 +102,7 @@ public class ModalBusquedaController {
         tbResultadoSolicitud.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         colCorreoSolicitud.setStyle("-fx-alignment: CENTER;");
         colNotaMedia.setStyle("-fx-alignment: CENTER;");
+        colCreditos.setStyle("-fx-alignment: CENTER;");
         colTFG1.setStyle("-fx-alignment: CENTER;");
         colTFG2.setStyle("-fx-alignment: CENTER;");
         colTFG3.setStyle("-fx-alignment: CENTER;");

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="detalleTFG" prefHeight="437.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.DetalleSolicitudController">
+<AnchorPane fx:id="detalleTFG" prefHeight="498.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.DetalleSolicitudController">
     <children>
         <Pane layoutX="-5.0" layoutY="-11.0" prefHeight="60.0" prefWidth="660.0" style="-fx-background-color: #004379;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -24,19 +24,28 @@
             </children>
         </Pane>
         <Label layoutX="45.0" layoutY="80.0" text="Alumno" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="80.0" />
-        <TextField fx:id="txtAlumnoSolicitud" layoutX="155.0" layoutY="76.0" prefHeight="26.0" prefWidth="204.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="294.0" AnchorPane.topAnchor="76.0" />
+        <TextField fx:id="txtAlumnoSolicitud" layoutX="155.0" layoutY="76.0" prefHeight="26.0" prefWidth="281.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="217.0" AnchorPane.topAnchor="76.0" />
         <Button fx:id="btnModificarSolicitudDetalle" layoutX="82.0" layoutY="651.0" mnemonicParsing="false" onAction="#modificarSolicitud" prefHeight="30.0" prefWidth="309.0" text="Modificar" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="200.0" />
         <Button fx:id="btnEliminarSolicitudDetalle" layoutX="420.0" layoutY="650.0" mnemonicParsing="false" onAction="#eliminarSolicitud" prefHeight="30.0" prefWidth="175.0" text="Eliminar" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="469.0" AnchorPane.rightAnchor="70.0" />
-      <Label layoutX="45.0" layoutY="133.0" text="TFG 1" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="130.0" />
-      <Label layoutX="55.0" layoutY="191.0" text="TFG 2" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="180.0" />
-      <Label layoutX="55.0" layoutY="244.0" text="TFG 3" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="230.0" />
-      <ComboBox fx:id="cbDetalleTFG1" layoutX="155.0" layoutY="129.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="126.0" />
-      <ComboBox fx:id="cbDetalleTFG2" layoutX="155.0" layoutY="178.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="176.0" />
-      <ComboBox fx:id="cbDetalleTFG3" layoutX="155.0" layoutY="240.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="226.0" />
-      <ComboBox fx:id="cbDetalleTFG4" layoutX="155.0" layoutY="284.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="276.0" />
-      <ComboBox fx:id="cbDetalleTFG5" layoutX="155.0" layoutY="341.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="326.0" />
-      <Label layoutX="55.0" layoutY="281.0" text="TFG 4" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="280.0" />
-      <Label layoutX="54.0" layoutY="331.0" text="TFG 5" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="330.0" />
+      <Label layoutX="53.0" layoutY="184.0" text="TFG 1" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="184.0" />
+      <Label layoutX="53.0" layoutY="234.0" text="TFG 2" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="234.0" />
+      <Label layoutX="53.0" layoutY="284.0" text="TFG 3" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="284.0" />
+      <ComboBox fx:id="cbDetalleTFG1" layoutX="158.0" layoutY="180.0" prefHeight="26.0" prefWidth="309.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="180.0" />
+      <ComboBox fx:id="cbDetalleTFG2" layoutX="158.0" layoutY="230.0" prefHeight="26.0" prefWidth="333.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="230.0" />
+      <ComboBox fx:id="cbDetalleTFG3" layoutX="158.0" layoutY="280.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="280.0" />
+      <ComboBox fx:id="cbDetalleTFG4" layoutX="158.0" layoutY="330.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="330.0" />
+      <ComboBox fx:id="cbDetalleTFG5" layoutX="158.0" layoutY="380.0" prefHeight="26.0" prefWidth="396.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="380.0" />
+      <Label layoutX="53.0" layoutY="334.0" text="TFG 4" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="334.0" />
+      <Label layoutX="53.0" layoutY="384.0" text="TFG 5" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="384.0" />
       <Button layoutX="514.0" layoutY="76.0" mnemonicParsing="false" onAction="#habilitarEdicionSolicitud" prefHeight="26.0" prefWidth="119.0" text="Habilitar edición" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="76.0" />
+      <Label layoutX="56.0" layoutY="121.0" text="Nota Media" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="130.0" />
+      <TextField fx:id="txtNotaMedia" layoutX="171.0" layoutY="121.0" prefHeight="26.0" prefWidth="118.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="126.0" />
+      <Label layoutX="330.0" layoutY="132.0" text="Creditos Restantes" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="132.0" />
+      <TextField fx:id="txtCreditosRestantes" layoutX="464.0" layoutY="130.0" prefHeight="26.0" prefWidth="119.0" AnchorPane.leftAnchor="464.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="126.0" />
+      <TextField fx:id="txtExpTFG1" layoutX="466.0" layoutY="181.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="180.0" />
+      <TextField fx:id="txtExpTFG2" layoutX="485.0" layoutY="229.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="230.0" />
+      <TextField fx:id="txtExpTFG3" layoutX="485.0" layoutY="280.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="280.0" />
+      <TextField fx:id="txtExpTFG4" layoutX="495.0" layoutY="326.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="330.0" />
+      <TextField fx:id="txtExpTFG5" layoutX="505.0" layoutY="377.0" prefHeight="26.0" prefWidth="115.0" AnchorPane.leftAnchor="466.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="380.0" />
     </children>
 </AnchorPane>

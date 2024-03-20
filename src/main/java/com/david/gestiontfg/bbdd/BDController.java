@@ -262,13 +262,22 @@ public class BDController {
 
             while (resultSet.next()) {
                 String correo = resultSet.getString("correo");
+                double notaMedia = resultSet.getDouble("nota_media");
+                double creditosResultantes = resultSet.getDouble("creditos_restantes");
+                double mesesExperiencia = resultSet.getDouble("meses_experiencia");
+                String meritos = resultSet.getString("meritos");
                 String tfg1 = resultSet.getString("tfg1");
                 String tfg2 = resultSet.getString("tfg2");
                 String tfg3 = resultSet.getString("tfg3");
                 String tfg4 = resultSet.getString("tfg4");
                 String tfg5 = resultSet.getString("tfg5");
+                int expTfg1 = resultSet.getInt("exp_tfg1");
+                int expTfg2 = resultSet.getInt("exp_tfg2");
+                int expTfg3 = resultSet.getInt("exp_tfg3");
+                int expTfg4 = resultSet.getInt("exp_tfg4");
+                int expTfg5 = resultSet.getInt("exp_tfg5");
 
-                Solicitud solicitud = new Solicitud(correo, tfg1, tfg2, tfg3, tfg4, tfg5);
+                Solicitud solicitud = new Solicitud(correo, notaMedia, creditosResultantes, mesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5);
                 solicitudesActivas.add(solicitud);
             }
         } catch (SQLException e) {
@@ -458,17 +467,24 @@ public class BDController {
         }
     }
 
-    public boolean modificarSolicitudPorCodigo(String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5) {
+    public boolean modificarSolicitudPorCodigo(Double notaMedia, Double creditosRestantes, String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, Double expTFG1, Double expTFG2, Double expTFG3, Double expTFG4, Double expTFG5) {
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Crear la consulta SQL para actualizar los valores
-            String consulta = "UPDATE solicitudes SET tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ? WHERE correo = ?";
+            String consulta = "UPDATE solicitudes SET nota_media = ?, creditos_restantes = ?, tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ?, exp_tfg1 = ?, exp_tfg2 = ?, exp_tfg3 = ?, exp_tfg4 = ?, exp_tfg5 = ? WHERE correo = ?";
             PreparedStatement statement = conexion.prepareStatement(consulta);
-            statement.setString(1, tfg1);
-            statement.setString(2, tfg2);
-            statement.setString(3, tfg3);
-            statement.setString(4, tfg4);
-            statement.setString(5, tfg5);
-            statement.setString(6, correoAntiguo);
+            statement.setDouble(1, notaMedia);
+            statement.setDouble(2, creditosRestantes);
+            statement.setString(3, tfg1);
+            statement.setString(4, tfg2);
+            statement.setString(5, tfg3);
+            statement.setString(6, tfg4);
+            statement.setString(7, tfg5);
+            statement.setDouble(8, expTFG1);
+            statement.setDouble(9, expTFG2);
+            statement.setDouble(10, expTFG3);
+            statement.setDouble(11, expTFG4);
+            statement.setDouble(12, expTFG5);
+            statement.setString(13, correoAntiguo);
 
             // Ejecutar la consulta SQL de actualización
             int rowsUpdated = statement.executeUpdate();

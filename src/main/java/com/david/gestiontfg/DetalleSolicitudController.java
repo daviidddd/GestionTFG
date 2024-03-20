@@ -15,6 +15,10 @@ import java.util.Set;
 
 public class DetalleSolicitudController {
     @FXML
+    private TextField txtNotaMedia;
+    @FXML
+    private TextField txtCreditosRestantes;
+    @FXML
     private ComboBox<String> cbDetalleTFG1;
     @FXML
     private ComboBox<String> cbDetalleTFG2;
@@ -24,6 +28,16 @@ public class DetalleSolicitudController {
     private ComboBox<String> cbDetalleTFG4;
     @FXML
     private ComboBox<String> cbDetalleTFG5;
+    @FXML
+    private TextField txtExpTFG1;
+    @FXML
+    private TextField txtExpTFG2;
+    @FXML
+    private TextField txtExpTFG3;
+    @FXML
+    private TextField txtExpTFG4;
+    @FXML
+    private TextField txtExpTFG5;
     @FXML
     private TextField txtAlumnoSolicitud;
     @FXML
@@ -35,17 +49,10 @@ public class DetalleSolicitudController {
     private Set<String> elementosSeleccionados = new HashSet<>();
     public void initData(Solicitud solicitud) {
         btnModificarSolicitudDetalle.setVisible(false);
-        lblSolicitud.setText("/" + solicitud.getCorreoElectronico());
-        txtAlumnoSolicitud.setText(solicitud.getCorreoElectronico());
         txtAlumnoSolicitud.setDisable(true);
-        estadoCombo(true);
-        cbDetalleTFG1.setValue(solicitud.getTfg1());
-        cbDetalleTFG2.setValue(solicitud.getTfg2());
-        cbDetalleTFG3.setValue(solicitud.getTfg3());
-        cbDetalleTFG4.setValue(solicitud.getTfg4());
-        cbDetalleTFG5.setValue(solicitud.getTfg5());
-        correoAntiguoAlumno = solicitud.getCorreoElectronico();
+        isEdicionInactiva(true);
         cargarTFGs();
+        setValoresIniciales(solicitud);
         addComboBoxListener(cbDetalleTFG1);
         addComboBoxListener(cbDetalleTFG2);
         addComboBoxListener(cbDetalleTFG3);
@@ -89,6 +96,24 @@ public class DetalleSolicitudController {
         }
     }
 
+    private void setValoresIniciales(Solicitud solicitud) {
+        lblSolicitud.setText("/" + solicitud.getCorreoElectronico());
+        txtAlumnoSolicitud.setText(solicitud.getCorreoElectronico());
+        txtCreditosRestantes.setText(String.valueOf(solicitud.getCreditosRestantes()));
+        txtNotaMedia.setText(String.valueOf(solicitud.getNotaMedia()));
+        cbDetalleTFG1.setValue(solicitud.getTfg1());
+        cbDetalleTFG2.setValue(solicitud.getTfg2());
+        cbDetalleTFG3.setValue(solicitud.getTfg3());
+        cbDetalleTFG4.setValue(solicitud.getTfg4());
+        cbDetalleTFG5.setValue(solicitud.getTfg5());
+        txtExpTFG1.setText(String.valueOf(solicitud.getExpTFG1()));
+        txtExpTFG2.setText(String.valueOf(solicitud.getExpTFG2()));
+        txtExpTFG3.setText(String.valueOf(solicitud.getExpTFG3()));
+        txtExpTFG4.setText(String.valueOf(solicitud.getExpTFG4()));
+        txtExpTFG5.setText(String.valueOf(solicitud.getExpTFG5()));
+        correoAntiguoAlumno = solicitud.getCorreoElectronico();
+    }
+
     private ComboBox<String>[] getComboBoxes() {
         return new ComboBox[]{cbDetalleTFG1, cbDetalleTFG2, cbDetalleTFG3, cbDetalleTFG4, cbDetalleTFG5};
     }
@@ -122,12 +147,18 @@ public class DetalleSolicitudController {
     @FXML
     private void modificarSolicitud() {
         try {
-            String correoNuevo = txtAlumnoSolicitud.getText();
+            Double notaMedia = Double.valueOf(txtNotaMedia.getText());
+            Double creditosRestantes = Double.valueOf(txtCreditosRestantes.getText());
             String tfg1 = cbDetalleTFG1.getValue();
             String tfg2 = cbDetalleTFG2.getValue();
             String tfg3 = cbDetalleTFG3.getValue();
             String tfg4 = cbDetalleTFG4.getValue();
             String tfg5 = cbDetalleTFG5.getValue();
+            Double expTFG1 = Double.valueOf(txtExpTFG1.getText());
+            Double expTFG2 = Double.valueOf(txtExpTFG1.getText());
+            Double expTFG3 = Double.valueOf(txtExpTFG1.getText());
+            Double expTFG4 = Double.valueOf(txtExpTFG1.getText());
+            Double expTFG5 = Double.valueOf(txtExpTFG1.getText());
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmación");
@@ -136,7 +167,7 @@ public class DetalleSolicitudController {
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     BDController bdController = new BDController();
-                    boolean modificacionExitosa = bdController.modificarSolicitudPorCodigo(correoAntiguoAlumno, tfg1, tfg2, tfg3, tfg4, tfg5);
+                    boolean modificacionExitosa = bdController.modificarSolicitudPorCodigo(notaMedia, creditosRestantes, correoAntiguoAlumno, tfg1, tfg2, tfg3, tfg4, tfg5, expTFG1, expTFG2, expTFG3, expTFG4, expTFG5);
                     if (modificacionExitosa) {
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                         alerta.setTitle(txtAlumnoSolicitud.getText());
@@ -154,15 +185,22 @@ public class DetalleSolicitudController {
 
     @FXML
     private void habilitarEdicionSolicitud() {
-        estadoCombo(false);
+        isEdicionInactiva(false);
         btnModificarSolicitudDetalle.setVisible(true);
     }
 
-    private void estadoCombo(Boolean estado) {
+    private void isEdicionInactiva(Boolean estado) {
+        txtNotaMedia.setDisable(estado);
+        txtCreditosRestantes.setDisable(estado);
         cbDetalleTFG1.setDisable(estado);
         cbDetalleTFG2.setDisable(estado);
         cbDetalleTFG3.setDisable(estado);
         cbDetalleTFG4.setDisable(estado);
         cbDetalleTFG5.setDisable(estado);
+        txtExpTFG1.setDisable(estado);
+        txtExpTFG2.setDisable(estado);
+        txtExpTFG3.setDisable(estado);
+        txtExpTFG4.setDisable(estado);
+        txtExpTFG5.setDisable(estado);
     }
 }
