@@ -33,6 +33,7 @@ CREATE TABLE tfgs (
 
 CREATE TABLE solicitudes (
     correo VARCHAR(55) NOT NULL,
+    nia INT NOT NULL,
     nota_media DOUBLE NOT NULL,
     creditos_restantes DOUBLE NOT NULL,
     meses_experiencia DOUBLE NOT NULL,
@@ -47,6 +48,14 @@ CREATE TABLE solicitudes (
     exp_tfg3 DOUBLE NOT NULL,
     exp_tfg4 DOUBLE NOT NULL,
     exp_tfg5 DOUBLE NOT NULL,
+    pto_creditos INT NOT NULL,
+    pto_experiencia INT NOT NULL,
+    pto_nota_media INT NOT NULL,
+    pto_tfg1 INT NOT NULL,
+    pto_tfg2 INT NOT NULL,
+    pto_tfg3 INT NOT NULL,
+    pto_tfg4 INT NOT NULL,
+    pto_tfg5 INT NOT NULL,
     PRIMARY KEY (correo)
 );
 

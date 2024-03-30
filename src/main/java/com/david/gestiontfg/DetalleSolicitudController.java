@@ -1,5 +1,10 @@
 package com.david.gestiontfg;
 
+import com.david.gestiontfg.modelos.TFG;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.modelos.Solicitud;
 import javafx.collections.FXCollections;
@@ -9,6 +14,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,12 +54,33 @@ public class DetalleSolicitudController {
     private Label lblSolicitud;
     @FXML
     private Button btnModificarSolicitudDetalle;
+    @FXML
+    private TextField txtPtoNota;
+    @FXML
+    private TextField txtPtoCreditos;
+    @FXML
+    private TextField txtPtoTFG1;
+    @FXML
+    private TextField txtPtoTFG2;
+    @FXML
+    private TextField txtPtoTFG3;
+    @FXML
+    private TextField txtPtoTFG4;
+    @FXML
+    private TextField txtPtoTFG5;
     private String correoAntiguoAlumno;
 
     private Set<String> elementosSeleccionados = new HashSet<>();
     public void initData(Solicitud solicitud) {
         btnModificarSolicitudDetalle.setVisible(false);
         txtAlumnoSolicitud.setDisable(true);
+        txtPtoCreditos.setDisable(true);
+        txtPtoNota.setDisable(true);
+        txtPtoTFG1.setDisable(true);
+        txtPtoTFG2.setDisable(true);
+        txtPtoTFG3.setDisable(true);
+        txtPtoTFG4.setDisable(true);
+        txtPtoTFG5.setDisable(true);
         isEdicionInactiva(true);
         cargarTFGs();
         setValoresIniciales(solicitud);
@@ -112,6 +143,7 @@ public class DetalleSolicitudController {
         txtExpTFG4.setText(String.valueOf(solicitud.getExpTFG4()));
         txtExpTFG5.setText(String.valueOf(solicitud.getExpTFG5()));
         correoAntiguoAlumno = solicitud.getCorreoElectronico();
+        cargarPuntuacion(solicitud);
     }
 
     private ComboBox<String>[] getComboBoxes() {
@@ -187,6 +219,16 @@ public class DetalleSolicitudController {
     private void habilitarEdicionSolicitud() {
         isEdicionInactiva(false);
         btnModificarSolicitudDetalle.setVisible(true);
+    }
+
+    private void cargarPuntuacion(Solicitud solicitud) {
+        txtPtoNota.setText(String.valueOf(solicitud.getPtosNotaMedia()));
+        txtPtoCreditos.setText(String.valueOf(solicitud.getPtosCreditos()));
+        txtPtoTFG1.setText(String.valueOf(solicitud.getPtosTFG1()));
+        txtPtoTFG2.setText(String.valueOf(solicitud.getPtosTFG2()));
+        txtPtoTFG3.setText(String.valueOf(solicitud.getPtosTFG3()));
+        txtPtoTFG4.setText(String.valueOf(solicitud.getPtosTFG4()));
+        txtPtoTFG5.setText(String.valueOf(solicitud.getPtosTFG5()));
     }
 
     private void isEdicionInactiva(Boolean estado) {

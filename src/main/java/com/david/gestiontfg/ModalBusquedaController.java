@@ -244,8 +244,7 @@ public class ModalBusquedaController {
     }
 
     public void cargarDatosSolicitud() {
-        String valorParseado = valorBusqueda.replace(" ", "");
-        List<Solicitud> listaSolicitudes = bdController.obtenerSolicitudesFiltro(valorParseado);
+        List<Solicitud> listaSolicitudes = bdController.obtenerSolicitudesFiltro(valorBusqueda);
         tbResultadoSolicitud.getItems().addAll(listaSolicitudes);
     }
 

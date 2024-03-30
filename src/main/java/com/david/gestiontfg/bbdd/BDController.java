@@ -87,10 +87,10 @@ public class BDController {
         }
     }
 
-    public boolean registrarSolicitud(String correoElectronico, double nota, double creditos, double mesesExperiencia, String meritos, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, int expTfg1, int expTfg2, int expTfg3,int expTfg4, int expTfg5){
+    public boolean registrarSolicitud(String correoElectronico, int nia, double nota, double creditos, double mesesExperiencia, String meritos, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, int expTfg1, int expTfg2, int expTfg3,int expTfg4, int expTfg5, int ptosCreditos, int ptosNotaMedia, int ptosExperiencia, int ptosTFG1, int ptosTFG2, int ptosTFG3, int ptosTFG4, int ptosTFG5){
         try (Connection conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Crear la consulta SQL para insertar los valores
-            String consulta = "INSERT INTO solicitudes (correo, nota_media, creditos_restantes, meses_experiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, exp_tfg1, exp_tfg2, exp_tfg3, exp_tfg4, exp_tfg5) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String consulta = "INSERT INTO solicitudes (correo, nota_media, creditos_restantes, meses_experiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, exp_tfg1, exp_tfg2, exp_tfg3, exp_tfg4, exp_tfg5, pto_creditos, pto_nota_media, pto_experiencia, pto_tfg1, pto_tfg2, pto_tfg3, pto_tfg4, pto_tfg5, nia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(consulta);
             statement.setString(1, correoElectronico);
             statement.setDouble(2, nota);
@@ -107,6 +107,15 @@ public class BDController {
             statement.setInt(13, expTfg3);
             statement.setInt(14, expTfg4);
             statement.setInt(15, expTfg5);
+            statement.setInt(16, ptosCreditos);
+            statement.setInt(17, ptosNotaMedia);
+            statement.setInt(18, ptosExperiencia);
+            statement.setInt(19, ptosTFG1);
+            statement.setInt(20, ptosTFG2);
+            statement.setInt(21, ptosTFG3);
+            statement.setInt(22, ptosTFG4);
+            statement.setInt(23, ptosTFG5);
+            statement.setInt(24, nia);
 
             // Ejecutar la consulta SQL
             int rowsInserted = statement.executeUpdate();
@@ -167,6 +176,24 @@ public class BDController {
             e.printStackTrace();
         }
         return tfgActivos;
+    }
+
+    public String obtenerAsignaturasTFG(String tfg) {
+        String asignturas = "";
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "SELECT asignaturas FROM tfgs WHERE codigo = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, tfg);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next())
+                asignturas = resultSet.getString(1);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return asignturas;
     }
 
     public int obtenerTFGAdjudicado() {
@@ -415,6 +442,25 @@ public class BDController {
         return tfgs;
     }
 
+    public static int obtenerNiaPorCorreo(String correo) {
+        int nia = 0;
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta SQL con una cláusula WHERE para buscar en múltiples campos
+            String query = "SELECT nia FROM alumnos WHERE correo = ? ";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, correo);
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next())
+                nia = resultSet.getInt("nia");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nia;
+    }
+
     public void limpiarAlumnos() {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "DELETE FROM alumnos";
@@ -494,8 +540,6 @@ public class BDController {
             return false;
         }
     }
-
-
 
     public boolean eliminarAlumno(String id) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {

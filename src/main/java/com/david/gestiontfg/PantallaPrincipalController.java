@@ -36,27 +36,6 @@ public class PantallaPrincipalController {
     @FXML
     private AnchorPane panePrincipal;
     @FXML
-    private MenuBar menuBar;
-    @FXML
-    private MenuItem miInformacion;
-    @FXML
-    private MenuItem miCerrarSesion;
-    @FXML
-    private MenuItem miSalir;
-    @FXML
-    private MenuItem miVerPerfil;
-    @FXML
-    private MenuItem miModificarPerfil;
-    @FXML
-    private MenuItem miManualUsuario;
-    @FXML
-    private MenuItem miCargarAlumnos;
-    @FXML
-    private MenuItem miCargarTFG;
-    @FXML
-    private MenuItem miCargarExpedientes;
-
-    @FXML
     private TableView<TFG> tbTFGs;
     @FXML
     private TableColumn<TFG, String> colCodigoTFG;
@@ -73,15 +52,11 @@ public class PantallaPrincipalController {
     @FXML
     private TableColumn<Alumno, String> colExp;
     @FXML
-    private AnchorPane visualizadorPDF;
-    @FXML
     private Label lblTFGActivos;
     @FXML
     private Label lblAlumnosActivos;
     @FXML
     private Label lblExpedientesActivos;
-    @FXML
-    private ImageView imgUcam;
     @FXML
     private ProgressBar ratioDisponiblesOcupados;
     @FXML
@@ -89,34 +64,12 @@ public class PantallaPrincipalController {
     @FXML
     private TextField txtBusqueda;
     @FXML
-    private Button btnBusqueda;
-    @FXML
-    private MenuItem miAltaAlumnos;
-    @FXML
-    private MenuItem miBajaAlumnos;
-    @FXML
-    private MenuItem miAltaTFG;
-    @FXML
-    private MenuItem miBajaTFG;
-    @FXML
-    private MenuItem miAltaExpedientes;
-    @FXML
-    private MenuItem miBajaExpedientes;
-    @FXML
-    private MenuItem miVerActividad;
-    @FXML
-    private MenuItem miExportarActividad;
-    @FXML
-    private MenuItem miFormatearSistema;
-    @FXML
     private Label lblProgresoTFG;
     @FXML
     private Label lblProgresoExp;
     private Timer timer;
     private final BDController bdController;
-
     private final ArchivoController archivoController;
-
     private Stage stage;
 
     public PantallaPrincipalController() {

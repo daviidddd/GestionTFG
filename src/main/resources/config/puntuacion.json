@@ -1,0 +1,27 @@
+{
+  "creditos_restantes": [
+    { "rango": [1, 15], "puntos": 4 },
+    { "rango": [16, 30], "puntos": 3 },
+    { "rango": [31, 45], "puntos": 2 },
+    { "rango": [46, 60], "puntos": 1 },
+    { "rango": [61, 240], "puntos": 0 }
+  ],
+  "experiencia_profesional": [
+    { "rango": [25, 10000], "puntos": 4 },
+    { "rango": [18, 24], "puntos": 3 },
+    { "rango": [12, 18], "puntos": 2 },
+    { "rango": [6, 12], "puntos": 1 },
+    { "rango": [0, 6], "puntos": 0 }
+  ],
+  "asignaturas_relacionadas": [
+    { "nota": [9, 10], "puntos": 4 },
+    { "nota": [8, 8.9], "puntos": 3 },
+    { "nota": [7, 7.9], "puntos": 2 },
+    { "nota": [5, 6.9], "puntos": 1 }
+  ],
+  "expediente_academico": [
+    { "nota": "Sobresaliente", "puntos": 2 },
+    { "nota": "Notable", "puntos": 1 },
+    { "nota": "Aprobado", "puntos": 0 }
+  ]
+}

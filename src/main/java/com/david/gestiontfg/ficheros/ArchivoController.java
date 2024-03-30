@@ -3,6 +3,7 @@ package com.david.gestiontfg.ficheros;
 import com.david.gestiontfg.config.Configuracion;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.modelos.Solicitud;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -165,7 +166,6 @@ public class ArchivoController {
             String linea;
             int contador = 0;
             while ((linea = reader.readLine()) != null) {
-                System.out.println(linea);
                 // Parsear cada línea y almacenar los valores en las variables correspondientes
                 switch (contador) {
                     case 0:
@@ -220,11 +220,14 @@ public class ArchivoController {
             // Esperar a que el proceso termine
             int exitVal = tfgProcess.waitFor();
             if (exitVal == 0) {
-                 BDController bdController = new BDController();
-                boolean alta = bdController.registrarSolicitud(correo, mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5);
-                if(alta){
+                BDController bdController = new BDController();
+                Solicitud solicitud = new Solicitud(correo, mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5);
+                solicitud.calcularPuntuacion(solicitud);
+
+                boolean alta = bdController.registrarSolicitud(correo, solicitud.getNia(), mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5, solicitud.getPtosCreditos(), solicitud.getPtosNotaMedia(), solicitud.getPtosExperiencia(), solicitud.getPtosTFG1(), solicitud.getPtosTFG2(), solicitud.getPtosTFG3(), solicitud.getPtosTFG4(), solicitud.getPtosTFG5());
+                if (alta)
                     mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
-                }
+
             } else {
                 mostrarAlerta("Alta de solicitudes", "No se pudo procesar el fichero " + archivoPDF.getName());
             }

@@ -45,6 +45,12 @@
                   <MenuItem fx:id="miModificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Actividad">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Ver" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportarActividad" text="Exportar" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
               <items>
                 <MenuItem fx:id="miManualUsuario" mnemonicParsing="false" text="Manual de usuario" />
@@ -150,14 +156,14 @@
       <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
       <Pane layoutX="83.0" layoutY="418.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="414.0">
          <children>
-            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="ACTIVIDAD RECIENTE">
+            <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="SOLICITUDES">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
-                  <MenuItem fx:id="miVerActividad" mnemonicParsing="false" text="Ver actividad" />
-                  <MenuItem fx:id="miExportarActividad" mnemonicParsing="false" onAction="#exportarActividad" text="Exportar actividad" />
+                  <MenuItem mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Alta de solicitudes" />
+                  <MenuItem fx:id="miExportarActividad" mnemonicParsing="false" onAction="#exportarActividad" text="Generar  puntuaciones" />
                </items>
             </MenuButton>
          </children>

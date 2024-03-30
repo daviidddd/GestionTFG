@@ -113,7 +113,7 @@ public class GestionarTfgsController {
                     titulo = br.readLine().trim();
                 } else if (linea.startsWith("Tutor")) {
                     tutor = br.readLine().trim();
-                    tutor = tutor.replace("y", ","); // Sustituye "y" por ","
+                    tutor = tutor.replace(" y ", " , "); // Sustituye "y" por ","
                 } else if (linea.startsWith("Descr")) {
                     descripcion = br.readLine().trim();
                 } else if (linea.startsWith("Tecnologias")) {
