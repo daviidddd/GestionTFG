@@ -59,6 +59,12 @@ CREATE TABLE solicitudes (
     PRIMARY KEY (correo)
 );
 
+CREATE TABLE puntuaciones (
+    tfg VARCHAR(20) NOT NULL,
+    alumno INT NOT NULL,
+    puntuacion INT NOT NULL
+);
+
 CREATE TABLE asignatura (
     id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,

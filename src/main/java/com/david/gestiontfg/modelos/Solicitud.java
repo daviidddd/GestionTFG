@@ -53,7 +53,6 @@ public class Solicitud {
         this.expTFG3 = new SimpleIntegerProperty(expTfg3);
         this.expTFG4 = new SimpleIntegerProperty(expTfg4);
         this.expTFG5 = new SimpleIntegerProperty(expTfg5);
-        calcularPuntuacion(this);
     }
 
     public void calcularPuntuacion(Solicitud solicitud) {
@@ -72,6 +71,8 @@ public class Solicitud {
         try (InputStream inputStream = getClass().getResourceAsStream("/config/puntuacion.json");
              InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
              BufferedReader reader = new BufferedReader(inputStreamReader)) {
+
+            BDController bdController = new BDController();
 
             // Leer el contenido del archivo JSON línea por línea
             StringBuilder contentBuilder = new StringBuilder();
@@ -178,10 +179,10 @@ public class Solicitud {
             JsonArray asignaturasRelacionadasPuntuacion = puntacion.getAsJsonArray("asignaturas_relacionadas");
 
             for (int i = 0; i < tfgSeleccionados.length; i++) {
-                BDController bdController = new BDController();
                 String tfg = tfgSeleccionados[i];
                 String asignaturasTFG = bdController.obtenerAsignaturasTFG(tfg).toLowerCase();
-                System.out.println(asignaturasTFG);
+
+                System.out.println(tfg.toLowerCase() + " -> " + asignaturasTFG);
 
                 // Dividir las asignaturas relacionadas en un array
                 String[] asignaturas = asignaturasTFG.split(", ");
@@ -205,18 +206,23 @@ public class Solicitud {
                             switch (i) {
                                 case 0:
                                     this.ptosTFG1 = new SimpleIntegerProperty(puntos + this.ptosTFG1.get());
+                                    System.out.println("Puntos tfg1: " + this.ptosTFG1);
                                     break;
                                 case 1:
                                     this.ptosTFG2 = new SimpleIntegerProperty(puntos + this.ptosTFG2.get());
+                                    System.out.println("Puntos tfg2: " + this.ptosTFG2);
                                     break;
                                 case 2:
                                     this.ptosTFG3 = new SimpleIntegerProperty(puntos + this.ptosTFG3.get());
+                                    System.out.println("Puntos tfg3: " + this.ptosTFG3);
                                     break;
                                 case 3:
                                     this.ptosTFG4 = new SimpleIntegerProperty(puntos + this.ptosTFG4.get());
+                                    System.out.println("Puntos tfg4: " + this.ptosTFG4);
                                     break;
                                 case 4:
                                     this.ptosTFG5 = new SimpleIntegerProperty(puntos + this.ptosTFG5.get());
+                                    System.out.println("Puntos tfg5: " + this.ptosTFG5);
                                     break;
                                 default:
                                     break;
@@ -226,6 +232,13 @@ public class Solicitud {
                     }
                 }
             }
+
+            // Insertar puntuaciones de los TFG en BBDD
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg1.get(), this.ptosTFG1.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg2.get(), this.ptosTFG2.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg3.get(), this.ptosTFG3.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg4.get(), this.ptosTFG4.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg5.get(), this.ptosTFG5.get());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -264,7 +277,7 @@ public class Solicitud {
                 }
                 // Si hay coincidencia, devolver la nota de esa asignatura
                 if (coincidencia) {
-                    System.out.println("Se encontró la asignatura");
+                    System.out.println("Se encontró la asignatura: " + asignatura);
                     int indiceNota = partes.length - 3; // Obtener el índice de la nota
                     System.out.println(partes[indiceNota]);
                     return Double.parseDouble(partes[indiceNota]); // La nota está 5 posiciones antes del final
@@ -272,10 +285,9 @@ public class Solicitud {
             }
         }
         // Si no se encuentra la asignatura en el expediente, devolver 0.0
-        System.out.println("No se encontró la asignatura");
+        System.out.println("No se encontró la asignatura: " + asignatura);
         return 0.0;
     }
-
 
     public String getCorreoElectronico() {
         return correoElectronico.get();

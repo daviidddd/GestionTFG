@@ -126,6 +126,73 @@ public class BDController {
         }
     }
 
+    public boolean registrarPuntuacionSolicitud(int nia, String tfg, int puntos){
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String consulta = "INSERT INTO puntuaciones(tfg, alumno, puntuacion) VALUES (?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(consulta);
+            statement.setString(1, tfg);
+            statement.setInt(2, nia);
+            statement.setInt(3, puntos);
+
+            // Ejecutar la consulta SQL
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void asignacionTFGAutomatica() {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            // Consulta para obtener todas las puntuaciones ordenadas de mayor a menor
+            String query = "SELECT tfg, alumno, puntuacion FROM puntuaciones ORDER BY puntuacion DESC";
+
+            try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String tfg = rs.getString("tfg");
+                    int alumno = rs.getInt("alumno");
+
+                    // Verificar si el TFG ya está asignado a algún alumno
+                    if (!tfgAsignado(conn, tfg)) {
+                        // Asignar el TFG al alumno actual
+                        asignarTFG(conn, tfg, alumno);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para verificar si un TFG ya está asignado
+    private boolean tfgAsignado(Connection conn, String tfg) throws SQLException {
+        String query = "SELECT COUNT(*) AS count FROM tfgs WHERE codigo = ? AND adjudicado IS NOT NULL";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, tfg);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt("count");
+                    return count > 0;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Método para asignar un TFG a un alumno
+    private void asignarTFG(Connection conn, String tfg, int alumno) throws SQLException {
+        String query = "UPDATE tfgs SET adjudicado = ? WHERE codigo = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, alumno);
+            stmt.setString(2, tfg);
+            stmt.executeUpdate();
+        }
+    }
+
     public List<Alumno> obtenerAlumnos() {
         List<Alumno> alumnosActivos = new ArrayList<>();
 
