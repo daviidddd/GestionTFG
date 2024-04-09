@@ -375,6 +375,23 @@ public class PantallaPrincipalController {
     }
 
     @FXML
+    protected void borrarAsignaciones() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea borrar todas las asignaciones?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                bdController.limpiarAsignaciones();
+                mostrarAlerta("Borrado exitoso", "Las asignaciones se han restablecido éxitosamente.");
+                LogController.registrarAccion("IMPORTANTE: Limpiar asignaciones");
+            } else {
+
+            }
+        });
+    }
+
+    @FXML
     protected void exportarActividad() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar archivo PDF");

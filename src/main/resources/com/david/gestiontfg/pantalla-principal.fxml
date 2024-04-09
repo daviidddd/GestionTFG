@@ -36,7 +36,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Asginaciones">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#asignacionesClick" text="Automática" />
+                  <MenuItem mnemonicParsing="false" onAction="#asignacionesClick" text="Crear asignaciones automática" />
+                  <MenuItem mnemonicParsing="false" onAction="#borrarAsignaciones" text="Restablecer asignaciones" />
                </items></Menu>
           <Menu mnemonicParsing="false" text="Personalizar" />
             <Menu mnemonicParsing="false" text="Perfil">

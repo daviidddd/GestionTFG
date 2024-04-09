@@ -242,11 +242,11 @@ public class Solicitud {
             this.ptosTFG5 = new SimpleIntegerProperty((int) (this.ptosTFG5.get() + this.notaMedia.get() + this.ptosCreditos.get()));
 
             // Insertar puntuaciones de los TFG en BBDD
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg1.get(), this.ptosTFG1.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg2.get(), this.ptosTFG2.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg3.get(), this.ptosTFG3.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg4.get(), this.ptosTFG4.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg5.get(), this.ptosTFG5.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 1, this.tfg1.get(), this.ptosTFG1.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 2, this.tfg2.get(), this.ptosTFG2.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 3, this.tfg3.get(), this.ptosTFG3.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 4, this.tfg4.get(), this.ptosTFG4.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 5, this.tfg5.get(), this.ptosTFG5.get());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -480,9 +480,20 @@ public class Solicitud {
                 // Si hay coincidencia, devolver la nota de esa asignatura
                 if (coincidencia) {
                     System.out.println("Se encontró la asignatura: " + asignatura);
+
                     int indiceNota = partes.length - 3; // Obtener el índice de la nota
                     System.out.println(partes[indiceNota]);
-                    return Double.parseDouble(partes[indiceNota]); // La nota está 5 posiciones antes del final
+                    String notaStr = partes[indiceNota];
+                    System.out.println(notaStr);
+
+                    // Verificar si la nota es válida
+                    if (notaStr != null && !notaStr.isEmpty() && notaStr.trim().matches("-?\\d+(\\.\\d+)?")) {
+                        return Double.parseDouble(notaStr); // Convertir la nota a double si es válida
+                    } else {
+                        // Manejar el caso en el que la nota no sea válida
+                        System.out.println("La nota no es válida: " + notaStr);
+                        return 0.0;
+                    }
                 }
             }
         } catch (IOException e){
