@@ -7,7 +7,9 @@ import com.david.gestiontfg.modelos.TFG;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BDController {
     private static final String URL = "jdbc:mysql://localhost:3306/gestion";
@@ -126,13 +128,14 @@ public class BDController {
         }
     }
 
-    public boolean registrarPuntuacionSolicitud(int nia, String tfg, int puntos){
+    public boolean registrarPuntuacionSolicitud(int nia, int orden, String tfg, int puntos){
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
-            String consulta = "INSERT INTO puntuaciones(tfg, alumno, puntuacion) VALUES (?,?,?)";
+            String consulta = "INSERT INTO puntuaciones(tfg, orden, alumno, puntuacion) VALUES (?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(consulta);
             statement.setString(1, tfg);
-            statement.setInt(2, nia);
-            statement.setInt(3, puntos);
+            statement.setInt(2, orden);
+            statement.setInt(3, nia);
+            statement.setInt(4, puntos);
 
             // Ejecutar la consulta SQL
             int rowsInserted = statement.executeUpdate();
@@ -145,18 +148,23 @@ public class BDController {
 
     public void asignacionTFGAutomatica() {
         try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
-            // Consulta para obtener todas las puntuaciones ordenadas de mayor a menor
-            String query = "SELECT tfg, alumno, puntuacion FROM puntuaciones ORDER BY puntuacion DESC";
+            // Consulta para obtener todas las puntuaciones ordenadas por orden y puntuación de mayor a menor
+            String query = "SELECT tfg, alumno, puntuacion, orden FROM puntuaciones ORDER BY orden ASC, puntuacion DESC";
+
+            // Conjunto para realizar un seguimiento de los TFG ya asignados
+            Set<String> tfgsAsignados = new HashSet<>();
 
             try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String tfg = rs.getString("tfg");
                     int alumno = rs.getInt("alumno");
+                    int order = rs.getInt("orden");
 
-                    // Verificar si el TFG ya está asignado a algún alumno
-                    if (!tfgAsignado(conn, tfg)) {
+                    // Verificar si el TFG ya está asignado a algún alumno o si el alumno ya tiene un TFG asignado
+                    if (!tfgsAsignados.contains(tfg) && !alumnoTieneTFGAsignado(conn, alumno)) {
                         // Asignar el TFG al alumno actual
                         asignarTFG(conn, tfg, alumno);
+                        tfgsAsignados.add(tfg);
                     }
                 }
             }
@@ -165,12 +173,12 @@ public class BDController {
         }
     }
 
-    // Método para verificar si un TFG ya está asignado
-    private boolean tfgAsignado(Connection conn, String tfg) throws SQLException {
-        String query = "SELECT COUNT(*) AS count FROM tfgs WHERE codigo = ? AND adjudicado IS NOT NULL";
+    // Método para verificar si un alumno ya tiene un TFG asignado
+    private boolean alumnoTieneTFGAsignado(Connection conn, int alumno) throws SQLException {
+        String query = "SELECT COUNT(*) AS count FROM tfgs WHERE adjudicado = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, tfg);
+            stmt.setInt(1, alumno);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     int count = rs.getInt("count");
@@ -553,6 +561,17 @@ public class BDController {
             String query = "DELETE FROM solicitudes";
             PreparedStatement statement = connection.prepareStatement(query);
             int resultSet = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void limpiarAsignaciones() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "UPDATE tfgs SET adjudicado = NULL";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            int rowsUpdated = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

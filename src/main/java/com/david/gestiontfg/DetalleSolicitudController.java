@@ -222,6 +222,7 @@ public class DetalleSolicitudController {
     }
 
     private void cargarPuntuacion(Solicitud solicitud) {
+        solicitud.calcularPuntuacionSimple(solicitud);
         txtPtoNota.setText(String.valueOf(solicitud.getPtosNotaMedia()));
         txtPtoCreditos.setText(String.valueOf(solicitud.getPtosCreditos()));
         txtPtoTFG1.setText(String.valueOf(solicitud.getPtosTFG1()));

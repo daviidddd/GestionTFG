@@ -8,6 +8,7 @@ import javafx.beans.property.*;
 import javafx.scene.control.TextField;
 
 import java.io.*;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -206,23 +207,23 @@ public class Solicitud {
                             switch (i) {
                                 case 0:
                                     this.ptosTFG1 = new SimpleIntegerProperty(puntos + this.ptosTFG1.get());
-                                    System.out.println("Puntos tfg1: " + this.ptosTFG1);
+                                    System.out.println("Puntos tfg1: " + this.ptosTFG1.get());
                                     break;
                                 case 1:
                                     this.ptosTFG2 = new SimpleIntegerProperty(puntos + this.ptosTFG2.get());
-                                    System.out.println("Puntos tfg2: " + this.ptosTFG2);
+                                    System.out.println("Puntos tfg2: " + this.ptosTFG2.get());
                                     break;
                                 case 2:
                                     this.ptosTFG3 = new SimpleIntegerProperty(puntos + this.ptosTFG3.get());
-                                    System.out.println("Puntos tfg3: " + this.ptosTFG3);
+                                    System.out.println("Puntos tfg3: " + this.ptosTFG3.get());
                                     break;
                                 case 3:
                                     this.ptosTFG4 = new SimpleIntegerProperty(puntos + this.ptosTFG4.get());
-                                    System.out.println("Puntos tfg4: " + this.ptosTFG4);
+                                    System.out.println("Puntos tfg4: " + this.ptosTFG4.get());
                                     break;
                                 case 4:
                                     this.ptosTFG5 = new SimpleIntegerProperty(puntos + this.ptosTFG5.get());
-                                    System.out.println("Puntos tfg5: " + this.ptosTFG5);
+                                    System.out.println("Puntos tfg5: " + this.ptosTFG5.get());
                                     break;
                                 default:
                                     break;
@@ -233,12 +234,209 @@ public class Solicitud {
                 }
             }
 
+            // Suma final de las puntuaciones para cada TFG
+            this.ptosTFG1 = new SimpleIntegerProperty((int) (this.ptosTFG1.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG2 = new SimpleIntegerProperty((int) (this.ptosTFG2.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG3 = new SimpleIntegerProperty((int) (this.ptosTFG3.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG4 = new SimpleIntegerProperty((int) (this.ptosTFG4.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG5 = new SimpleIntegerProperty((int) (this.ptosTFG5.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+
             // Insertar puntuaciones de los TFG en BBDD
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg1.get(), this.ptosTFG1.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg2.get(), this.ptosTFG2.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg3.get(), this.ptosTFG3.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg4.get(), this.ptosTFG4.get());
-            bdController.registrarPuntuacionSolicitud(this.nia.get(), this.tfg5.get(), this.ptosTFG5.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 1, this.tfg1.get(), this.ptosTFG1.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 2, this.tfg2.get(), this.ptosTFG2.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 3, this.tfg3.get(), this.ptosTFG3.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 4, this.tfg4.get(), this.ptosTFG4.get());
+            bdController.registrarPuntuacionSolicitud(this.nia.get(), 5, this.tfg5.get(), this.ptosTFG5.get());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void calcularPuntuacionSimple(Solicitud solicitud) {
+        this.ptosTFG1 = new SimpleIntegerProperty(0);
+        this.ptosTFG2 = new SimpleIntegerProperty(0);
+        this.ptosTFG3 = new SimpleIntegerProperty(0);
+        this.ptosTFG4 = new SimpleIntegerProperty(0);
+        this.ptosTFG5 = new SimpleIntegerProperty(0);
+
+        this.nia = new SimpleIntegerProperty(BDController.obtenerNiaPorCorreo(solicitud.getCorreoElectronico()));
+        double creditosRestantes = solicitud.getCreditosRestantes();
+        double notaMedia = solicitud.getNotaMedia();
+        double[] experienciasTFG = {solicitud.getExpTFG1(), solicitud.getExpTFG2(), solicitud.getExpTFG3(), solicitud.getExpTFG4(), solicitud.getExpTFG5()};
+        String[] tfgSeleccionados = {solicitud.getTfg1(), solicitud.getTfg2(), solicitud.getTfg3(), solicitud.getTfg4(), solicitud.getTfg5()};
+
+        try (InputStream inputStream = getClass().getResourceAsStream("/config/puntuacion.json");
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             BufferedReader reader = new BufferedReader(inputStreamReader)) {
+
+            BDController bdController = new BDController();
+
+            // Leer el contenido del archivo JSON línea por línea
+            StringBuilder contentBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line);
+            }
+
+            // Convertir el contenido leído en una cadena JSON
+            String content = contentBuilder.toString();
+
+            // Convertir la cadena JSON en un objeto JsonObject
+            JsonObject puntacion = JsonParser.parseString(content).getAsJsonObject();
+
+            // Obtener el array de rangos para los créditos para terminar
+            JsonArray creditosParaTerminar = puntacion.getAsJsonArray("creditos_restantes");
+
+            // Iterar sobre los rangos y encontrar el punto correspondiente para créditos restantes
+            for (int i = 0; i < creditosParaTerminar.size(); i++) {
+                JsonObject rango = creditosParaTerminar.get(i).getAsJsonObject();
+                int inicio = rango.getAsJsonArray("rango").get(0).getAsInt();
+                int fin = rango.getAsJsonArray("rango").get(1).getAsInt();
+                if (inicio <= creditosRestantes && (fin == -1 || creditosRestantes <= fin)) {
+                    int puntos = rango.get("puntos").getAsInt();
+                    this.ptosCreditos = new SimpleIntegerProperty(puntos);
+                    break;
+                }
+            }
+
+            // Obtener el array de rangos para el expediente académico
+            JsonArray expedienteAcademico = puntacion.getAsJsonArray("expediente_academico");
+
+            // Iterar sobre los rangos y encontrar el punto correspondiente para la nota media
+            for (int i = 0; i < expedienteAcademico.size(); i++) {
+                JsonObject rango = expedienteAcademico.get(i).getAsJsonObject();
+                String nota = rango.get("nota").getAsString();
+                int puntos = rango.get("puntos").getAsInt();
+
+                // Comparar la nota media con las definiciones del rango
+                if (nota.equals("Sobresaliente") && notaMedia >= 9.0) {
+                    this.ptosNotaMedia = new SimpleIntegerProperty(puntos);
+                    break;
+                } else if (nota.equals("Notable") && notaMedia >= 7.0) {
+                    this.ptosNotaMedia = new SimpleIntegerProperty(puntos);
+                    break;
+                } else if (nota.equals("Aprobado") && notaMedia >= 5.0) {
+                    this.ptosNotaMedia = new SimpleIntegerProperty(puntos);
+                    break;
+                }
+            }
+
+            //Obtener el array de rangos para la experiencia profesional
+            JsonArray experienciaProfesional = puntacion.getAsJsonArray("experiencia_profesional");
+
+            // Iterar sobre las experiencia TFG y buscar la puntuación correspondiente
+            for (double experiencia : experienciasTFG) {
+                for (int j = 0; j < experienciaProfesional.size(); j++) {
+                    JsonObject rango = experienciaProfesional.get(j).getAsJsonObject();
+                    int inicio = rango.getAsJsonArray("rango").get(0).getAsInt();
+                    int fin = rango.getAsJsonArray("rango").get(1).getAsInt();
+                    if (inicio <= experiencia && (fin == -1 || experiencia <= fin)) {
+                        int puntos = rango.get("puntos").getAsInt();
+                        this.ptosExperiencia = new SimpleIntegerProperty(puntos);
+                        break;
+                    }
+                }
+            }
+
+            /*for (int i = 0; i < experienciasTFG.length; i++) {
+                double experiencia = experienciasTFG[i];
+
+                for (int j = 0; j < experienciaProfesional.size(); j++) {
+                    JsonObject rango = experienciaProfesional.get(j).getAsJsonObject();
+                    int inicio = rango.getAsJsonArray("rango").get(0).getAsInt();
+                    int fin = rango.getAsJsonArray("rango").get(1).getAsInt();
+                    if (inicio <= experiencia && (fin == -1 || experiencia <= fin)) {
+                        int puntos = rango.get("puntos").getAsInt();
+                        // Asignar los puntos a las propiedades correspondientes
+                        switch (i) {
+                            case 0:
+                                this.ptosTFG1 = new SimpleIntegerProperty(puntos);
+                                break;
+                            case 1:
+                                this.ptosTFG2 = new SimpleIntegerProperty(puntos);
+                                break;
+                            case 2:
+                                this.ptosTFG3 = new SimpleIntegerProperty(puntos);
+                                break;
+                            case 3:
+                                this.ptosTFG4 = new SimpleIntegerProperty(puntos);
+                                break;
+                            case 4:
+                                this.ptosTFG5 = new SimpleIntegerProperty(puntos);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    }
+                }
+            }*/
+
+            //Obtener el array de rangos para la experiencia profesional
+            JsonArray asignaturasRelacionadasPuntuacion = puntacion.getAsJsonArray("asignaturas_relacionadas");
+
+            for (int i = 0; i < tfgSeleccionados.length; i++) {
+                String tfg = tfgSeleccionados[i];
+                String asignaturasTFG = bdController.obtenerAsignaturasTFG(tfg).toLowerCase();
+
+                System.out.println(tfg.toLowerCase() + " -> " + asignaturasTFG);
+
+                // Dividir las asignaturas relacionadas en un array
+                String[] asignaturas = asignaturasTFG.split(", ");
+
+                // Iterar sobre las asignaturas relacionadas del TFG actual
+                for (String asignatura : asignaturas) {
+                    // Iterar sobre los rangos de puntuación para las asignaturas relacionadas
+                    for (int j = 0; j < asignaturasRelacionadasPuntuacion.size(); j++) {
+                        JsonObject rango = asignaturasRelacionadasPuntuacion.get(j).getAsJsonObject();
+                        JsonArray notaRange = rango.getAsJsonArray("nota");
+                        double notaMin = notaRange.get(0).getAsDouble();
+                        double notaMax = notaRange.get(1).getAsDouble();
+                        int puntos = rango.get("puntos").getAsInt();
+
+                        // Comparar la nota de la asignatura con el rango de puntuación
+                        // Si la nota está dentro del rango, asignar los puntos correspondientes
+                        // al TFG actual
+                        double notaAsignatura = obtenerNotaAsignatura(asignatura);
+                        if (notaAsignatura >= notaMin && notaAsignatura <= notaMax) {
+                            // Asignar los puntos al TFG correspondiente
+                            switch (i) {
+                                case 0:
+                                    this.ptosTFG1 = new SimpleIntegerProperty(puntos + this.ptosTFG1.get());
+                                    System.out.println("Puntos tfg1: " + this.ptosTFG1.get());
+                                    break;
+                                case 1:
+                                    this.ptosTFG2 = new SimpleIntegerProperty(puntos + this.ptosTFG2.get());
+                                    System.out.println("Puntos tfg2: " + this.ptosTFG2.get());
+                                    break;
+                                case 2:
+                                    this.ptosTFG3 = new SimpleIntegerProperty(puntos + this.ptosTFG3.get());
+                                    System.out.println("Puntos tfg3: " + this.ptosTFG3.get());
+                                    break;
+                                case 3:
+                                    this.ptosTFG4 = new SimpleIntegerProperty(puntos + this.ptosTFG4.get());
+                                    System.out.println("Puntos tfg4: " + this.ptosTFG4.get());
+                                    break;
+                                case 4:
+                                    this.ptosTFG5 = new SimpleIntegerProperty(puntos + this.ptosTFG5.get());
+                                    System.out.println("Puntos tfg5: " + this.ptosTFG5.get());
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Suma final de las puntuaciones para cada TFG
+            this.ptosTFG1 = new SimpleIntegerProperty((int) (this.ptosTFG1.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG2 = new SimpleIntegerProperty((int) (this.ptosTFG2.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG3 = new SimpleIntegerProperty((int) (this.ptosTFG3.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG4 = new SimpleIntegerProperty((int) (this.ptosTFG4.get() + this.notaMedia.get() + this.ptosCreditos.get()));
+            this.ptosTFG5 = new SimpleIntegerProperty((int) (this.ptosTFG5.get() + this.notaMedia.get() + this.ptosCreditos.get()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -250,7 +448,7 @@ public class Solicitud {
         String expedientePath = "/expedientes/" + this.nia.get() + ".txt";
 
         // Abrir el archivo del expediente
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(expedientePath))))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(expedientePath)))) {
             String linea;
             // Iterar sobre las líneas del archivo
             while ((linea = br.readLine()) != null) {
@@ -266,11 +464,15 @@ public class Solicitud {
                 }
                 String asignaturaEnArchivo = asignaturaEnArchivoBuilder.toString().trim();
 
+                // Normalizar la asignatura buscada y la asignatura en el archivo
+                String asignaturaNormalizada = normalizarTexto(asignatura);
+                String asignaturaEnArchivoNormalizada = normalizarTexto(asignaturaEnArchivo);
+
                 // Comparar los primeros caracteres de cada palabra en la asignatura del archivo con los primeros caracteres de la asignatura buscada
                 boolean coincidencia = true;
-                String[] palabrasAsignatura = asignatura.split(" ");
+                String[] palabrasAsignatura = asignaturaNormalizada.split(" ");
                 for (String palabra : palabrasAsignatura) {
-                    if (!asignaturaEnArchivo.toLowerCase().contains(palabra.toLowerCase())) {
+                    if (!asignaturaEnArchivoNormalizada.toLowerCase().contains(palabra.toLowerCase())) {
                         coincidencia = false;
                         break;
                     }
@@ -278,15 +480,34 @@ public class Solicitud {
                 // Si hay coincidencia, devolver la nota de esa asignatura
                 if (coincidencia) {
                     System.out.println("Se encontró la asignatura: " + asignatura);
+
                     int indiceNota = partes.length - 3; // Obtener el índice de la nota
                     System.out.println(partes[indiceNota]);
-                    return Double.parseDouble(partes[indiceNota]); // La nota está 5 posiciones antes del final
+                    String notaStr = partes[indiceNota];
+                    System.out.println(notaStr);
+
+                    // Verificar si la nota es válida
+                    if (notaStr != null && !notaStr.isEmpty() && notaStr.trim().matches("-?\\d+(\\.\\d+)?")) {
+                        return Double.parseDouble(notaStr); // Convertir la nota a double si es válida
+                    } else {
+                        // Manejar el caso en el que la nota no sea válida
+                        System.out.println("La nota no es válida: " + notaStr);
+                        return 0.0;
+                    }
                 }
             }
+        } catch (IOException e){
+            e.printStackTrace();
         }
         // Si no se encuentra la asignatura en el expediente, devolver 0.0
         System.out.println("No se encontró la asignatura: " + asignatura);
         return 0.0;
+    }
+
+    // Método para normalizar el texto y eliminar las tildes
+    private String normalizarTexto(String texto) {
+        return Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "").toLowerCase();
     }
 
     public String getCorreoElectronico() {
