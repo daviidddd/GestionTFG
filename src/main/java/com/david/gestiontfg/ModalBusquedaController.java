@@ -225,6 +225,17 @@ public class ModalBusquedaController {
                     if (result.isPresent() && result.get() == ButtonType.OK) {
                         tbResultadoSolicitud.getItems().remove(solicitudSeleccionada);
                         bdController.eliminarSolicitudPorCorreo(solicitudSeleccionada.getCorreoElectronico());
+
+                        // Restar el numero de solicitantes en los TFGs seleccionados
+                        bdController.restarSolicitante(solicitudSeleccionada.getTfg1());
+                        bdController.restarSolicitante(solicitudSeleccionada.getTfg2());
+                        bdController.restarSolicitante(solicitudSeleccionada.getTfg3());
+                        bdController.restarSolicitante(solicitudSeleccionada.getTfg4());
+                        bdController.restarSolicitante(solicitudSeleccionada.getTfg5());
+
+                        // Borramos y recargamos la tabla de TFGS -> actualización de solicitantes
+                        tbResultadoTFG.getItems().clear();
+                        cargarDatosTFGs();
                     }
                 }
             }

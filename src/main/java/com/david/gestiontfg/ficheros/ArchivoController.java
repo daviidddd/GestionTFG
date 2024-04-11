@@ -225,9 +225,17 @@ public class ArchivoController {
                 solicitud.calcularPuntuacion(solicitud);
 
                 boolean alta = bdController.registrarSolicitud(correo, solicitud.getNia(), mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5, solicitud.getPtosCreditos(), solicitud.getPtosNotaMedia(), solicitud.getPtosExperiencia(), solicitud.getPtosTFG1(), solicitud.getPtosTFG2(), solicitud.getPtosTFG3(), solicitud.getPtosTFG4(), solicitud.getPtosTFG5());
-                if (alta)
+                if (alta) {
+
+                    bdController.sumarSolicitante(solicitud.getTfg1());
+                    bdController.sumarSolicitante(solicitud.getTfg2());
+                    bdController.sumarSolicitante(solicitud.getTfg3());
+                    bdController.sumarSolicitante(solicitud.getTfg4());
+                    bdController.sumarSolicitante(solicitud.getTfg5());
+
                     mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
 
+                }
             } else {
                 mostrarAlerta("Alta de solicitudes", "No se pudo procesar el fichero " + archivoPDF.getName());
             }

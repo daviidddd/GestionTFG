@@ -364,6 +364,7 @@ public class PantallaPrincipalController {
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
                 bdController.limpiarSolicitudes();
+                bdController.limpiarSolicitantes();
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/expedientes/");
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/tfgs/");
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");

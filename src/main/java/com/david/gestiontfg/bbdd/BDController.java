@@ -146,6 +146,30 @@ public class BDController {
         return false;
     }
 
+    public void sumarSolicitante(String tfg) {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "UPDATE tfgs SET solicitantes = COALESCE(solicitantes, 0) + 1 WHERE codigo = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, tfg);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void restarSolicitante(String tfg) {
+        try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
+            String query = "UPDATE tfgs SET solicitantes = CASE WHEN solicitantes > 0 THEN solicitantes - 1 ELSE 0 END WHERE codigo = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, tfg);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void asignacionTFGAutomatica() {
         try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Consulta para obtener todas las puntuaciones ordenadas por orden y puntuación de mayor a menor
@@ -570,8 +594,17 @@ public class BDController {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "UPDATE tfgs SET adjudicado = NULL";
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-            int rowsUpdated = statement.executeUpdate();
+    public void limpiarSolicitantes() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)){
+            String query = "UPDATE tfgs SET solicitantes = 0";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
