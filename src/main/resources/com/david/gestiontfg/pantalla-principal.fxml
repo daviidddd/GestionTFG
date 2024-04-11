@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -14,9 +16,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="panePrincipal" prefHeight="500.0" prefWidth="1100.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
+<AnchorPane fx:id="panePrincipal" prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.PantallaPrincipalController">
    <children>
-      <MenuBar fx:id="menuBar" layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.bottomAnchor="772.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar fx:id="menuBar" layoutX="125.0" layoutY="38.0" prefHeight="28.0" prefWidth="861.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Gestion TFG">
             <items>
@@ -60,21 +62,6 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="tbAlumnos" layoutX="628.0" layoutY="457.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="494.0">
-        <columns>
-          <TableColumn fx:id="colIDUcamAlumno" prefWidth="78.95196533203125" resizable="false" text="ID Ucam" />
-            <TableColumn fx:id="colNIA" prefWidth="87.45196533203125" text="NIA" />
-          <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="165.5" resizable="false" text="Correo" />
-            <TableColumn fx:id="colExp" prefWidth="45.0" text="Exp." />
-            <TableColumn prefWidth="79.0" text="TFG" />
-        </columns>
-      </TableView>
-      <TableView fx:id="tbTFGs" layoutX="59.0" layoutY="503.0" prefHeight="245.0" prefWidth="402.0" AnchorPane.bottomAnchor="51.5" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="494.0">
-        <columns>
-          <TableColumn fx:id="colCodigoTFG" prefWidth="77.06816864013672" resizable="false" text="Código" />
-          <TableColumn fx:id="colTituloTFG" prefWidth="309.93177795410156" resizable="false" text="Título" />
-        </columns>
-      </TableView>
       <Pane layoutX="99.0" layoutY="16.0" prefHeight="60.0" prefWidth="686.0" style="-fx-background-color: #004973;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
          <children>
             <Label layoutX="70.0" layoutY="17.0" text="Gestión de TFGs " textFill="WHITE">
@@ -82,23 +69,18 @@
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="270.0" layoutY="22.0" text="/Ventana Principal" textFill="WHITE">
+            <Label layoutX="270.0" layoutY="22.0" text="/Panel Administrador" textFill="WHITE">
                <font>
                   <Font name="Arial Italic" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="915.0" layoutY="8.0" text="UCAM" textFill="WHITE">
+            <Label layoutX="915.0" layoutY="7.0" text="UCAM" textFill="WHITE">
                <font>
                   <Font name="Palatino Bold" size="36.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Label layoutX="70.0" layoutY="123.0" text="Panel administrador" AnchorPane.topAnchor="123.0">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-      </Label>
       <Pane layoutX="69.0" layoutY="174.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="174.0">
          <children>
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="ALUMNOS">
@@ -154,8 +136,8 @@
             <Label layoutX="546.0" layoutY="22.0" text="Subidos:" />
          </children>
       </Pane>
-      <TextField fx:id="txtBusqueda" layoutX="421.0" layoutY="120.0" prefHeight="26.0" prefWidth="489.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.topAnchor="120.0" />
-      <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="26.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="120.0" />
+      <TextField fx:id="txtBusqueda" layoutX="68.0" layoutY="120.0" prefHeight="30.0" prefWidth="836.0" promptText="Buscar por TFG, ID Ucam, asignatura..." AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="194.0" AnchorPane.topAnchor="115.0" />
+      <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="30.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="115.0" />
       <Pane layoutX="83.0" layoutY="418.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="414.0">
          <children>
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="SOLICITUDES">
@@ -170,5 +152,40 @@
             </MenuButton>
          </children>
       </Pane>
+      <TabPane layoutX="66.0" layoutY="522.0" prefHeight="254.0" prefWidth="957.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
+        <tabs>
+          <Tab text="Trabajos Fin de Grado">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbTFGs" layoutX="-8.0" layoutY="28.0" prefHeight="214.0" prefWidth="883.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                          <columns>
+                            <TableColumn fx:id="colCodigoTFG" prefWidth="77.06816864013672" resizable="false" text="Código" />
+                            <TableColumn fx:id="colTituloTFG" prefWidth="847.4866943359375" resizable="false" text="Título" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Alumnos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbAlumnos" layoutX="155.0" layoutY="47.0" prefHeight="245.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                          <columns>
+                            <TableColumn fx:id="colIDUcamAlumno" prefWidth="78.95196533203125" resizable="false" text="ID Ucam" />
+                              <TableColumn fx:id="colNIA" prefWidth="87.45196533203125" text="NIA" />
+                            <TableColumn fx:id="colCorreoAlumno" minWidth="0.0" prefWidth="252.9570770263672" resizable="false" text="Correo" />
+                              <TableColumn fx:id="colExp" prefWidth="107.17514038085938" text="Exp." />
+                              <TableColumn prefWidth="107.82489013671875" text="TFG" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

@@ -1272,3 +1272,16 @@
 [11-04-2024 19:47:24 Acción: Inicio de sesión test3@gmail.com
 [11-04-2024 19:52:01 Acción: Inicio de sesión test3@gmail.com
 [11-04-2024 19:55:23 Acción: Inicio de sesión test3@gmail.com
+[11-04-2024 20:01:20 Acción: Inicio de sesión test3@gmail.com
+[11-04-2024 20:02:31 Acción: Registro de usuario t
+[11-04-2024 20:02:34 Acción: Inicio de sesión t
+[11-04-2024 20:07:10 Acción: Inicio de sesión test3@gmail.com
+[11-04-2024 20:08:41 Acción: Inicio de sesión t
+[11-04-2024 20:10:11 Acción: Inicio de sesión t
+[11-04-2024 20:12:52 Acción: Inicio de sesión t
+[11-04-2024 20:14:26 Acción: Inicio de sesión t
+[11-04-2024 20:28:39 Acción: Inicio de sesión t
+[11-04-2024 20:31:49 Acción: Inicio de sesión t
+[11-04-2024 20:36:55 Acción: Inicio de sesión t
+[11-04-2024 20:40:06 Acción: Inicio de sesión t
+[11-04-2024 20:42:44 Acción: Inicio de sesión t
