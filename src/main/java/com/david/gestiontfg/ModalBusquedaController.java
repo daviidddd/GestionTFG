@@ -71,6 +71,7 @@ public class ModalBusquedaController {
 
     @FXML
     public void initialize() {
+        // Tabla TFG
         colCodigoTFG.setCellValueFactory(cellData -> cellData.getValue().codigoProperty());
         colTituloTFG.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         colSolicitantesTFG.setCellValueFactory(cellData -> cellData.getValue().solicitantesProperty().asObject());
@@ -81,6 +82,7 @@ public class ModalBusquedaController {
         colSolicitantesTFG.setStyle("-fx-alignment: CENTER;");
         colAdjudicadoTFG.setStyle("-fx-alignment: CENTER;");
 
+        // Tabla Alumno
         colNIA.setCellValueFactory(cellData -> cellData.getValue().NIAProperty().asObject());
         colIDUcam.setCellValueFactory(cellData -> cellData.getValue().idUcamProperty().asObject());
         colCorreo.setCellValueFactory(cellData -> cellData.getValue().correoProperty());
@@ -91,6 +93,7 @@ public class ModalBusquedaController {
         colCorreo.setStyle("-fx-alignment: CENTER;");
         colExpediente.setStyle("-fx-alignment: CENTER;");
 
+        // Tabla Solicitud
         colCorreoSolicitud.setCellValueFactory(cellData -> cellData.getValue().correoElectronicoProperty());
         colNotaMedia.setCellValueFactory(cellData -> cellData.getValue().notaMediaProperty().asObject());
         colCreditos.setCellValueFactory(cellData -> cellData.getValue().creditosRestantesProperty().asObject());
@@ -240,7 +243,6 @@ public class ModalBusquedaController {
                 }
             }
         });
-
 
     }
 

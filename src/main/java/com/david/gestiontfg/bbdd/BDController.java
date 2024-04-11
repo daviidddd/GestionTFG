@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 public class BDController {
-    private static final String URL = "jdbc:mysql://localhost:3306/gestion";
-    private static final String USUARIO = "test@localhost";
-    private static final String CONTRASENA = "test";
+    public static final String URL = "jdbc:mysql://localhost:3306/gestion";
+    public static final String USUARIO = "test@localhost";
+    public static final String CONTRASENA = "test";
 
     public boolean iniciarSesionUsuario(String correo, String contrasena) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {

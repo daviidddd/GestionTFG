@@ -25,12 +25,16 @@ import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.w3c.dom.Document;
 
 import java.io.*;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.lang.annotation.Documented;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class PantallaPrincipalController {
     @FXML
@@ -447,6 +451,167 @@ public class PantallaPrincipalController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    protected void exportarAsignaciones() {
+        try {
+            // Configurar el diálogo de selección de archivo
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar asignaciones de TFGs");
+            fileChooser.setInitialFileName("asignaciones_tfgs_" + Calendar.getInstance().get(Calendar.YEAR) + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
+
+            // Mostrar el diálogo de selección de archivo
+            File fileDestino = fileChooser.showSaveDialog(null);
+            if (fileDestino != null) {
+                // Establecer conexión con la base de datos
+                Connection conn = DriverManager.getConnection(BDController.URL, BDController.USUARIO, BDController.CONTRASENA);
+
+                // Consulta para obtener las asignaciones de TFGs
+                String query = "SELECT codigo, titulo, adjudicado FROM tfgs WHERE adjudicado IS NOT NULL";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery();
+
+                // Crear documento PDF
+                PDDocument document = new PDDocument();
+                PDType0Font arial = PDType0Font.load(document, new File("src/main/resources/fonts/arial-unicode.TTF"));
+                PDType0Font palatino = PDType0Font.load(document, new File("src/main/resources/fonts/palatino-bold.ttf"));
+                PDPage page = new PDPage(PDRectangle.A4);
+                document.addPage(page);
+
+                // Configurar stream para escribir en el documento PDF
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+                float margin = 50;
+                float marginRight = 90; // Margen derecho
+                float width = page.getMediaBox().getWidth() - margin - marginRight; // Ancho disponible para el texto
+                float y = page.getMediaBox().getHeight() - margin;
+
+                // UCAM
+                contentStream.beginText();
+                contentStream.setFont(palatino, 22);
+                contentStream.newLineAtOffset(margin, y);
+                contentStream.showText("UCAM");
+                contentStream.newLineAtOffset(0, -20);
+                contentStream.endText();
+                y -= 20;
+
+                // Escribir encabezado
+                contentStream.beginText();
+                contentStream.setFont(arial, 16);
+                contentStream.newLineAtOffset(margin, y);
+                contentStream.showText("Asignaciones TFG - Año " + Calendar.getInstance().get(Calendar.YEAR));
+                contentStream.newLineAtOffset(0, -20);
+                contentStream.endText();
+                y -= 20;
+
+                // Escribir subtítulo
+                contentStream.beginText();
+                contentStream.setFont(arial, 14); // Tamaño de fuente para el subtítulo
+                contentStream.newLineAtOffset(margin, y);
+                contentStream.showText("Grado en Ingeniería Informática");
+                contentStream.newLineAtOffset(0, -20);
+                contentStream.endText();
+                y -= 20;
+
+                // Separación
+                y -= 30;
+
+                // Iterar sobre los resultados de la consulta y escribir en el PDF
+                while (rs.next()) {
+                    String codigo = rs.getString("codigo");
+                    String nombre = rs.getString("titulo");
+                    int asignado = rs.getInt("adjudicado");
+
+                    // Dividir el texto para que termine justo en el margen derecho
+                    List<String> lineas = dividirTexto("TFG: " + codigo + " -- " + nombre + ", Adjudicado (NIA): " + asignado, arial, 12, width);
+                    for (String linea : lineas) {
+                        contentStream.beginText();
+                        contentStream.setFont(arial, 12);
+                        contentStream.newLineAtOffset(margin, y);
+                        contentStream.showText(linea);
+                        contentStream.newLineAtOffset(0, -20);
+                        contentStream.endText();
+                        y -= 20;
+                    }
+                    y -= 10;
+                }
+
+                // Cerrar stream y guardar el documento en la ubicación seleccionada por el usuario
+                contentStream.close();
+                document.save(fileDestino);
+                document.close();
+
+                // Cerrar conexión con la base de datos
+                conn.close();
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<String> dividirTexto(String texto, PDType0Font font, int fontSize, float width) throws IOException {
+        List<String> lineas = new ArrayList<>();
+        String[] palabras = texto.split("\\s+");
+        StringBuilder lineaActual = new StringBuilder();
+        float lineaActualWidth = 0;
+
+        for (String palabra : palabras) {
+            float palabraWidth = font.getStringWidth(palabra) / 1000 * fontSize;
+            if (lineaActualWidth + palabraWidth < width) {
+                lineaActual.append(palabra).append(" ");
+                lineaActualWidth += palabraWidth;
+            } else {
+                if (palabraWidth > width) {
+                    // La palabra es demasiado larga para caber en una línea
+                    // Dividir la palabra en fragmentos que quepan en una línea
+                    List<String> fragmentos = dividirPalabra(palabra, font, fontSize, width);
+                    for (String fragmento : fragmentos) {
+                        if (lineaActualWidth + font.getStringWidth(fragmento) / 1000 * fontSize < width) {
+                            lineaActual.append(fragmento).append(" ");
+                            lineaActualWidth += font.getStringWidth(fragmento) / 1000 * fontSize;
+                        } else {
+                            lineas.add(lineaActual.toString().trim());
+                            lineaActual = new StringBuilder(fragmento + " ");
+                            lineaActualWidth = font.getStringWidth(fragmento) / 1000 * fontSize;
+                        }
+                    }
+                } else {
+                    lineas.add(lineaActual.toString().trim());
+                    lineaActual = new StringBuilder(palabra + " ");
+                    lineaActualWidth = palabraWidth;
+                }
+            }
+        }
+
+        lineas.add(lineaActual.toString().trim());
+
+        return lineas;
+    }
+
+    private List<String> dividirPalabra(String palabra, PDType0Font font, int fontSize, float width) throws IOException {
+        List<String> fragmentos = new ArrayList<>();
+        StringBuilder fragmentoActual = new StringBuilder();
+        float fragmentoActualWidth = 0;
+
+        for (int i = 0; i < palabra.length(); i++) {
+            char caracter = palabra.charAt(i);
+            float caracterWidth = font.getStringWidth(String.valueOf(caracter)) / 1000 * fontSize;
+
+            if (fragmentoActualWidth + caracterWidth < width) {
+                fragmentoActual.append(caracter);
+                fragmentoActualWidth += caracterWidth;
+            } else {
+                fragmentos.add(fragmentoActual.toString());
+                fragmentoActual = new StringBuilder(String.valueOf(caracter));
+                fragmentoActualWidth = caracterWidth;
+            }
+        }
+
+        fragmentos.add(fragmentoActual.toString());
+
+        return fragmentos;
     }
 
     @FXML
