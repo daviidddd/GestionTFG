@@ -4,10 +4,9 @@ import java.io.*;
 import java.util.Properties;
 
 public class Configuracion {
-
     private static final String ARCHIVO_CONFIG = System.getProperty("user.home") + File.separator + ".config_ucam";
     private static Configuracion instancia;
-    private Properties properties;
+    private static Properties properties;
 
     private Configuracion() {
         cargarConfiguracion();
@@ -33,12 +32,36 @@ public class Configuracion {
 
     private void configurarPropiedadesPredeterminadas() {
         // Configuración predeterminada
-        properties.setProperty("python.path", "/opt/homebrew/bin/python3");
+        properties.setProperty("python.path", "");
+        properties.setProperty("mysql.path", "");
+        properties.setProperty("configuracion_inicial", "false");
         // Guardar la configuración predeterminada en el archivo de configuración
         guardarConfiguracion();
     }
 
-    private void guardarConfiguracion() {
+    public void asignarPython(String path) {
+        properties.setProperty("python.path", path);
+        guardarConfiguracion();
+    }
+
+    public void asignarMySQL(String path) {
+        properties.setProperty("mysql.path", path);
+        guardarConfiguracion();
+    }
+
+    public static boolean configuracionInicial() {
+        if (!(properties.getProperty("mysql.path").isEmpty() || properties.getProperty("python.path").isEmpty())){
+            properties.setProperty("configuracion_inicial", "true");
+            guardarConfiguracion();
+            return true;
+        } else {
+            properties.setProperty("configuracion_inicial", "false");
+            guardarConfiguracion();
+            return false;
+        }
+    }
+
+    public static void guardarConfiguracion() {
         try (OutputStream output = new FileOutputStream(ARCHIVO_CONFIG)) {
             properties.store(output, "CONFIGURACION GESTION TFGS UCAM");
         } catch (IOException e) {
@@ -48,6 +71,10 @@ public class Configuracion {
 
     public String obtenerPythonPath() {
         return properties.getProperty("python.path");
+    }
+
+    public String obtenerMySQLPath() {
+        return properties.getProperty("mysql.path");
     }
 
 }

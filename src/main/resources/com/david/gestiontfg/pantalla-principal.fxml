@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -30,9 +31,9 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Cargar">
               <items>
-                <MenuItem id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alumnos" />
-                  <MenuItem id="miCargarTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="TFG" />
-                  <MenuItem id="miCargarExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Expedientes" />
+                <MenuItem id="miCargarAlumnos" fx:id="miCargarAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alumnos" />
+                  <MenuItem id="miCargarTFG" fx:id="miCargarTFGS" mnemonicParsing="false" onAction="#cargarTFGClick" text="TFG" />
+                  <MenuItem id="miCargarExpedientes" fx:id="miCargarExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Expedientes" />
                   <MenuItem fx:id="miCargarSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Solicitudes" />
               </items>
             </Menu>
@@ -42,7 +43,10 @@
                   <MenuItem mnemonicParsing="false" onAction="#exportarAsignaciones" text="Exportar asignaciones" />
                   <MenuItem mnemonicParsing="false" onAction="#borrarAsignaciones" text="Restablecer asignaciones" />
                </items></Menu>
-          <Menu mnemonicParsing="false" text="Personalizar" />
+            <Menu mnemonicParsing="false" text="Configuración">
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#cargarConfiguracion" text="Configuración inicial" />
+                </items></Menu>
             <Menu mnemonicParsing="false" text="Perfil">
               <items>
                 <MenuItem fx:id="miVerPerfil" mnemonicParsing="false" text="Ver perfil" />
@@ -79,6 +83,12 @@
                   <Font name="Palatino Bold" size="36.0" />
                </font>
             </Label>
+            <Pane layoutX="632.0" prefHeight="60.0" prefWidth="210.0">
+               <children>
+                  <ImageView fx:id="imgWarning" fitHeight="26.0" fitWidth="21.0" layoutX="21.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="btnCargarConfiguracion" layoutX="42.0" layoutY="17.0" mnemonicParsing="false" onAction="#cargarConfiguracion" style="-fx-background-color: #004973;" text="Realizar configuración inicial" textFill="WHITE" underline="true" wrapText="true" />
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane layoutX="69.0" layoutY="174.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="174.0">
@@ -146,7 +156,7 @@
                </font></Label>
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Alta de solicitudes" />
+                  <MenuItem fx:id="miAltaSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Alta de solicitudes" />
                   <MenuItem fx:id="miExportarActividad" mnemonicParsing="false" onAction="#exportarActividad" text="Generar  puntuaciones" />
                </items>
             </MenuButton>

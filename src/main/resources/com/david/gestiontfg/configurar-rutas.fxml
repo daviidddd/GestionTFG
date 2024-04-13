@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.david.gestiontfg.BinariosRutaController">
+
+    <VBox alignment="CENTER" layoutX="200" layoutY="100" spacing="10" />
+   <Pane layoutX="60.0" layoutY="-14.0" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #004379;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <Label layoutX="23.0" layoutY="17.0" text="Configuración inicial" textFill="WHITE" wrapText="true">
+            <font>
+               <Font name="Arial Bold" size="24.0" />
+            </font>
+         </Label>
+      </children>
+   </Pane>
+   <TabPane layoutX="123.0" layoutY="90.0" prefHeight="277.0" prefWidth="514.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="90.0">
+     <tabs>
+       <Tab text="Python">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="287.0">
+                  <children>
+                       <TextField fx:id="txtRutaPython" layoutX="43.0" layoutY="107.0" prefHeight="26.0" prefWidth="349.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="107.0" />
+                       <Button layoutX="188.0" layoutY="195.0" onAction="#guardarRutaPython" text="Guardar configuración" AnchorPane.leftAnchor="188.0" AnchorPane.rightAnchor="187.5" AnchorPane.topAnchor="195.0" />
+                     <Button layoutX="392.0" layoutY="107.0" onAction="#buscarRutaPython" prefHeight="26.0" prefWidth="74.0" text="Buscar" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0" />
+                     <Hyperlink fx:id="hyperlinkPython" alignment="CENTER" contentDisplay="CENTER" layoutY="144.0" prefHeight="23.0" prefWidth="514.0" text="Descargar Python" underline="true" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="144.0" />
+                     <TextArea fx:id="txtPython" editable="false" prefHeight="70.0" prefWidth="200.0" wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                  </children>
+               </AnchorPane>
+         </content>
+       </Tab>
+       <Tab text="MySQL">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <TextField fx:id="txtRutaMySQL" prefHeight="26.0" prefWidth="431.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="107.0" />
+                     <Button layoutX="188.0" layoutY="139.0" onAction="#guardarRutaMySQL" text="Guardar configuración" AnchorPane.leftAnchor="188.0" AnchorPane.rightAnchor="187.5" AnchorPane.topAnchor="195.0" />
+                     <Button layoutX="436.0" onAction="#buscarRutaMySQL" prefHeight="26.0" prefWidth="78.0" text="Buscar" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="107.0" />
+                     <Hyperlink fx:id="hyperlinkMySQL" alignment="CENTER" contentDisplay="CENTER" prefHeight="23.0" prefWidth="514.0" text="Descargar MySQL" underline="true" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="144.0" />
+                     <TextArea fx:id="txtMySQL" editable="false" layoutX="98.0" layoutY="-77.0" prefHeight="70.0" prefWidth="200.0" wrapText="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                  </children></AnchorPane>
+         </content>
+       </Tab>
+     </tabs>
+   </TabPane>
+
+</AnchorPane>

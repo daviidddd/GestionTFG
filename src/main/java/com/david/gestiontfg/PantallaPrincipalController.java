@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -37,6 +38,22 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class PantallaPrincipalController {
+    @FXML
+    private MenuItem miCargarAlumnos;
+    @FXML
+    private MenuItem miCargarTFGS;
+    @FXML
+    private MenuItem miCargarExpedientes;
+    @FXML
+    private MenuItem miCargarSolicitudes;
+    @FXML
+    private MenuItem miAltaTFG;
+    @FXML
+    private MenuItem miAltaAlumnos;
+    @FXML
+    private MenuItem miAltaSolicitudes;
+    @FXML
+    private MenuItem miAltaExpedientes;
     @FXML
     private AnchorPane panePrincipal;
     @FXML
@@ -71,6 +88,10 @@ public class PantallaPrincipalController {
     private Label lblProgresoTFG;
     @FXML
     private Label lblProgresoExp;
+    @FXML
+    private ImageView imgWarning;
+    @FXML
+    private Button btnCargarConfiguracion;
     private Timer timer;
     private final BDController bdController;
     private final ArchivoController archivoController;
@@ -100,6 +121,13 @@ public class PantallaPrincipalController {
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
 
+        if (!Configuracion.configuracionInicial()) {
+            configuracionInicial();
+        } else {
+            btnCargarConfiguracion.setVisible(false);
+            imgWarning.setVisible(false);
+        }
+
         /*lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
         lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");*/
@@ -109,6 +137,24 @@ public class PantallaPrincipalController {
         actualizarTablas();
         // Programar consultas periódicas cada X segundos
         programarActualizacionesPeriodicas();
+    }
+
+    private void configuracionInicial() throws FileNotFoundException {
+        FileInputStream inputStream = new FileInputStream("src/main/resources/image/warning.png");
+        Image image = new Image(inputStream);
+        imgWarning.setImage(image);
+        imgWarning.setVisible(true);
+        btnCargarConfiguracion.setVisible(true);
+
+        // Si no esta configurado el sistema no se pueden cargar elementos
+        miCargarAlumnos.setDisable(true);
+        miCargarTFGS.setDisable(true);
+        miCargarExpedientes.setDisable(true);
+        miCargarSolicitudes.setDisable(true);
+        miAltaAlumnos.setDisable(true);
+        miAltaTFG.setDisable(true);
+        miAltaExpedientes.setDisable(true);
+        miAltaSolicitudes.setDisable(true);
     }
 
     private void programarActualizacionesPeriodicas() {
@@ -300,6 +346,33 @@ public class PantallaPrincipalController {
 
         // Mostrar la alerta
         alert.showAndWait();
+    }
+
+    @FXML
+    protected void cargarConfiguracion() {
+        // Ventana para cargar TFGs manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("configurar-rutas.fxml"));
+        try {
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Configuración");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -4,12 +4,12 @@ import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BDController {
     public static final String URL = "jdbc:mysql://localhost:3306/gestion";

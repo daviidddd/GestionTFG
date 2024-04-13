@@ -10,6 +10,7 @@ module com.david.gestiontfg {
     requires icepdf.viewer;
     requires org.apache.pdfbox;
     requires com.google.gson;
+    requires java.desktop;
 
     exports com.david.gestiontfg;
     opens com.david.gestiontfg to javafx.fxml;
