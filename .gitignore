@@ -4,9 +4,9 @@ target/
 !**/src/test/**/target/
 
 ### Resources ###
-src/main/resources/expedientes/
+src/main/resources/expedientes/*.txt
 src/main/resources/logs/
-src/main/resources/tfgs/
+src/main/resources/tfgs/*txt
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
