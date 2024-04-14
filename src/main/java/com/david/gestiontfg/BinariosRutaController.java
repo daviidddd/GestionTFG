@@ -112,10 +112,6 @@ public class BinariosRutaController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar ejecutable de Python");
 
-        // Filtro para mostrar solo archivos ejecutables
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Ejecutables (*.exe)", "*.exe");
-        fileChooser.getExtensionFilters().add(filter);
-
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
             txtRutaPython.setText(selectedFile.getAbsolutePath());

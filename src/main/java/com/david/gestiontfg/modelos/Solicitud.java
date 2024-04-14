@@ -447,8 +447,7 @@ public class Solicitud {
         // Ruta del archivo del expediente
         String expedientePath = "/expedientes/" + this.nia.get() + ".txt";
 
-        // Abrir el archivo del expediente
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(expedientePath)))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(expedientePath))))) {
             String linea;
             // Iterar sobre las líneas del archivo
             while ((linea = br.readLine()) != null) {
@@ -479,28 +478,23 @@ public class Solicitud {
                 }
                 // Si hay coincidencia, devolver la nota de esa asignatura
                 if (coincidencia) {
-                    System.out.println("Se encontró la asignatura: " + asignatura);
-
                     int indiceNota = partes.length - 3; // Obtener el índice de la nota
-                    System.out.println(partes[indiceNota]);
                     String notaStr = partes[indiceNota];
-                    System.out.println(notaStr);
 
                     // Verificar si la nota es válida
-                    if (notaStr != null && !notaStr.isEmpty() && notaStr.trim().matches("-?\\d+(\\.\\d+)?")) {
+                    if (notaStr != null && notaStr.matches("^\\d+(\\.\\d+)?$")) {
                         return Double.parseDouble(notaStr); // Convertir la nota a double si es válida
                     } else {
-                        // Manejar el caso en el que la nota no sea válida
                         System.out.println("La nota no es válida: " + notaStr);
                         return 0.0;
                     }
                 }
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new IOException("Error al leer el archivo del expediente", e);
         }
+
         // Si no se encuentra la asignatura en el expediente, devolver 0.0
-        System.out.println("No se encontró la asignatura: " + asignatura);
         return 0.0;
     }
 

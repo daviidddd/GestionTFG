@@ -39,6 +39,8 @@ import java.util.*;
 
 public class PantallaPrincipalController {
     @FXML
+    private AnchorPane panePrincipal;
+    @FXML
     private MenuItem miCargarAlumnos;
     @FXML
     private MenuItem miCargarTFGS;
@@ -54,8 +56,6 @@ public class PantallaPrincipalController {
     private MenuItem miAltaSolicitudes;
     @FXML
     private MenuItem miAltaExpedientes;
-    @FXML
-    private AnchorPane panePrincipal;
     @FXML
     private TableView<TFG> tbTFGs;
     @FXML
@@ -122,10 +122,9 @@ public class PantallaPrincipalController {
         colExp.setStyle("-fx-alignment: CENTER;");
 
         if (!Configuracion.configuracionInicial()) {
-            configuracionInicial();
+            configuracionInicial(true);
         } else {
-            btnCargarConfiguracion.setVisible(false);
-            imgWarning.setVisible(false);
+            configuracionInicial(false);
         }
 
         /*lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
@@ -133,57 +132,56 @@ public class PantallaPrincipalController {
         lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");*/
 
         timer = new Timer();
-        // Realizar una consulta inicial al iniciar la aplicación
-        actualizarTablas();
-        // Programar consultas periódicas cada X segundos
-        programarActualizacionesPeriodicas();
+
+        // Poblar tablas con los registros de la BBDD
+        cargarExpedientes();
+        cargarTablaAlumnos();
+        cargarTablaTFG();
     }
 
-    private void configuracionInicial() throws FileNotFoundException {
-        FileInputStream inputStream = new FileInputStream("src/main/resources/image/warning.png");
-        Image image = new Image(inputStream);
-        imgWarning.setImage(image);
-        imgWarning.setVisible(true);
-        btnCargarConfiguracion.setVisible(true);
-
-        // Si no esta configurado el sistema no se pueden cargar elementos
-        miCargarAlumnos.setDisable(true);
-        miCargarTFGS.setDisable(true);
-        miCargarExpedientes.setDisable(true);
-        miCargarSolicitudes.setDisable(true);
-        miAltaAlumnos.setDisable(true);
-        miAltaTFG.setDisable(true);
-        miAltaExpedientes.setDisable(true);
-        miAltaSolicitudes.setDisable(true);
-    }
-
-    private void programarActualizacionesPeriodicas() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    actualizarTablas();
-                    archivoController.observarDirectorio();
-                    cargarProgressBar();
-                });
-            }
-        }, 0, 2000); // Consultar cambios cada 5s
-    }
-
-    private void actualizarTablas() {
+    private void cargarTablaAlumnos() {
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         lblAlumnosActivos.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
 
+        cargarProgressBar();
+    }
+
+    private void cargarTablaTFG() {
         tbTFGs.getItems().clear();
         tbTFGs.getItems().addAll(bdController.obtenerTFGs());
         List<TFG> listaTFG = bdController.obtenerTFGs();
+
         if(listaTFG.isEmpty())
             lblTFGActivos.setText("0 TFG DISPONIBLES");
 
+        cargarProgressBar();
+    }
+
+    private void cargarExpedientes() {
         int expedientes = bdController.obtenerExpedientes();
         lblExpedientesActivos.setText(expedientes + " EXPEDIENTES DISPONIBLES");
+
+        cargarProgressBar();
+    }
+
+    private void configuracionInicial(Boolean estado) throws FileNotFoundException {
+        InputStream inputStream = getClass().getResourceAsStream("/image/warning.png");
+        Image image = new Image(inputStream);
+        imgWarning.setImage(image);
+        imgWarning.setVisible(estado);
+        btnCargarConfiguracion.setVisible(estado);
+
+        // Si no esta configurado el sistema no se pueden cargar elementos
+        miCargarAlumnos.setDisable(estado);
+        miCargarTFGS.setDisable(estado);
+        miCargarExpedientes.setDisable(estado);
+        miCargarSolicitudes.setDisable(estado);
+        miAltaAlumnos.setDisable(estado);
+        miAltaTFG.setDisable(estado);
+        miAltaExpedientes.setDisable(estado);
+        miAltaSolicitudes.setDisable(estado);
     }
 
     private void cargarProgressBar() {
@@ -231,6 +229,7 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                cargarTablaAlumnos();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -258,6 +257,7 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                cargarTablaTFG();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -365,6 +365,19 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                if (!Configuracion.configuracionInicial()) {
+                    try {
+                        configuracionInicial(true);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        configuracionInicial(false);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -377,20 +390,38 @@ public class PantallaPrincipalController {
 
     @FXML
     protected void cerrarSesionClick() {
-        // Abrir la pantalla de inicio de sesión
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-registro.fxml"));
-        try {
-            Parent root = fxmlLoader.load();
-            Scene scene2 = new Scene(root);
-            Stage newStage = new Stage();
-            newStage.setScene(scene2);
-            newStage.setTitle("Inicio de sesión");
-            newStage.show();
-            LogController.registrarAccion("Cierre de sesión");
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Crear una alerta de confirmación
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar cierre de sesión");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Estás seguro de que deseas cerrar la sesión?");
+
+        // Obtener el resultado de la alerta
+        ButtonType resultado = alert.showAndWait().orElse(ButtonType.CANCEL);
+
+        // Si el usuario confirma, cerrar la sesión y abrir la pantalla de inicio de sesión
+        if (resultado == ButtonType.OK) {
+
+            Stage stagePane = (Stage) panePrincipal.getScene().getWindow();
+            stagePane.close();
+
+            // Abrir la pantalla de inicio de sesión
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-registro.fxml"));
+            try {
+                Parent root = fxmlLoader.load();
+                Scene scene2 = new Scene(root);
+                Stage newStage = new Stage();
+                newStage.setScene(scene2);
+                newStage.setTitle("Inicio de sesión");
+                newStage.show();
+                LogController.registrarAccion("Cierre de sesión");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+
 
     @FXML
     protected void salirClick() {
@@ -438,6 +469,8 @@ public class PantallaPrincipalController {
         alert.setContentText("Esta acción no se puede deshacer.");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                tbTFGs.getItems().clear();
+                tbTFGs.getItems().clear();
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
                 bdController.limpiarSolicitudes();
