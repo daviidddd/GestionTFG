@@ -5,14 +5,12 @@ import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -230,11 +228,11 @@ public class ModalBusquedaController {
                         bdController.eliminarSolicitudPorCorreo(solicitudSeleccionada.getCorreoElectronico());
 
                         // Restar el numero de solicitantes en los TFGs seleccionados
-                        bdController.restarSolicitante(solicitudSeleccionada.getTfg1());
-                        bdController.restarSolicitante(solicitudSeleccionada.getTfg2());
-                        bdController.restarSolicitante(solicitudSeleccionada.getTfg3());
-                        bdController.restarSolicitante(solicitudSeleccionada.getTfg4());
-                        bdController.restarSolicitante(solicitudSeleccionada.getTfg5());
+                        bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg1());
+                        bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg2());
+                        bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg3());
+                        bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg4());
+                        bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg5());
 
                         // Borramos y recargamos la tabla de TFGS -> actualización de solicitantes
                         tbResultadoTFG.getItems().clear();

@@ -227,11 +227,11 @@ public class ArchivoController {
                 boolean alta = bdController.registrarSolicitud(correo, solicitud.getNia(), mediaExpediente, creditosRestantes, totalMesesExperiencia, meritos, tfg1, tfg2, tfg3, tfg4, tfg5, expTfg1, expTfg2, expTfg3, expTfg4, expTfg5, solicitud.getPtosCreditos(), solicitud.getPtosNotaMedia(), solicitud.getPtosExperiencia(), solicitud.getPtosTFG1(), solicitud.getPtosTFG2(), solicitud.getPtosTFG3(), solicitud.getPtosTFG4(), solicitud.getPtosTFG5());
                 if (alta) {
 
-                    bdController.sumarSolicitante(solicitud.getTfg1());
-                    bdController.sumarSolicitante(solicitud.getTfg2());
-                    bdController.sumarSolicitante(solicitud.getTfg3());
-                    bdController.sumarSolicitante(solicitud.getTfg4());
-                    bdController.sumarSolicitante(solicitud.getTfg5());
+                    bdController.sumarSolicitanteTFG(solicitud.getTfg1());
+                    bdController.sumarSolicitanteTFG(solicitud.getTfg2());
+                    bdController.sumarSolicitanteTFG(solicitud.getTfg3());
+                    bdController.sumarSolicitanteTFG(solicitud.getTfg4());
+                    bdController.sumarSolicitanteTFG(solicitud.getTfg5());
 
                     mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
 
@@ -434,7 +434,7 @@ public class ArchivoController {
             File[] archivos = directorio.listFiles();
             if (archivos != null) {
                 for (File archivo : archivos) {
-                    if (archivo.isFile()) {
+                    if (archivo.isFile() && archivo.getName().endsWith(".txt")) {
                         archivo.delete();
                     }
                 }

@@ -4,9 +4,6 @@ import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -146,7 +143,7 @@ public class BDController {
         return false;
     }
 
-    public void sumarSolicitante(String tfg) {
+    public void sumarSolicitanteTFG(String tfg) {
         try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "UPDATE tfgs SET solicitantes = COALESCE(solicitantes, 0) + 1 WHERE codigo = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -158,7 +155,7 @@ public class BDController {
         }
     }
 
-    public void restarSolicitante(String tfg) {
+    public void restarSolicitanteTFG(String tfg) {
         try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String query = "UPDATE tfgs SET solicitantes = CASE WHEN solicitantes > 0 THEN solicitantes - 1 ELSE 0 END WHERE codigo = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {

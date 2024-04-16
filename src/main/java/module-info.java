@@ -1,6 +1,7 @@
 module com.david.gestiontfg {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
 
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
@@ -13,5 +14,5 @@ module com.david.gestiontfg {
     requires java.desktop;
 
     exports com.david.gestiontfg;
-    opens com.david.gestiontfg to javafx.fxml;
+    opens com.david.gestiontfg to javafx.fxml, javafx.controls;
 }

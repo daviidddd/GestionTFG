@@ -470,7 +470,7 @@ public class PantallaPrincipalController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 tbTFGs.getItems().clear();
-                tbTFGs.getItems().clear();
+                tbAlumnos.getItems().clear();
                 bdController.limpiarAlumnos();
                 bdController.limpiarTFGs();
                 bdController.limpiarSolicitudes();

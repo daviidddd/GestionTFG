@@ -447,7 +447,7 @@ public class Solicitud {
         // Ruta del archivo del expediente
         String expedientePath = "/expedientes/" + this.nia.get() + ".txt";
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(expedientePath))))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(expedientePath)))) {
             String linea;
             // Iterar sobre las líneas del archivo
             while ((linea = br.readLine()) != null) {
