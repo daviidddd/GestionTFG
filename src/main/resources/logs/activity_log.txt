@@ -1955,3 +1955,283 @@
 [16-04-2024 23:29:18 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
 [16-04-2024 23:29:18 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
 [16-04-2024 23:29:19 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[17-04-2024 00:14:58 Acción: Inicio de sesión t
+[17-04-2024 00:15:02 Acción: IMPORTANTE: Formateo del sistema
+[17-04-2024 00:15:07 Acción: Alta ALUMNO por fichero (Lista Alumnos.xlsx): 
+[17-04-2024 00:15:08 Acción:     Alta  1@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  2@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  3@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  4@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  5@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  6@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  7@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  8@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  9@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  10@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  11@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  12@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  13@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  14@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  15@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  16@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  17@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  18@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  19@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  20@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  21@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  22@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  23@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  24@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  25@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  26@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  27@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  28@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  29@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  30@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  31@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  32@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  33@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  34@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  35@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  36@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  37@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  38@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  39@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  40@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  41@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  42@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  43@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  44@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  45@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  46@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  47@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  48@alu.ucam.edu
+[17-04-2024 00:15:08 Acción:     Alta  49@alu.ucam.edu
+[17-04-2024 00:15:30 Acción: Alta y procesamiento expediente David Ferreiro.pdf
+[17-04-2024 00:15:31 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
+[17-04-2024 00:15:31 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
+[17-04-2024 00:15:32 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[17-04-2024 00:18:08 Acción: Inicio de sesión t
+[17-04-2024 00:18:26 Acción: Alta y procesamiento expediente David Ferreiro.pdf
+[17-04-2024 00:18:27 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
+[17-04-2024 00:18:28 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
+[17-04-2024 00:18:29 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[17-04-2024 09:53:09 Acción: Inicio de sesión t
+[17-04-2024 09:54:01 Acción: Inicio de sesión t
+[17-04-2024 09:55:48 Acción: Inicio de sesión t
+[17-04-2024 09:56:42 Acción: Inicio de sesión t
+[17-04-2024 09:56:46 Acción: IMPORTANTE: Formateo del sistema
+[17-04-2024 09:58:29 Acción: Inicio de sesión t
+[17-04-2024 10:01:05 Acción: Inicio de sesión t
+[17-04-2024 10:34:03 Acción: Inicio de sesión t
+[17-04-2024 10:36:02 Acción: Inicio de sesión t
+[17-04-2024 10:36:33 Acción: Alta ALUMNO por fichero (Lista Alumnos.xlsx): 
+[17-04-2024 10:36:33 Acción:     Alta  1@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  2@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  3@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  4@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  5@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  6@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  7@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  8@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  9@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  10@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  11@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  12@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  13@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  14@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  15@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  16@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  17@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  18@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  19@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  20@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  21@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  22@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  23@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  24@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  25@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  26@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  27@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  28@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  29@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  30@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  31@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  32@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  33@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  34@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  35@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  36@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  37@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  38@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  39@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  40@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  41@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  42@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  43@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  44@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  45@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  46@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  47@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  48@alu.ucam.edu
+[17-04-2024 10:36:33 Acción:     Alta  49@alu.ucam.edu
+[17-04-2024 10:40:32 Acción: Inicio de sesión t
+[17-04-2024 10:41:39 Acción: Inicio de sesión t
+[17-04-2024 10:41:44 Acción: IMPORTANTE: Formateo del sistema
+[17-04-2024 10:42:16 Acción: Alta y procesamiento expediente David Ferreiro.pdf
+[17-04-2024 10:42:16 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
+[17-04-2024 10:42:17 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
+[17-04-2024 10:42:19 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[17-04-2024 10:44:49 Acción: Inicio de sesión t
+[17-04-2024 10:46:51 Acción: Inicio de sesión t
+[17-04-2024 10:48:56 Acción: Inicio de sesión t
+[17-04-2024 10:50:25 Acción: Inicio de sesión t
+[17-04-2024 10:51:22 Acción: Inicio de sesión t
+[17-04-2024 10:52:52 Acción: Inicio de sesión t
+[17-04-2024 10:52:57 Acción: Alta ALUMNO por fichero (Lista Alumnos.xlsx): 
+[17-04-2024 10:52:57 Acción:     Alta  1@alu.ucam.edu
+[17-04-2024 10:52:57 Acción:     Alta  2@alu.ucam.edu
+[17-04-2024 10:52:57 Acción:     Alta  3@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  4@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  5@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  6@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  7@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  8@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  9@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  10@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  11@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  12@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  13@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  14@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  15@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  16@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  17@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  18@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  19@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  20@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  21@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  22@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  23@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  24@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  25@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  26@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  27@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  28@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  29@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  30@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  31@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  32@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  33@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  34@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  35@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  36@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  37@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  38@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  39@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  40@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  41@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  42@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  43@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  44@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  45@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  46@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  47@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  48@alu.ucam.edu
+[17-04-2024 10:52:58 Acción:     Alta  49@alu.ucam.edu
+[18-04-2024 10:59:04 Acción: Inicio de sesión t
+[19-04-2024 15:12:51 Acción: Inicio de sesión t
+[23-04-2024 16:20:02 Acción: Inicio de sesión t
+[23-04-2024 16:23:18 Acción: Inicio de sesión t
+[23-04-2024 16:34:37 Acción: Inicio de sesión t
+[23-04-2024 16:35:46 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 16:38:16 Acción: Inicio de sesión t
+[23-04-2024 16:44:31 Acción: Inicio de sesión t
+[23-04-2024 16:44:35 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 16:53:29 Acción: Inicio de sesión t
+[23-04-2024 16:55:41 Acción: Inicio de sesión t
+[23-04-2024 17:04:11 Acción: Inicio de sesión t
+[23-04-2024 17:08:54 Acción: Inicio de sesión t
+[23-04-2024 17:09:55 Acción: Inicio de sesión t
+[23-04-2024 17:15:24 Acción: Inicio de sesión t
+[23-04-2024 17:15:31 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 17:17:46 Acción: Inicio de sesión t
+[23-04-2024 17:20:48 Acción: Inicio de sesión t
+[23-04-2024 17:21:51 Acción: Inicio de sesión t
+[23-04-2024 17:23:33 Acción: Inicio de sesión t
+[23-04-2024 17:25:59 Acción: Inicio de sesión t
+[23-04-2024 17:26:58 Acción: Inicio de sesión t
+[23-04-2024 17:28:21 Acción: Inicio de sesión t
+[23-04-2024 17:32:51 Acción: Inicio de sesión t
+[23-04-2024 17:34:11 Acción: Inicio de sesión t
+[23-04-2024 17:44:22 Acción: Inicio de sesión t
+[23-04-2024 17:48:37 Acción: Inicio de sesión t
+[23-04-2024 17:49:56 Acción: Inicio de sesión T
+[23-04-2024 17:55:08 Acción: Inicio de sesión t
+[23-04-2024 21:02:06 Acción: Inicio de sesión t
+[23-04-2024 21:04:39 Acción: Inicio de sesión t
+[23-04-2024 21:04:51 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 21:17:31 Acción: Inicio de sesión t
+[23-04-2024 21:18:31 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 21:18:51 Acción: Alta y procesamiento expediente David Ferreiro.pdf
+[23-04-2024 21:18:52 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
+[23-04-2024 21:18:52 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
+[23-04-2024 21:18:53 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[23-04-2024 21:26:52 Acción: Inicio de sesión t
+[23-04-2024 21:27:56 Acción: IMPORTANTE: Formateo del sistema
+[23-04-2024 21:28:16 Acción: Alta ALUMNO por fichero (Lista Alumnos.xlsx): 
+[23-04-2024 21:28:17 Acción:     Alta  1@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  2@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  3@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  4@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  5@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  6@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  7@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  8@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  9@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  10@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  11@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  12@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  13@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  14@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  15@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  16@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  17@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  18@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  19@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  20@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  21@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  22@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  23@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  24@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  25@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  26@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  27@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  28@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  29@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  30@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  31@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  32@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  33@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  34@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  35@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  36@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  37@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  38@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  39@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  40@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  41@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  42@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  43@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  44@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  45@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  46@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  47@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  48@alu.ucam.edu
+[23-04-2024 21:28:17 Acción:     Alta  49@alu.ucam.edu
+[23-04-2024 21:29:45 Acción: Alta y procesamiento expediente David Ferreiro.pdf
+[23-04-2024 21:29:45 Acción: Alta y procesamiento expediente JimenezCarrascoManuel.pdf
+[23-04-2024 21:29:46 Acción: Alta y procesamiento expediente LorenteGomarizJoseMaximo.pdf
+[23-04-2024 21:29:48 Acción: Alta y procesamiento expediente Luis BarriosBueno.pdf
+[23-04-2024 21:37:08 Acción: Inicio de sesión t
+[23-04-2024 21:39:29 Acción: Inicio de sesión t
+[23-04-2024 21:40:57 Acción: Inicio de sesión t

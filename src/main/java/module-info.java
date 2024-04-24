@@ -12,6 +12,7 @@ module com.david.gestiontfg {
     requires org.apache.pdfbox;
     requires com.google.gson;
     requires java.desktop;
+    requires org.kohsuke.github.api;
 
     exports com.david.gestiontfg;
     opens com.david.gestiontfg to javafx.fxml, javafx.controls;

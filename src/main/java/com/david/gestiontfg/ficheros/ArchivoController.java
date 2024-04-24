@@ -40,7 +40,8 @@ public class ArchivoController {
             Configuracion configuracion = Configuracion.getInstance();
             String pythonPath = configuracion.obtenerPythonPath();
 
-            String rutaScriptNIA = Paths.get("src", "main", "resources", "scripts", "nia.py").toAbsolutePath().toString();
+            String rutaScriptNIA = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "scripts" + File.separator + "nia.py";
+            //String rutaScriptNIA = Paths.get("src", "main", "resources", "scripts", "nia.py").toAbsolutePath().toString();
             ProcessBuilder niaProcessBuilder = new ProcessBuilder();
             niaProcessBuilder.command(pythonPath, rutaScriptNIA, archivoPDF.getAbsolutePath());
             Process niaProcess = niaProcessBuilder.start();
@@ -107,6 +108,7 @@ public class ArchivoController {
 
         if (archivosPDF != null && !archivosPDF.isEmpty()) {
             for (File archivoPDF : archivosPDF) {
+                purgarDirectorioTFG();
                 procesarTfgPDF(archivoPDF);
                 obtenerInfoTFG(archivoPDF);
                 purgarTFG();
@@ -136,7 +138,9 @@ public class ArchivoController {
             Configuracion configuracion = Configuracion.getInstance();
             String pythonPath = configuracion.obtenerPythonPath();
 
-            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "solicitud_info.py").toAbsolutePath().toString();
+            String rutaScriptExpediente = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "scripts" + File.separator + "solicitud_info.py";
+
+            //String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "solicitud_info.py").toAbsolutePath().toString();
             ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
             expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
 
@@ -251,7 +255,9 @@ public class ArchivoController {
             Configuracion configuracion = Configuracion.getInstance();
             String pythonPath = configuracion.obtenerPythonPath();
 
-            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "tfg.py").toAbsolutePath().toString();
+            String rutaScriptExpediente = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "scripts" + File.separator + "tfg.py";
+
+            //String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "tfg.py").toAbsolutePath().toString();
             ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
             expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
 
@@ -274,7 +280,9 @@ public class ArchivoController {
     // ELIMINAR EL RAW DE LOS TFG.TXT
     public void purgarTFG() {
         // Directorio que contiene los archivos
-        String directorio = "src/main/resources/tfgs";
+        String directorio = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs";
+
+        //String directorio = "src/main/resources/tfgs";
 
         // Obtener una lista de archivos en el directorio
         File[] archivos = new File(directorio).listFiles();
@@ -297,6 +305,26 @@ public class ArchivoController {
         }
     }
 
+    public void purgarDirectorioTFG() {
+        // Directorio que contiene los archivos
+        String directorio = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs";
+
+        //String directorio = "src/main/resources/tfgs";
+
+        // Obtener una lista de archivos en el directorio
+        File[] archivos = new File(directorio).listFiles();
+
+        // Verificar si la lista de archivos no está vacía
+        if (archivos != null) {
+            // Iterar sobre cada archivo en el directorio
+            for (File archivo : archivos) {
+                archivo.delete();
+            }
+        } else {
+            System.out.println("El directorio está vacío o no se pudo acceder.");
+        }
+    }
+
     // FORMATEAR Y PREPARAR INFO DE LOS FICHEROS .txt DE LOS TFG
     public void obtenerInfoTFG(File archivoPDF) {
         try {
@@ -304,7 +332,9 @@ public class ArchivoController {
             Configuracion configuracion = Configuracion.getInstance();
             String pythonPath = configuracion.obtenerPythonPath();
 
-            String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "obtener_info_tfg.py").toAbsolutePath().toString();
+            String rutaScriptExpediente = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "scripts" + File.separator + "obtener_info_tfg.py";
+
+            //String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "obtener_info_tfg.py").toAbsolutePath().toString();
             ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
             expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
 
@@ -315,9 +345,9 @@ public class ArchivoController {
             // Esperar a que el proceso termine
             int exitVal = tfgProcess.waitFor();
             if (exitVal == 0) {
-                //System.out.println("Proceso obtener_info_tfg.py completado exitosamente.");
+                System.out.println("Proceso obtener_info_tfg.py completado exitosamente.");
             } else {
-                //System.out.println("Error al ejecutar el proceso obtener_info_tfg.py.");
+                System.out.println("Error al ejecutar el proceso obtener_info_tfg.py.");
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -354,7 +384,9 @@ public class ArchivoController {
     // GUARDAR INFORMACION DEL EXPEDIENTE EN RESOURCES/EXPEDIENTES
     public void guardarEnArchivo(int numeroExpediente, String contenido) {
         // Directorio donde se guardarán los archivos
-        String rutaDirectorio = "src/main/resources/expedientes";
+        //String rutaDirectorio = "src/main/resources/expedientes";
+        String rutaDirectorio = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes";
+
 
         // Crear el archivo en el directorio con el nombre del número de expediente
         File archivoGuardado = new File(rutaDirectorio, numeroExpediente + ".txt");
@@ -386,8 +418,8 @@ public class ArchivoController {
         Label cabecera = new Label("Contenido leído y tratado:" + nombre);
         cabecera.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
 
-        Label ruta = new Label("src/main/resources/expedientes/" + nombre);
-        ruta.setStyle("-fx-font-size: 13;");
+        Label ruta = new Label(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes" + File.separator + nombre);
+       ruta.setStyle("-fx-font-size: 13;");
 
         TextArea textArea = new TextArea(mensaje);
         textArea.setEditable(false);

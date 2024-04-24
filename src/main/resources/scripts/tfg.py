@@ -9,20 +9,19 @@ def procesar_pdf(nombre_archivo):
         pdf_reader = PdfReader(pdf_file)
         contador = 0
 
+        # Directorio donde se guardarán los archivos
+        directorio = os.path.join(os.path.expanduser("~"), "GestorUCAM", "tfgs")
+
+            # Obtener la ruta absoluta del directorio
+        directorio = os.path.abspath(directorio)
+
         # Itera sobre cada página del PDF
         for page_num in range(len(pdf_reader.pages)):
             # Extrae el texto de la página actual
             page = pdf_reader.pages[page_num]
             page_text = page.extract_text()
 
-            # Directorio donde se guardarán los archivos
-            directorio = "src/main/resources/tfgs"
-
-            # Crea el directorio si no existe
-            if not os.path.exists(directorio):
-                os.makedirs(directorio)
-
-            # Formateo - Eliminar cabecera
+            # Formateo - Eliminar cabeceraa
             inicio_delimitador = "Informática "
             page_text = re.sub(f".*?{re.escape(inicio_delimitador)}", "", page_text, flags=re.DOTALL)
 

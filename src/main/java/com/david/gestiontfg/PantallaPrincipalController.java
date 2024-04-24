@@ -514,7 +514,9 @@ public class PantallaPrincipalController {
         if (fileDestino != null) {
             try {
                 // Ruta del archivo de texto de origen
-                String rutaTexto = "src/main/resources/logs/activity_log.txt";
+                //String rutaTexto = "src/main/resources/logs/activity_log.txt";
+                String rutaTexto = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "logs" + File.separator + "activity_log.txt";
+
 
                 // Crear documento PDF
                 PDDocument document = new PDDocument();
@@ -579,10 +581,15 @@ public class PantallaPrincipalController {
                 PreparedStatement stmt = conn.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery();
 
+                // Rutas a las fuentes
+                String arialPath = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "fonts" + File.separator + "arial-unicode.TTF";
+                String palatinoPath = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "fonts" + File.separator + "palatino-bold.ttf";
+
                 // Crear documento PDF
                 PDDocument document = new PDDocument();
-                PDType0Font arial = PDType0Font.load(document, new File("src/main/resources/fonts/arial-unicode.TTF"));
-                PDType0Font palatino = PDType0Font.load(document, new File("src/main/resources/fonts/palatino-bold.ttf"));
+                PDType0Font arial = PDType0Font.load(document, new File(arialPath));
+                PDType0Font palatino = PDType0Font.load(document, new File(palatinoPath));
+
                 PDPage page = new PDPage(PDRectangle.A4);
                 document.addPage(page);
 

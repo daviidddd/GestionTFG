@@ -76,7 +76,8 @@ public class GestionarTfgsController {
     }
 
     private void altaTFG() {
-        String directorio = "src/main/resources/tfgs";
+        String directorio = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs";
+        //String directorio = "src/main/resources/tfgs";
 
         // Obtener una lista de archivos en el directorio
         File[] archivos = new File(directorio).listFiles();

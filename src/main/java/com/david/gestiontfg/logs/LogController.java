@@ -1,6 +1,7 @@
 package com.david.gestiontfg.logs;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class LogController {
-    private static final String LOG_FILE_PATH = "src/main/resources/logs/activity_log.txt";
+    //private static final String LOG_FILE_PATH = "src/main/resources/logs/activity_log.txt" System;
+    private static final String LOG_FILE_PATH = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "logs" + File.separator + "activity_log.txt";
+
 
     // REGISTRAR ACCION EN EL LOG
     public static void registrarAccion(String accion) {

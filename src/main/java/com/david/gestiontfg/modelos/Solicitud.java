@@ -8,6 +8,7 @@ import javafx.beans.property.*;
 import javafx.scene.control.TextField;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -54,6 +55,7 @@ public class Solicitud {
         this.expTFG3 = new SimpleIntegerProperty(expTfg3);
         this.expTFG4 = new SimpleIntegerProperty(expTfg4);
         this.expTFG5 = new SimpleIntegerProperty(expTfg5);
+        this.nia = new SimpleIntegerProperty(BDController.obtenerNiaPorCorreo(correoElectronico));
     }
 
     public void calcularPuntuacion(Solicitud solicitud) {
@@ -63,15 +65,14 @@ public class Solicitud {
         this.ptosTFG4 = new SimpleIntegerProperty(0);
         this.ptosTFG5 = new SimpleIntegerProperty(0);
 
-        this.nia = new SimpleIntegerProperty(BDController.obtenerNiaPorCorreo(solicitud.getCorreoElectronico()));
         double creditosRestantes = solicitud.getCreditosRestantes();
         double notaMedia = solicitud.getNotaMedia();
         double[] experienciasTFG = {solicitud.getExpTFG1(), solicitud.getExpTFG2(), solicitud.getExpTFG3(), solicitud.getExpTFG4(), solicitud.getExpTFG5()};
         String[] tfgSeleccionados = {solicitud.getTfg1(), solicitud.getTfg2(), solicitud.getTfg3(), solicitud.getTfg4(), solicitud.getTfg5()};
+        String rutaAbsoluta = Paths.get(System.getProperty("user.home"), "GestorUCAM", "baremos", "puntuacion.json").toString();
 
-        try (InputStream inputStream = getClass().getResourceAsStream("/config/puntuacion.json");
-             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader)) {
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(rutaAbsoluta))))) {
 
             BDController bdController = new BDController();
 
@@ -265,10 +266,9 @@ public class Solicitud {
         double notaMedia = solicitud.getNotaMedia();
         double[] experienciasTFG = {solicitud.getExpTFG1(), solicitud.getExpTFG2(), solicitud.getExpTFG3(), solicitud.getExpTFG4(), solicitud.getExpTFG5()};
         String[] tfgSeleccionados = {solicitud.getTfg1(), solicitud.getTfg2(), solicitud.getTfg3(), solicitud.getTfg4(), solicitud.getTfg5()};
+        String rutaAbsoluta = Paths.get(System.getProperty("user.home"), "GestorUCAM", "baremos", "puntuacion.json").toString();
 
-        try (InputStream inputStream = getClass().getResourceAsStream("/config/puntuacion.json");
-             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader)) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(rutaAbsoluta))))) {
 
             BDController bdController = new BDController();
 
@@ -445,9 +445,10 @@ public class Solicitud {
 
     private double obtenerNotaAsignatura(String asignatura) throws IOException {
         // Ruta del archivo del expediente
-        String expedientePath = "/expedientes/" + this.nia.get() + ".txt";
+        //String expedientePath = "/expedientes/" + this.nia.get() + ".txt";
+        String expedientePath = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes" + File.separator + this.nia.get() + ".txt";
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(expedientePath)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(expedientePath))) {
             String linea;
             // Iterar sobre las líneas del archivo
             while ((linea = br.readLine()) != null) {
@@ -491,7 +492,7 @@ public class Solicitud {
                 }
             }
         } catch (IOException e) {
-            throw new IOException("Error al leer el archivo del expediente", e);
+            return 0.0;
         }
 
         // Si no se encuentra la asignatura en el expediente, devolver 0.0

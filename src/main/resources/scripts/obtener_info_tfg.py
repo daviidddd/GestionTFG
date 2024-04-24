@@ -3,7 +3,7 @@ import re
 
 # Función para procesar el contenido de un archivo
 def procesar_archivo(archivo):
-    with open(archivo, 'r') as f:
+    with open(archivo, 'r', encoding='utf-8') as f:
         contenido = f.read()
 
     # Definir las palabras clave para separar
@@ -27,11 +27,11 @@ def procesar_archivo(archivo):
 
 
 # Directorio que contiene los archivos .txt
-directorio = 'src/main/resources/tfgs'
+#directorio = 'src/main/resources/tfgs'
+directorio = os.path.join(os.path.expanduser("~"), "GestorUCAM", "tfgs")
+directorio = os.path.abspath(directorio)
 
 # Recorrer todos los archivos en el directorio
 for archivo in os.listdir(directorio):
     if archivo.endswith('.txt'):
         procesar_archivo(os.path.join(directorio, archivo))
-
-print("Procesamiento completado.")

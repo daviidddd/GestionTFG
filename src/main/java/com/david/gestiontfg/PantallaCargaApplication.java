@@ -3,6 +3,7 @@ package com.david.gestiontfg;
 import com.david.gestiontfg.config.Configuracion;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,9 +16,6 @@ import java.util.Objects;
 public class PantallaCargaApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Image icono = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/ucam_tfg.icns")));
-        stage.getIcons().add(icono);
-
         // Cargar el archivo FXML
         FXMLLoader fxmlLoader = new FXMLLoader(PantallaCargaApplication.class.getResource("pantalla-carga.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
@@ -44,6 +42,11 @@ public class PantallaCargaApplication extends Application {
             }
         });
         pauseTransition.play();
+
+        stage.setOnCloseRequest(event -> {
+            // Realiza las acciones necesarias para cerrar la aplicación
+            Platform.exit();
+        });
     }
 
     public static void main(String[] args) {
