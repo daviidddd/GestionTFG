@@ -57,7 +57,9 @@ public class ArchivoController {
                     int numeroExpediente = Integer.parseInt(nia.trim());
 
                     // Ejecutar el script expediente.py
-                    String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "expediente.py").toAbsolutePath().toString();
+                    String rutaScriptExpediente = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "scripts" + File.separator + "expediente.py";
+
+                    //String rutaScriptExpediente = Paths.get("src", "main", "resources", "scripts", "expediente.py").toAbsolutePath().toString();
                     ProcessBuilder expedienteProcessBuilder = new ProcessBuilder();
                     expedienteProcessBuilder.command(pythonPath, rutaScriptExpediente, archivoPDF.getAbsolutePath());
                     Process expedienteProcess = expedienteProcessBuilder.start();

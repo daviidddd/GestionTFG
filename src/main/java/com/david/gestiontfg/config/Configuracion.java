@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
 import org.kohsuke.github.GHContent;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -37,6 +39,14 @@ public class Configuracion {
             e.printStackTrace();
             // Si hay un error al cargar el archivo de configuración, se utilizan las propiedades predeterminadas
             configurarPropiedadesPredeterminadas2();
+        }
+
+        // Verificar si el directorio GestorUCAM existe
+        File gestorUCAMDir = new File(System.getProperty("user.home"), "GestorUCAM");
+        if (!gestorUCAMDir.exists()) {
+            // Si el directorio GestorUCAM no existe, crearlo con las propiedades predeterminadas
+            String[] directories = {"scripts", "config", "fonts", "logs"};
+            crearDirectorioHome(directories);
         }
     }
 
@@ -187,61 +197,98 @@ public class Configuracion {
         properties.setProperty("python.path", "");
         properties.setProperty("mysql.path", "");
         properties.setProperty("configuracion_inicial", "false");
+        // Guardar la configuración predeterminada en el archivo de configuración
+        guardarConfiguracion();
+    }
 
+    public void crearDirectorioHome(String[] directories) {
         String owner = "daviidddd"; // Nombre del propietario del repositorio
         String repo = "GestionTFG"; // Nombre del repositorio
+        String basePath = System.getProperty("user.home") + File.separator + "GestorUCAM";
+        File baseDir = new File(basePath);
 
-        // Directorios a crear dentro de "GestorUCAM"
-        String[] subdirectorios = {
-                "scripts",
-                "tfgs",
-                "expedientes",
-                "config",
-                "logs",
-                "fonts"
-        };
+        File carpetaTFG = new File(basePath +  File.separator + "tfgs");
+        File carpetaExpedientes = new File(baseDir + File.separator + "expedientes");
 
-        // Crear los subdirectorios dentro de "GestorUCAM"
-        for (String subdirectorio : subdirectorios) {
-            File carpeta = new File(System.getProperty("user.home"), "GestorUCAM" + File.separator + subdirectorio);
+        try {
+            GitHub github = GitHub.connectAnonymously();
 
-            // Verificar si la carpeta ya existe
-            if (!carpeta.exists() && carpeta.mkdirs()) {
-                carpeta.setReadable(true);
-                carpeta.setWritable(true);
-                System.out.println("Carpeta " + carpeta.getPath() + " creada.");
+            for (String directory : directories) {
+                File targetDir = new File(baseDir, directory);
 
-                // Obtener el contenido del directorio en el repositorio de GitHub
-                try {
-                    GitHub github = GitHub.connectAnonymously();
-                    GHRepository repository = github.getRepository(owner + "/" + repo);
-                    List<GHContent> directoryContents = repository.getDirectoryContent("src/main/resources/" + subdirectorio);
+                if (!targetDir.exists()) {
+                    if (targetDir.mkdirs()) {
+                        System.out.println("Carpeta " + targetDir.getPath() + " creada.");
 
-                    // Descargar archivos del directorio en el repositorio y guardarlos localmente
-                    for (GHContent content : directoryContents) {
-                        String fileName = content.getName();
-                        File localFile = new File(carpeta, fileName);
+                        // Obtener los contenidos del directorio en el repositorio
+                        GHRepository repository = github.getRepository(owner + "/" + repo);
+                        List<GHContent> directoryContents = repository.getDirectoryContent("src/main/resources/" + directory);
 
-                        try (InputStream inputStream = content.read();
-                             FileOutputStream outputStream = new FileOutputStream(localFile)) {
-                            byte[] buffer = new byte[1024];
-                            int bytesRead;
-                            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                                outputStream.write(buffer, 0, bytesRead);
-                            }
-                            System.out.println("Archivo descargado: " + fileName);
-                        }
+                        System.out.println(directoryContents.size());
+
+                        // Descargar los archivos en un hilo separado
+                        Thread downloadThread = new Thread(() -> descargarArchivos(directoryContents, targetDir));
+                        downloadThread.start();
+                    } else {
+                        System.err.println("No se pudo crear la carpeta " + targetDir.getPath());
                     }
-                } catch (IOException e) {
-                    System.err.println("Error al descargar archivos desde GitHub: " + e.getMessage());
+                } else {
+                    System.out.println("Carpeta " + targetDir.getPath() + " ya existe.");
                 }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Si carpetaTFG no existe, crearla
+        if (!carpetaTFG.exists()) {
+            if (carpetaTFG.mkdirs()) {
+                carpetaTFG.setReadable(true);
+                carpetaTFG.setWritable(true);
+                System.out.println("Carpeta UCAM/tfgs/ creada.");
             } else {
-                System.err.println("No se pudo crear la carpeta " + carpeta.getPath());
+                System.err.println("No se pudo crear la carpeta UCAM/tfgs/");
             }
         }
 
-        // Guardar la configuración predeterminada en el archivo de configuración
-        guardarConfiguracion();
+        // Si carpetaExpedientes no existe, crearla
+        if(!carpetaExpedientes.exists()) {
+            if (carpetaExpedientes.mkdirs()) {
+                carpetaExpedientes.setReadable(true);
+                carpetaExpedientes.setWritable(true);
+                System.out.println("Carpeta UCAM/tfgs/ creada.");
+            }
+        }
+
+    }
+
+    private void descargarArchivos(List<GHContent> directoryContents, File targetDir) {
+        for (GHContent content : directoryContents) {
+            String fileName = content.getName();
+            if (!fileName.startsWith("__")) { // Evitar archivos que comienzan con "__"
+                System.out.println(fileName);
+                try {
+                    if (fileName.toLowerCase().endsWith(".ttf")) {
+                        // Para archivos .ttf, copiar directamente sin leer su contenido
+                        File localFile = new File(targetDir, fileName);
+                        Files.copy(content.read(), localFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        System.out.println("Archivo descargado: " + fileName);
+                    } else {
+                        // Para otros archivos, leer el contenido y copiar como antes
+                        InputStream inputStream = content.read();
+                        if (inputStream != null) {
+                            File localFile = new File(targetDir, fileName);
+                            Files.copy(inputStream, localFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            System.out.println("Archivo descargado: " + fileName);
+                        } else {
+                            System.err.println("El contenido de " + fileName + " es nulo.");
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void asignarPython(String path) {
