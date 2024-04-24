@@ -261,12 +261,11 @@ public class Solicitud {
         this.ptosTFG4 = new SimpleIntegerProperty(0);
         this.ptosTFG5 = new SimpleIntegerProperty(0);
 
-        this.nia = new SimpleIntegerProperty(BDController.obtenerNiaPorCorreo(solicitud.getCorreoElectronico()));
         double creditosRestantes = solicitud.getCreditosRestantes();
         double notaMedia = solicitud.getNotaMedia();
         double[] experienciasTFG = {solicitud.getExpTFG1(), solicitud.getExpTFG2(), solicitud.getExpTFG3(), solicitud.getExpTFG4(), solicitud.getExpTFG5()};
         String[] tfgSeleccionados = {solicitud.getTfg1(), solicitud.getTfg2(), solicitud.getTfg3(), solicitud.getTfg4(), solicitud.getTfg5()};
-        String rutaAbsoluta = Paths.get(System.getProperty("user.home"), "GestorUCAM", "baremos", "puntuacion.json").toString();
+        String rutaAbsoluta = Paths.get(System.getProperty("user.home"), "GestorUCAM", "config", "puntuacion.json").toString();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(rutaAbsoluta))))) {
 
