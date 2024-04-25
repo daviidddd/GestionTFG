@@ -1,11 +1,9 @@
 package com.david.gestiontfg;
 
+import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.modelos.Alumno;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class DetalleAlumnoController {
 
@@ -63,7 +61,30 @@ public class DetalleAlumnoController {
 
     @FXML
     private void eliminarAlumno() {
+        String alumno = txtIDUcamDetalle.getText();
 
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText("¿Estás seguro de que quiere eliminar " + alumno + " ?");
+            alert.setContentText("Esta acción no es reversible.");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    BDController bdController = new BDController();
+                    boolean eliminacionExitosa =  bdController.eliminarAlumno(alumno);
+
+                    if (eliminacionExitosa) {
+                        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                        alerta.setTitle(alumno);
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Eliminación exitosa");
+                        alerta.showAndWait();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
