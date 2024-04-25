@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Background;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class GestionarAlumnosController {
-
     @FXML
     private TextField txtIDUcam;
     @FXML
@@ -33,8 +33,6 @@ public class GestionarAlumnosController {
     @FXML
     private TextField txtNIA;
     @FXML
-    private Button btnAltaAlumno;
-    @FXML
     private Button btnAltaAlumnoFichero;
     @FXML
     private TableView tbAlumnosAlta;
@@ -47,6 +45,10 @@ public class GestionarAlumnosController {
 
     public GestionarAlumnosController() {
         this.bdController = new BDController();
+    }
+
+    protected void initData() {
+        btnAltaAlumnoFichero.setBackground(Background.EMPTY);
     }
 
     @FXML

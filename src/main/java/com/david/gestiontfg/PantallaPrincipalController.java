@@ -222,6 +222,10 @@ public class PantallaPrincipalController {
         try {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
+
+            GestionarAlumnosController controller = fxmlLoader.getController();
+            controller.initData();
+
             stage.setScene(scene);
             stage.setTitle("Subida de alumnos");
             stage.setResizable(false);
@@ -250,6 +254,10 @@ public class PantallaPrincipalController {
         try {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
+
+            GestionarTfgsController controller = fxmlLoader.getController();
+            controller.initData();
+
             stage.setScene(scene);
             stage.setTitle("Subida de TFGs");
             stage.setResizable(false);

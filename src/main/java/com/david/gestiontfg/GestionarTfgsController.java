@@ -3,27 +3,35 @@ package com.david.gestiontfg;
 import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.List;
 
 public class GestionarTfgsController {
     @FXML
     private TextField txtCodigo;
     @FXML
-    private TextField txtTitulo;
+    private TextArea txtTecnologias;
+    @FXML
+    private TextArea txtTutor;
+    @FXML
+    private TextArea txtAsignaturas;
+    @FXML
+    private TextArea txtTitulo;
     @FXML
     private TextArea txtDescripcion;
     @FXML
-    private TextField txtTutor;
+    private ComboBox cbTutor;
     @FXML
-    private TextField txtAsignaturas1;
+    private ComboBox cbAsignatura;
     @FXML
-    private TextField txtAsignaturas2;
-    @FXML
-    private TextField txtAsignaturas3;
+    private Button btnAltaTFGFichero;
 
     private BDController bdController;
     private Stage stage;
@@ -36,23 +44,77 @@ public class GestionarTfgsController {
         this.bdController = new BDController();
     }
 
+    public void initData() {
+        cargarComboTutores();
+        cargarComboAsignaturas();
+
+        btnAltaTFGFichero.setBackground(Background.EMPTY);
+    }
+
+    protected void cargarComboTutores() {
+        BDController bdController = new BDController();
+        List<String> tutores = bdController.obtenerTutoresGrado();
+
+        // Crear un ObservableList a partir de la lista de asignaturas
+        ObservableList<String> items = FXCollections.observableArrayList(tutores);
+
+        // Establecer los elementos
+        cbTutor.setItems(items);
+    }
+
+    protected void cargarComboAsignaturas() {
+        BDController bdController = new BDController();
+        List<String> asignaturas = bdController.obtenerAsignaturasGrado();
+
+        // Crear un ObservableList a partir de la lista de asignaturas
+        ObservableList<String> items = FXCollections.observableArrayList(asignaturas);
+
+        // Establecer los elementos
+        cbAsignatura.setItems(items);
+    }
+
+    @FXML
+    protected void anadirTutor() {
+        String tutorExistente = "";
+        tutorExistente = txtTutor.getText();
+        txtTutor.setText(tutorExistente + cbTutor.getSelectionModel().getSelectedItem().toString() + ", ");
+    }
+
+    @FXML
+    protected void anadirAsignatura() {
+        String asignaturaExistente = "";
+        asignaturaExistente = txtAsignaturas.getText();
+        txtAsignaturas.setText(asignaturaExistente + cbAsignatura.getSelectionModel().getSelectedItem().toString() + ", ");
+    }
+
+    @FXML
+    protected void borrarTutores() {
+        txtTutor.setText("");
+    }
+
+    @FXML
+    protected void borrarAsignaturas() {
+        txtAsignaturas.setText("");
+    }
+
     @FXML
     protected void altaTFGClick() {
         String codigo = txtCodigo.getText();
         String titulo = txtTitulo.getText();
         String descripcion = txtDescripcion.getText();
         String tutor = txtTutor.getText();
-        String asignaturas1 = txtAsignaturas1.getText();
-        String asignaturas2 = txtAsignaturas2.getText();
-        String asignaturas3 = txtAsignaturas3.getText();
-        String tecnologias = "";
+        String asignaturas = txtAsignaturas.getText();
+        String tecnologias = txtTecnologias.toString();
 
-        String asignaturas = String.valueOf(asignaturas1 + ", " + asignaturas2 + ", " + asignaturas3);
         String tfg = String.valueOf(codigo + " " + titulo);
 
-        if(codigo.isEmpty() || titulo.isEmpty() || descripcion.isEmpty() || tutor.isEmpty() || asignaturas1.isEmpty())
-            System.out.println("Campos vacios");
-        else {
+        if(codigo.isEmpty() || titulo.isEmpty() || descripcion.isEmpty() || tutor.isEmpty() || asignaturas.isEmpty() || tecnologias.isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error");
+            alerta.setHeaderText("Hay campos vacíos");
+            alerta.setContentText("Asegúrese de completar todos los campos.");
+            alerta.showAndWait();
+        } else {
             boolean altaExitosa = bdController.registrarTFG(codigo, titulo, descripcion, tutor, asignaturas, tecnologias);
             if(altaExitosa){
                 LogController.registrarAccion("Alta TFG - " + tfg);
@@ -137,9 +199,8 @@ public class GestionarTfgsController {
         txtTitulo.setText("");
         txtDescripcion.setText("");
         txtTutor.setText("");
-        txtAsignaturas1.setText("");
-        txtAsignaturas2.setText("");
-        txtAsignaturas3.setText("");
+        txtAsignaturas.setText("");
+        txtTecnologias.setText("");
     }
 
 }
