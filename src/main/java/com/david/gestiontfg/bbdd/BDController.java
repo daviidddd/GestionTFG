@@ -629,6 +629,27 @@ public class BDController {
         }
     }
 
+    public boolean modificarAlumnoPorCodigo(int idUcamNuevo, int idUcamAntiguo, int NIA, String nombre, String correo, String apellido1, String apellido2, String expediente) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("UPDATE alumnos SET id_ucam = ?, nombre = ?, apellido1 = ?, apellido2 = ?, correo = ?, nia = ?, expediente = ? WHERE id_ucam = ?");
+        ) {
+            statement.setInt(1, idUcamNuevo);
+            statement.setString(2, nombre);
+            statement.setString(3, apellido1);
+            statement.setString(4, apellido2);
+            statement.setString(5, correo);
+            statement.setInt(6, NIA);
+            statement.setString(7, expediente);
+            statement.setInt(8, idUcamAntiguo);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean modificarSolicitudPorCodigo(Double notaMedia, Double creditosRestantes, String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, Double expTFG1, Double expTFG2, Double expTFG3, Double expTFG4, Double expTFG5) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
              PreparedStatement statement = connection.prepareStatement("UPDATE solicitudes SET nota_media = ?, creditos_restantes = ?, tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ?, exp_tfg1 = ?, exp_tfg2 = ?, exp_tfg3 = ?, exp_tfg4 = ?, exp_tfg5 = ? WHERE correo = ?");

@@ -138,7 +138,7 @@ public class ModalBusquedaController {
                     }
                 } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
                     // Lógica para el clic derecho
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar este TFG?");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este TFG?");
                     alert.setTitle("Eliminar TFG");
                     alert.setHeaderText(null);
 
@@ -178,7 +178,7 @@ public class ModalBusquedaController {
                     }
                 } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
                     // Lógica para el clic derecho
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar este alumno?");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este alumno?");
                     alert.setTitle("Eliminar alumno");
                     alert.setHeaderText(null);
 
@@ -218,7 +218,7 @@ public class ModalBusquedaController {
                     }
                 } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
                     // Lógica para el clic derecho
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que quieres eliminar esta solicitud?");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar esta solicitud?");
                     alert.setTitle("Eliminar solicitud");
                     alert.setHeaderText(null);
 

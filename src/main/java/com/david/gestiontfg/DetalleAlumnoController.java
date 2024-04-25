@@ -5,6 +5,8 @@ import com.david.gestiontfg.modelos.Alumno;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.io.File;
+
 public class DetalleAlumnoController {
 
     @FXML
@@ -33,6 +35,7 @@ public class DetalleAlumnoController {
     private Button btnModificarAlumnoDetalle;
     @FXML
     private Label lblAlumno;
+    private static int idUcamSeleccionado = 0;
 
     public void initData(Alumno alumno) {
         lblAlumno.setText("/ " + alumno.getCorreo());
@@ -40,7 +43,7 @@ public class DetalleAlumnoController {
         txtCorreoDetalle.setText(alumno.getCorreo());
         txtNombreDetalle.setText(String.valueOf(alumno.getNombre()));
         txtApellido1Detalle.setText(alumno.getApellido1());
-        txtApellido1Detalle.setText(alumno.getApellido2());
+        txtApellido2Detalle.setText(alumno.getApellido2());
         txtNIADetalle.setText(String.valueOf(alumno.getNIA()));
         txtIDUcamDetalle.setText(String.valueOf(alumno.getIdUcam()));
 
@@ -52,11 +55,72 @@ public class DetalleAlumnoController {
             rdExpedienteNo.setSelected(true);
         }
 
+        idUcamSeleccionado = alumno.getIdUcam();
     }
 
     @FXML
     private void modificarAlumno() {
+        try {
+            BDController bdController = new BDController();
+            File carpetaExpedientes = new File(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes");
 
+            String expedienteAlumnoExiste = null;
+            int idUcam = Integer.parseInt(txtIDUcamDetalle.getText());
+            int NIA = Integer.parseInt(txtNIADetalle.getText());
+            String correo = txtCorreoDetalle.getText();
+            String nombre = txtNombreDetalle.getText();
+            String apellido1 = txtApellido1Detalle.getText();
+            String apellido2 = txtApellido2Detalle.getText();
+            //boolean solicitud = bdController.solicitudAlumno();
+            boolean expediente = false;
+
+
+            if (carpetaExpedientes.exists() && carpetaExpedientes.isDirectory()) {
+                File[] archivos = carpetaExpedientes.listFiles();
+                if (archivos != null) {
+                    for (File archivo : archivos) {
+                        if (archivo.isFile() && archivo.getName().equals(NIA + ".txt")) {
+                            expediente = true;
+                            rdExpedienteSi.setSelected(true);
+                            rdExpedienteNo.setSelected(false);
+                            rdExpedienteNo.setDisable(true);
+                            expedienteAlumnoExiste = "SI";
+                        }
+                    }
+                } else {
+                    rdExpedienteSi.setSelected(false);
+                    rdExpedienteNo.setSelected(true);
+                    rdExpedienteSi.setDisable(true);
+                    expedienteAlumnoExiste = "NO";
+                }
+            } else {
+                rdExpedienteSi.setSelected(false);
+                rdExpedienteNo.setSelected(true);
+                rdExpedienteSi.setDisable(true);
+                expedienteAlumnoExiste = "NO";
+            }
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText("Modificación de alumno");
+            alert.setContentText("¿Está seguro de que quiere modificar " + idUcamSeleccionado + " ?");
+            String finalExpedienteAlumnoExiste = expedienteAlumnoExiste;
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    boolean modificacionExitosa = bdController.modificarAlumnoPorCodigo(idUcam, idUcamSeleccionado, NIA, nombre, correo, apellido1, apellido2, finalExpedienteAlumnoExiste);
+                    if (modificacionExitosa) {
+                        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                        alerta.setTitle("Alumno modificado");
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Modificación exitosa");
+                        alerta.showAndWait();
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
