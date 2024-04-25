@@ -39,7 +39,7 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Asginaciones">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#asignacionesClick" text="Crear asignaciones automática" />
+                  <MenuItem mnemonicParsing="false" onAction="#asignacionAutomatica" text="Crear asignaciones automática" />
                   <MenuItem mnemonicParsing="false" onAction="#exportarAsignaciones" text="Exportar asignaciones" />
                   <MenuItem mnemonicParsing="false" onAction="#borrarAsignaciones" text="Restablecer asignaciones" />
                </items></Menu>

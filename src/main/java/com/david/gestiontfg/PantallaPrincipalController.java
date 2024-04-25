@@ -754,6 +754,12 @@ public class PantallaPrincipalController {
         }
     }
 
+    @FXML
+    protected void asignacionAutomatica() {
+        BDController bdController = new BDController();
+        bdController.asignacionTFGAutomatica();
+    }
+
     private void mostrarAlerta(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
