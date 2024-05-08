@@ -21,8 +21,11 @@ def procesar_pdf(nombre_archivo):
             page = pdf_reader.pages[page_num]
             page_text = page.extract_text()
 
-            # Formateo - Eliminar cabeceraa
-            inicio_delimitador = "Informática "
+            # Formateo - Quitar tildes
+            page_text = page_text.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+
+            # Formateo - Eliminar cabecera
+            inicio_delimitador = "Informatica "
             page_text = re.sub(f".*?{re.escape(inicio_delimitador)}", "", page_text, flags=re.DOTALL)
 
             # Formateo - Eliminar dobles espacios
@@ -33,13 +36,6 @@ def procesar_pdf(nombre_archivo):
 
             # Formateo - Separar TFG por linea
             page_text = page_text.replace("Nº", "\nNº")
-
-            # Formateo - Eliminar tildes
-            page_text = page_text.replace("á", "a")
-            page_text = page_text.replace("é", "e")
-            page_text = page_text.replace("í", "i")
-            page_text = page_text.replace("ó", "o")
-            page_text = page_text.replace("ú", "u")
 
             # Formateo - Palabras
             page_text = page_text.replace("Descr ipcion", "Descripcion")

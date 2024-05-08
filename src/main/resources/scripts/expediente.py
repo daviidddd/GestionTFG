@@ -47,6 +47,9 @@ def formatear_texto(pdf_text):
     # Formateo 7 - LowerCase
     nuevo_texto4 = nuevo_texto4.lower()
 
+    # Formateo 8 - Quitar tildes
+    nuevo_texto4 = nuevo_texto4.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
+
     return nuevo_texto4
 
 if __name__ == "__main__":

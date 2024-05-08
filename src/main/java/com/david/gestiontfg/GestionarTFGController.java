@@ -11,9 +11,10 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.text.Normalizer;
 import java.util.List;
 
-public class GestionarTfgsController {
+public class GestionarTFGController {
     @FXML
     private TextField txtCodigo;
     @FXML
@@ -40,7 +41,7 @@ public class GestionarTfgsController {
         this.stage = stage;
     }
 
-    public GestionarTfgsController() {
+    public GestionarTFGController() {
         this.bdController = new BDController();
     }
 
@@ -173,16 +174,16 @@ public class GestionarTfgsController {
                     n = br.readLine().trim();// Lee la siguiente línea y elimina espacios en blanco al principio y al final
                     n = n.replace(" ", ""); // Quita el espacio en blanco  (CXXXX - XX --> CXXXX-XX)
                 } else if (linea.startsWith("Titulo")) {
-                    titulo = br.readLine().trim();
+                    titulo = limpiarTexto(br.readLine().trim());
                 } else if (linea.startsWith("Tutor")) {
-                    tutor = br.readLine().trim();
+                    tutor = limpiarTexto(br.readLine().trim());
                     tutor = tutor.replace(" y ", " , "); // Sustituye "y" por ","
                 } else if (linea.startsWith("Descr")) {
-                    descripcion = br.readLine().trim();
+                    descripcion = limpiarTexto(br.readLine().trim());
                 } else if (linea.startsWith("Tecnologias")) {
-                    tecnologias = br.readLine().trim();
+                    tecnologias = limpiarTexto(br.readLine().trim());
                 } else if (linea.startsWith("Asignaturas")) {
-                    asignaturas = br.readLine().trim();
+                    asignaturas = limpiarTexto(br.readLine().trim());
                 }
             }
 
@@ -192,6 +193,16 @@ public class GestionarTfgsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String limpiarTexto(String texto) {
+        // Normalizar caracteres
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        // Eliminar caracteres no válidos y reemplazarlos por espacios
+        texto = texto.replaceAll("[^\\x00-\\x7F]", " ");
+        // Escapar caracteres especiales si es necesario
+        texto = texto.replace("'", "''"); // Por ejemplo, escapar comillas simples
+        return texto;
     }
 
     protected void limpiarFormulario() {

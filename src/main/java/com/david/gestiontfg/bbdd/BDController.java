@@ -176,45 +176,39 @@ public class BDController {
     public void asignacionTFGAutomatica() {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Consulta para obtener todas las puntuaciones ordenadas por orden y puntuación de mayor a menor
-            String query = "SELECT tfg, alumno, puntuacion, orden FROM puntuaciones ORDER BY orden ASC, puntuacion DESC";
+            String query = "SELECT tfg, alumno, puntuacion, orden FROM puntuaciones ORDER BY puntuacion DESC, orden ASC";
 
-            // Conjunto para realizar un seguimiento de los TFG ya asignados
-            Set<String> tfgsAsignados = new HashSet<>();
+            // Mapa para realizar un seguimiento de las puntuaciones máximas por TFG
+            Map<String, Integer> maxPuntuaciones = new HashMap<>();
+            // Conjunto para realizar un seguimiento de los alumnos a los que ya se les ha asignado un TFG
+            Set<Integer> alumnosAsignados = new HashSet<>();
 
             try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String tfg = rs.getString("tfg");
                     int alumno = rs.getInt("alumno");
+                    int puntuacion = rs.getInt("puntuacion");
                     int order = rs.getInt("orden");
 
-                    // Verificar si el TFG ya está asignado a algún alumno o si el alumno ya tiene un TFG asignado
-                    if (!tfgsAsignados.contains(tfg) && !alumnoTieneTFGAsignado(connection, alumno)) {
-                        // Asignar el TFG al alumno actual
-                        asignarTFG(connection, tfg, alumno);
-                        tfgsAsignados.add(tfg);
+                    // Verificar si el alumno ya tiene asignado un TFG
+                    if (!alumnosAsignados.contains(alumno)) {
+                        // Verificar si la puntuación actual es mayor que la máxima registrada para este TFG
+                        if (!maxPuntuaciones.containsKey(tfg) || puntuacion > maxPuntuaciones.get(tfg)) {
+                            // Actualizar la máxima puntuación para este TFG
+                            maxPuntuaciones.put(tfg, puntuacion);
+
+                            // Asignar el TFG al alumno actual
+                            asignarTFG(connection, tfg, alumno);
+
+                            // Agregar al alumno al conjunto de alumnos asignados
+                            alumnosAsignados.add(alumno);
+                        }
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    // Método para verificar si un alumno ya tiene un TFG asignado
-    private boolean alumnoTieneTFGAsignado(Connection connection, int alumno) throws SQLException {
-        String query = "SELECT COUNT(*) AS count FROM tfgs WHERE adjudicado = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, alumno);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int count = rs.getInt("count");
-                    return count > 0;
-                }
-            }
-        }
-
-        return false;
     }
 
     // Método para asignar un TFG a un alumno
@@ -609,6 +603,16 @@ public class BDController {
         }
     }
 
+    public void limpiarPuntuaciones() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM puntuacionesF")
+        ) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean modificarTFGPorCodigo(String codigoNuevo, String codigoAntiguo, String titulo, String descripcion, String tutor, String asignaturas, String tecnologias) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
              PreparedStatement statement = connection.prepareStatement("UPDATE tfgs SET codigo = ?, titulo = ?, descripcion = ?, tutor = ?, asignaturas = ?, tecnologias = ? WHERE codigo = ?");
@@ -650,9 +654,9 @@ public class BDController {
         }
     }
 
-    public boolean modificarSolicitudPorCodigo(Double notaMedia, Double creditosRestantes, String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, Double expTFG1, Double expTFG2, Double expTFG3, Double expTFG4, Double expTFG5) {
+    public boolean modificarSolicitudPorCodigo(Double notaMedia, Double creditosRestantes, String correoAntiguo, String tfg1, String tfg2, String tfg3, String tfg4, String tfg5, int expTFG1, int expTFG2, int expTFG3, int expTFG4, int expTFG5, int ptoCreditos, int ptoExperiencia, int ptoNotaMedia, int ptoTFG1, int ptoTFG2, int ptoTFG3, int ptoTFG4, int ptoTFG5) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
-             PreparedStatement statement = connection.prepareStatement("UPDATE solicitudes SET nota_media = ?, creditos_restantes = ?, tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ?, exp_tfg1 = ?, exp_tfg2 = ?, exp_tfg3 = ?, exp_tfg4 = ?, exp_tfg5 = ? WHERE correo = ?");
+             PreparedStatement statement = connection.prepareStatement("UPDATE solicitudes SET nota_media = ?, creditos_restantes = ?, tfg1 = ?, tfg2 = ?, tfg3 = ?, tfg4 = ?, tfg5 = ?, exp_tfg1 = ?, exp_tfg2 = ?, exp_tfg3 = ?, exp_tfg4 = ?, exp_tfg5 = ?, pto_creditos = ?, pto_experiencia = ?, pto_nota_media = ?, pto_tfg1 = ?, pto_tfg2 = ?, pto_tfg3 = ?, pto_tfg4 = ?, pto_tfg5 = ? WHERE correo = ?");
         ) {
             statement.setDouble(1, notaMedia);
             statement.setDouble(2, creditosRestantes);
@@ -666,7 +670,16 @@ public class BDController {
             statement.setDouble(10, expTFG3);
             statement.setDouble(11, expTFG4);
             statement.setDouble(12, expTFG5);
-            statement.setString(13, correoAntiguo);
+            statement.setInt(13, ptoCreditos);
+            statement.setInt(14, ptoExperiencia);
+            statement.setInt(15, ptoNotaMedia);
+            statement.setInt(16, ptoTFG1);
+            statement.setInt(17, ptoTFG2);
+            statement.setInt(18, ptoTFG3);
+            statement.setInt(19, ptoTFG4);
+            statement.setInt(20, ptoTFG5);
+            statement.setString(21, correoAntiguo);
+
 
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;

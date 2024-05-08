@@ -159,7 +159,7 @@ public class DetalleTFGController {
 
         } catch (Exception e) {
             e.printStackTrace();
-        };
+        }
     }
 
     @FXML

@@ -21,9 +21,12 @@ def procesar_archivo(archivo):
 
     # Escribir las líneas procesadas en un nuevo archivo
     nuevo_archivo = archivo.replace('.txt', '_formateado.txt')
-    with open(nuevo_archivo, 'w') as f:
-        for linea in lineas:
-            f.write(linea + '\n')
+    with open(nuevo_archivo, 'w', encoding='utf-8') as f:
+        for i, linea in enumerate(lineas):
+            if i % 2 == 0:
+                f.write(linea)
+            else:
+                f.write('\n' + linea + '\n')
 
 
 # Directorio que contiene los archivos .txt

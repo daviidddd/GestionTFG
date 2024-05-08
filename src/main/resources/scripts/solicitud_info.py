@@ -27,12 +27,7 @@ def procesar_pdf(nombre_archivo):
     texto_completo = ' '.join(texto_completo)
 
     # Formateo 2: Eliminar tildes
-    #texto_completo = unidecode.unidecode(texto_completo)
-    texto_completo = texto_completo.replace("á", "a")
-    texto_completo = texto_completo.replace("é", "e")
-    texto_completo = texto_completo.replace("í", "i")
-    texto_completo = texto_completo.replace("ó", "o")
-    texto_completo = texto_completo.replace("ú", "u")
+    texto_completo = texto_completo.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
 
     # Formateo 3: Reemplazar múltiples espacios en blanco por uno solo
     patron_espacios = re.compile(r'\s+')

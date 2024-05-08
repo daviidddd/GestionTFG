@@ -181,16 +181,21 @@ public class DetalleSolicitudController {
         try {
             Double notaMedia = Double.valueOf(txtNotaMedia.getText());
             Double creditosRestantes = Double.valueOf(txtCreditosRestantes.getText());
+            String correoElectronico = txtAlumnoSolicitud.getText();
             String tfg1 = cbDetalleTFG1.getValue();
             String tfg2 = cbDetalleTFG2.getValue();
             String tfg3 = cbDetalleTFG3.getValue();
             String tfg4 = cbDetalleTFG4.getValue();
             String tfg5 = cbDetalleTFG5.getValue();
-            Double expTFG1 = Double.valueOf(txtExpTFG1.getText());
-            Double expTFG2 = Double.valueOf(txtExpTFG1.getText());
-            Double expTFG3 = Double.valueOf(txtExpTFG1.getText());
-            Double expTFG4 = Double.valueOf(txtExpTFG1.getText());
-            Double expTFG5 = Double.valueOf(txtExpTFG1.getText());
+            int expTFG1 = Integer.parseInt(txtExpTFG1.getText());
+            int expTFG2 = Integer.parseInt(txtExpTFG1.getText());
+            int expTFG3 = Integer.parseInt(txtExpTFG1.getText());
+            int expTFG4 = Integer.parseInt(txtExpTFG1.getText());
+            int expTFG5 = Integer.parseInt(txtExpTFG1.getText());
+            int mesesTotales = expTFG1 + expTFG2 + expTFG3 + expTFG4 + expTFG5;
+
+            Solicitud solicitudEditada = new Solicitud(correoElectronico, notaMedia, creditosRestantes, mesesTotales, "NO", tfg1, tfg2, tfg3, tfg4, tfg5, expTFG1, expTFG2, expTFG3, expTFG4, expTFG5);
+            solicitudEditada.calcularPuntuacionSimple(solicitudEditada);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmación");
@@ -199,8 +204,12 @@ public class DetalleSolicitudController {
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     BDController bdController = new BDController();
-                    boolean modificacionExitosa = bdController.modificarSolicitudPorCodigo(notaMedia, creditosRestantes, correoAntiguoAlumno, tfg1, tfg2, tfg3, tfg4, tfg5, expTFG1, expTFG2, expTFG3, expTFG4, expTFG5);
+                    boolean modificacionExitosa = bdController.modificarSolicitudPorCodigo(notaMedia, creditosRestantes, correoAntiguoAlumno, tfg1, tfg2, tfg3, tfg4, tfg5, expTFG1, expTFG2, expTFG3, expTFG4, expTFG5, solicitudEditada.getPtosCreditos(), solicitudEditada.getPtosExperiencia(), solicitudEditada.getPtosNotaMedia(), solicitudEditada.getExpTFG1(), solicitudEditada.getExpTFG2(), solicitudEditada.getExpTFG3(), solicitudEditada.getExpTFG4(), solicitudEditada.getExpTFG5());
                     if (modificacionExitosa) {
+                        // Recargar campos
+                        setValoresIniciales(solicitudEditada);
+                        cargarPuntuacion(solicitudEditada);
+
                         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                         alerta.setTitle(txtAlumnoSolicitud.getText());
                         alerta.setHeaderText(null);

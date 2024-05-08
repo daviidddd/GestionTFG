@@ -16,8 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -29,12 +27,9 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.w3c.dom.Document;
 
 import java.io.*;
-import java.lang.annotation.Documented;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class PantallaPrincipalController {
@@ -255,7 +250,7 @@ public class PantallaPrincipalController {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
 
-            GestionarTfgsController controller = fxmlLoader.getController();
+            GestionarTFGController controller = fxmlLoader.getController();
             controller.initData();
 
             stage.setScene(scene);
@@ -483,6 +478,7 @@ public class PantallaPrincipalController {
                 bdController.limpiarTFGs();
                 bdController.limpiarSolicitudes();
                 bdController.limpiarSolicitantes();
+                bdController.limpiarPuntuaciones();
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/expedientes/");
                 ArchivoController.borrarArchivosEnDirectorio("src/main/resources/tfgs/");
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
