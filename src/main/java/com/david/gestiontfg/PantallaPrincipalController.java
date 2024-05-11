@@ -122,6 +122,8 @@ public class PantallaPrincipalController {
         else
             configuracionInicial(false);
 
+
+
         // Poblar tablas con los registros de la BBDD
         cargarTablaAlumnos();
         cargarTablaTFG();
@@ -129,6 +131,14 @@ public class PantallaPrincipalController {
         // Poblar campos con estadísticas
         cargarExpedientes();
         cargarSolicitudes();
+
+        // Crear tooltips
+        javafx.scene.control.Tooltip tooltipTFG = new javafx.scene.control.Tooltip("Indica el procentaje de TFG adjudicados. 0% ninguno - 100% todos");
+        javafx.scene.control.Tooltip tooltipExpedientes = new javafx.scene.control.Tooltip("Indica el porcentaje de alumnos que cuentan con expedientes. 0% ninguno - 100% todos");
+
+        // Asociar tooltips y progressbar
+        javafx.scene.control.Tooltip.install(ratioDisponiblesOcupados, tooltipTFG);
+        javafx.scene.control.Tooltip.install(ratioExpedientes, tooltipExpedientes);
 
         // Cargar barras de progreso
         cargarProgressBarExpedientes();
