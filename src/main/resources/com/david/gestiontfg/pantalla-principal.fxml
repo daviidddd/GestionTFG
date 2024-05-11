@@ -110,7 +110,10 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
-            <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0" />
+            <Label fx:id="lblTFGActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="187.0">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
             <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioDisponiblesOcupados" layoutX="609.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />
             <Label fx:id="lblProgresoTFG" layoutX="740.0" layoutY="22.0" text="100%" />
             <Label layoutX="535.0" layoutY="22.0" text="Asignados:" />
@@ -124,7 +127,10 @@
       </Pane>
       <Pane layoutX="69.0" layoutY="334.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="334.0">
          <children>
-            <Label fx:id="lblExpedientesActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="0.0" />
+            <Label fx:id="lblExpedientesActivos" layoutX="263.0" layoutY="17.0" prefHeight="26.0" prefWidth="187.0">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="EXPEDIENTES">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -144,6 +150,11 @@
       <Button fx:id="btnBusqueda" layoutX="903.0" layoutY="117.0" mnemonicParsing="false" onMouseClicked="#busquedaClick" prefHeight="30.0" prefWidth="124.0" text="Buscar" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="115.0" />
       <Pane layoutX="83.0" layoutY="418.0" prefHeight="60.0" prefWidth="168.0" style="-fx-background-color: #DBDBDB;" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="414.0">
          <children>
+            <Label fx:id="lblSolicitudesActivas" layoutX="265.0" layoutY="16.0" prefHeight="26.0" prefWidth="187.0">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font>
+            </Label>
             <Label layoutX="30.0" layoutY="17.0" prefHeight="26.0" text="SOLICITUDES">
                <font>
                   <Font name="System Bold" size="13.0" />

@@ -277,6 +277,23 @@ public class BDController {
         return tfgActivos;
     }
 
+    public int obtenerSolicitudesTam() {
+        int count = 0;
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS total FROM solicitudes");
+             ResultSet resultSet = statement.executeQuery()) {
+
+            // Verificar si se encontraron resultados
+            if (resultSet.next()) {
+                count = resultSet.getInt("total");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     public String obtenerAsignaturasTFG(String tfg) {
         String asignaturas = "";
 
@@ -608,7 +625,7 @@ public class BDController {
 
     public void limpiarPuntuaciones() {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM puntuacionesF")
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM puntuaciones")
         ) {
             statement.executeUpdate();
         } catch (SQLException e) {

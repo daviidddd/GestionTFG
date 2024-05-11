@@ -74,6 +74,8 @@ public class PantallaPrincipalController {
     @FXML
     private Label lblExpedientesActivos;
     @FXML
+    private Label lblSolicitudesActivas;
+    @FXML
     private ProgressBar ratioDisponiblesOcupados;
     @FXML
     private ProgressBar ratioExpedientes;
@@ -116,29 +118,25 @@ public class PantallaPrincipalController {
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
 
-        if (!Configuracion.configuracionInicial()) {
+        if (!Configuracion.configuracionInicial())
             configuracionInicial(true);
-        } else {
+        else
             configuracionInicial(false);
-        }
-
-        /*lblAlumnosActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
-        lblTFGActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
-        lblExpedientesActivos.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");*/
-
-        timer = new Timer();
 
         // Poblar tablas con los registros de la BBDD
-        cargarExpedientes();
         cargarTablaAlumnos();
         cargarTablaTFG();
+
+        // Poblar campos con estadísticas
+        cargarExpedientes();
+        cargarSolicitudes();
     }
 
     private void cargarTablaAlumnos() {
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
-        lblAlumnosActivos.setText(listaAlumnos.size() + " ALUMNOS ACTIVOS");
+        lblAlumnosActivos.setText(listaAlumnos.size() + " alumnos activos");
 
         cargarProgressBar();
     }
@@ -149,16 +147,45 @@ public class PantallaPrincipalController {
         List<TFG> listaTFG = bdController.obtenerTFGs();
 
         if(listaTFG.isEmpty())
-            lblTFGActivos.setText("0 TFG DISPONIBLES");
+            lblTFGActivos.setText("0 TFG disponibles");
+        else
+            lblTFGActivos.setText(listaTFG.size() + " TFG disponibles");
 
         cargarProgressBar();
     }
 
     private void cargarExpedientes() {
-        int expedientes = bdController.obtenerExpedientes();
-        lblExpedientesActivos.setText(expedientes + " EXPEDIENTES DISPONIBLES");
+        // Ruta del directorio que contiene los expedientes
+        String directorioExpedientes = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes";
 
+        // Contador para almacenar el número de archivos en el directorio
+        int numExpedientes = 0;
+
+        // Crear un objeto File con la ruta del directorio
+        File directorio = new File(directorioExpedientes);
+
+        // Verificar si el directorio existe y es un directorio
+        if (directorio.exists() && directorio.isDirectory()) {
+            // Obtener la lista de archivos en el directorio
+            File[] archivos = directorio.listFiles();
+
+            // Verificar si la lista de archivos no es nula
+            if (archivos != null) {
+                // Contar el número de archivos en el directorio
+                numExpedientes = archivos.length;
+            }
+        }
+
+        // Actualizar el Label con el número de expedientes
+        lblExpedientesActivos.setText(numExpedientes + " expedientes disponibles");
+
+        // Llamar al método para cargar la barra de progreso
         cargarProgressBar();
+    }
+
+    public void cargarSolicitudes() {
+        int solicitudes = bdController.obtenerSolicitudesTam();
+        lblSolicitudesActivas.setText(solicitudes + " solicitudes activas");
     }
 
     private void configuracionInicial(Boolean estado) throws FileNotFoundException {
@@ -477,12 +504,10 @@ public class PantallaPrincipalController {
                 bdController.limpiarSolicitudes();
                 bdController.limpiarSolicitantes();
                 bdController.limpiarPuntuaciones();
-                ArchivoController.borrarArchivosEnDirectorio("src/main/resources/expedientes/");
-                ArchivoController.borrarArchivosEnDirectorio("src/main/resources/tfgs/");
+                ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes");
+                ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs");
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
                 LogController.registrarAccion("IMPORTANTE: Formateo del sistema");
-            } else {
-
             }
         });
     }
