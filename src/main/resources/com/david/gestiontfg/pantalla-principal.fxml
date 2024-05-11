@@ -47,12 +47,6 @@
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#cargarConfiguracion" text="Configuración inicial" />
                 </items></Menu>
-            <Menu mnemonicParsing="false" text="Perfil">
-              <items>
-                <MenuItem fx:id="miVerPerfil" mnemonicParsing="false" text="Ver perfil" />
-                  <MenuItem fx:id="miModificarPerfil" mnemonicParsing="false" text="Modificar perfil" />
-              </items>
-            </Menu>
             <Menu mnemonicParsing="false" text="Actividad">
               <items>
                 <MenuItem mnemonicParsing="false" text="Ver" />

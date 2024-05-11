@@ -227,6 +227,10 @@ public class ModalBusquedaController {
                         tbResultadoSolicitud.getItems().remove(solicitudSeleccionada);
                         bdController.eliminarSolicitudPorCorreo(solicitudSeleccionada.getCorreoElectronico());
 
+                        // Eliminar las puntuaciones correspondientes a la solicitud
+                        int NIA = bdController.obtenerNIAPorCorreo(solicitudSeleccionada.getCorreoElectronico());
+                        bdController.eliminarPuntuacionPorSolicitud(NIA);
+
                         // Restar el numero de solicitantes en los TFGs seleccionados
                         bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg1());
                         bdController.restarSolicitanteTFG(solicitudSeleccionada.getTfg2());

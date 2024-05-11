@@ -424,8 +424,6 @@ public class PantallaPrincipalController {
         }
     }
 
-
-
     @FXML
     protected void salirClick() {
         Platform.exit();
@@ -500,8 +498,6 @@ public class PantallaPrincipalController {
                 bdController.limpiarAsignaciones();
                 mostrarAlerta("Borrado exitoso", "Las asignaciones se han restablecido éxitosamente.");
                 LogController.registrarAccion("IMPORTANTE: Limpiar asignaciones");
-            } else {
-
             }
         });
     }
@@ -520,7 +516,6 @@ public class PantallaPrincipalController {
                 // Ruta del archivo de texto de origen
                 //String rutaTexto = "src/main/resources/logs/activity_log.txt";
                 String rutaTexto = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "logs" + File.separator + "activity_log.txt";
-
 
                 // Crear documento PDF
                 PDDocument document = new PDDocument();
@@ -732,36 +727,21 @@ public class PantallaPrincipalController {
     }
 
     @FXML
-    protected void asignacionesClick() {
-        // Ventana para cargar alumnos manualmente o mediante fichero
-        panePrincipal.setDisable(true);
-
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-asignaciones.fxml"));
-        try {
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Asignaciones");
-            stage.setResizable(false);
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            // Configurar el comportamiento de cierre del Stage asociado al modal
-            stage.setOnCloseRequest(event -> {
-                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
-                panePrincipal.setDisable(false);
-            });
-
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     protected void asignacionAutomatica() {
         BDController bdController = new BDController();
-        bdController.asignacionTFGAutomatica();
+        if (bdController.asignacionTFGAutomatica()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText("Asignación automática exitosa");
+            alert.setContentText("Las asignaciónes se han realizado exitosamente.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error en la asignación");
+            alert.setContentText("No se ha podido llevar a cabo la asignación automática de TFG.");
+            alert.showAndWait();
+        }
     }
 
     private void mostrarAlerta(String titulo, String contenido) {

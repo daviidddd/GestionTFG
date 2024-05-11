@@ -173,7 +173,7 @@ public class BDController {
         }
     }
 
-    public void asignacionTFGAutomatica() {
+    public boolean asignacionTFGAutomatica() {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             // Consulta para obtener todas las puntuaciones ordenadas por orden y puntuación de mayor a menor
             String query = "SELECT tfg, alumno, puntuacion, orden FROM puntuaciones ORDER BY puntuacion DESC, orden ASC";
@@ -202,6 +202,8 @@ public class BDController {
 
                             // Agregar al alumno al conjunto de alumnos asignados
                             alumnosAsignados.add(alumno);
+
+                            return true;
                         }
                     }
                 }
@@ -209,6 +211,7 @@ public class BDController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // Método para asignar un TFG a un alumno
@@ -534,7 +537,7 @@ public class BDController {
         return tfgs;
     }
 
-    public static int obtenerNiaPorCorreo(String correo) {
+    public static int obtenerNIAPorCorreo(String correo) {
         int nia = 0;
 
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
@@ -722,6 +725,20 @@ public class BDController {
              PreparedStatement statement = connection.prepareStatement("DELETE FROM solicitudes WHERE correo = ?")
         ) {
             statement.setString(1, correo);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarPuntuacionPorSolicitud(int NIA) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM puntuaciones WHERE alumno = ?")
+        ) {
+            statement.setInt(1, NIA);
 
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;

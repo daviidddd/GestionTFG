@@ -5,13 +5,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.beans.property.*;
-import javafx.scene.control.TextField;
 
 import java.io.*;
 import java.nio.file.Paths;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class Solicitud {
     private final SimpleStringProperty correoElectronico;
@@ -55,7 +52,7 @@ public class Solicitud {
         this.expTFG3 = new SimpleIntegerProperty(expTfg3);
         this.expTFG4 = new SimpleIntegerProperty(expTfg4);
         this.expTFG5 = new SimpleIntegerProperty(expTfg5);
-        this.nia = new SimpleIntegerProperty(BDController.obtenerNiaPorCorreo(correoElectronico));
+        this.nia = new SimpleIntegerProperty(BDController.obtenerNIAPorCorreo(correoElectronico));
     }
 
     public void calcularPuntuacion(Solicitud solicitud) {
