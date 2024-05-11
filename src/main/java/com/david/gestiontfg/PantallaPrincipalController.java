@@ -489,6 +489,10 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                cargarProgressBarExpedientes();
+                cargarProgressBarTFG();
+                cargarTablaTFG();
+                cargarTablaAlumnos();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
