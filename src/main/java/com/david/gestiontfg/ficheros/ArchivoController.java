@@ -469,4 +469,24 @@ public class ArchivoController {
         }
     }
 
+    public static int contarArchivosDirectorio(String directorioPath) {
+        File directorio = new File(directorioPath);
+        int numArchivosTxt = 0;
+
+        if (directorio.exists() && directorio.isDirectory()) {
+            File[] archivos = directorio.listFiles();
+
+            if (archivos != null) {
+                for (File archivo : archivos) {
+                    // Verificar si el archivo termina en ".txt"
+                    if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
+                        numArchivosTxt++;
+                    }
+                }
+            }
+        }
+
+        return numArchivosTxt;
+    }
+
 }

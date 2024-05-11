@@ -122,8 +122,6 @@ public class PantallaPrincipalController {
         else
             configuracionInicial(false);
 
-
-
         // Poblar tablas con los registros de la BBDD
         cargarTablaAlumnos();
         cargarTablaTFG();
@@ -503,6 +501,14 @@ public class PantallaPrincipalController {
                 cargarProgressBarTFG();
                 cargarTablaTFG();
                 cargarTablaAlumnos();
+
+                int expedientes = ArchivoController.contarArchivosDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes");
+                int solicitudes = bdController.obtenerSolicitudesTam();
+                int alumnos = tbAlumnos.getItems().size();
+                int TFG = tbTFGs.getItems().size();
+
+                restaurarEstadisticas(solicitudes, expedientes, TFG, alumnos);
+
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -532,6 +538,7 @@ public class PantallaPrincipalController {
                 ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs");
                 cargarProgressBarTFG();
                 cargarProgressBarExpedientes();
+                restaurarEstadisticas(0,0,0,0);
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
                 LogController.registrarAccion("IMPORTANTE: Formateo del sistema");
             }
@@ -547,6 +554,7 @@ public class PantallaPrincipalController {
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 bdController.limpiarAsignaciones();
+                cargarProgressBarTFG();
                 mostrarAlerta("Borrado exitoso", "Las asignaciones se han restablecido éxitosamente.");
                 LogController.registrarAccion("IMPORTANTE: Limpiar asignaciones");
             }
@@ -781,6 +789,7 @@ public class PantallaPrincipalController {
     protected void asignacionAutomatica() {
         BDController bdController = new BDController();
         if (bdController.asignacionTFGAutomatica()) {
+            cargarProgressBarTFG();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Confirmación");
             alert.setHeaderText("Asignación automática exitosa");
@@ -801,6 +810,13 @@ public class PantallaPrincipalController {
         alert.setHeaderText(null);
         alert.setContentText(contenido);
         alert.showAndWait();
+    }
+
+    private void restaurarEstadisticas(int solicitudes, int expedientes, int TFG, int alumnos) {
+        lblSolicitudesActivas.setText(solicitudes + " solicitudes activas");
+        lblExpedientesActivos.setText(expedientes + " expedientes activos");
+        lblTFGActivos.setText(TFG + " TFG disponibles");
+        lblAlumnosActivos.setText(alumnos + " alumnos activos");
     }
 
 }
