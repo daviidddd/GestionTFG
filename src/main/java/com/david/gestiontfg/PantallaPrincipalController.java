@@ -89,7 +89,6 @@ public class PantallaPrincipalController {
     private ImageView imgWarning;
     @FXML
     private Button btnCargarConfiguracion;
-    private Timer timer;
     private final BDController bdController;
     private final ArchivoController archivoController;
     private Stage stage;
@@ -130,6 +129,10 @@ public class PantallaPrincipalController {
         // Poblar campos con estadísticas
         cargarExpedientes();
         cargarSolicitudes();
+
+        // Cargar barras de progreso
+        cargarProgressBarExpedientes();
+        cargarProgressBarTFG();
     }
 
     private void cargarTablaAlumnos() {
@@ -137,8 +140,6 @@ public class PantallaPrincipalController {
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         lblAlumnosActivos.setText(listaAlumnos.size() + " alumnos activos");
-
-        cargarProgressBar();
     }
 
     private void cargarTablaTFG() {
@@ -150,8 +151,6 @@ public class PantallaPrincipalController {
             lblTFGActivos.setText("0 TFG disponibles");
         else
             lblTFGActivos.setText(listaTFG.size() + " TFG disponibles");
-
-        cargarProgressBar();
     }
 
     private void cargarExpedientes() {
@@ -171,16 +170,19 @@ public class PantallaPrincipalController {
 
             // Verificar si la lista de archivos no es nula
             if (archivos != null) {
-                // Contar el número de archivos en el directorio
-                numExpedientes = archivos.length;
+                // Iterar sobre la lista de archivos
+                for (File archivo : archivos) {
+                    // Verificar si el archivo es un archivo y termina con ".txt"
+                    if (archivo.isFile() && archivo.getName().toLowerCase().endsWith(".txt")) {
+                        // Incrementar el contador de expedientes
+                        numExpedientes++;
+                    }
+                }
             }
         }
 
         // Actualizar el Label con el número de expedientes
         lblExpedientesActivos.setText(numExpedientes + " expedientes disponibles");
-
-        // Llamar al método para cargar la barra de progreso
-        cargarProgressBar();
     }
 
     public void cargarSolicitudes() {
@@ -206,19 +208,13 @@ public class PantallaPrincipalController {
         miAltaSolicitudes.setDisable(estado);
     }
 
-    private void cargarProgressBar() {
+    private void cargarProgressBarTFG() {
         int contadorAdjudicados = bdController.obtenerTFGAdjudicado();
         int contadorTotal = bdController.obtenerTFGs().size();
         double ratioTFG = (double) contadorAdjudicados / contadorTotal;
 
-        int contadorSi = bdController.obtenerExpedientes();
-        int contadorNo = bdController.obtenerAlumnosTam();
-        double ratioExpedientes = (double) contadorSi / contadorNo;
-
-        String progresoExp = String.format("%.2f%%", ratioExpedientes * 100);
         String progresoTFG = String.format("%.2f%%", ratioTFG * 100);
 
-        lblProgresoExp.setText(progresoExp);
         lblProgresoTFG.setText(progresoTFG);
 
         ratioDisponiblesOcupados.setProgress(ratioTFG);
@@ -226,6 +222,17 @@ public class PantallaPrincipalController {
             ratioDisponiblesOcupados.setStyle("-fx-accent: green;");
         else
             ratioDisponiblesOcupados.setStyle("-fx-accent: #004379;");
+
+    }
+
+    private void cargarProgressBarExpedientes() {
+        int contadorSi = bdController.obtenerExpedientes("SI");
+        int contadorNo = bdController.obtenerAlumnosTam();
+        double ratioExpedientes = (double) contadorSi / contadorNo;
+
+        String progresoExp = String.format("%.2f%%", ratioExpedientes * 100);
+
+        lblProgresoExp.setText(progresoExp);
 
         this.ratioExpedientes.setProgress(ratioExpedientes);
         if(ratioExpedientes == 1.0)
@@ -315,6 +322,8 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                cargarExpedientes();
+                cargarTablaAlumnos();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -342,6 +351,7 @@ public class PantallaPrincipalController {
 
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
+                cargarSolicitudes();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -506,6 +516,8 @@ public class PantallaPrincipalController {
                 bdController.limpiarPuntuaciones();
                 ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes");
                 ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs");
+                cargarProgressBarTFG();
+                cargarProgressBarExpedientes();
                 mostrarAlerta("Borrado exitoso", "El sistema se ha reestablecido correctamente.");
                 LogController.registrarAccion("IMPORTANTE: Formateo del sistema");
             }

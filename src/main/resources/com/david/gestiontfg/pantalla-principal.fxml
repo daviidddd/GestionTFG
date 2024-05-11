@@ -162,7 +162,6 @@
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
                   <MenuItem fx:id="miAltaSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Alta de solicitudes" />
-                  <MenuItem fx:id="miExportarActividad" mnemonicParsing="false" onAction="#exportarActividad" text="Generar  puntuaciones" />
                </items>
             </MenuButton>
          </children>

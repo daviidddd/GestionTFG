@@ -1,6 +1,7 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
+import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.modelos.Alumno;
 import com.david.gestiontfg.modelos.Solicitud;
 import com.david.gestiontfg.modelos.TFG;
@@ -14,6 +15,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -186,6 +188,7 @@ public class ModalBusquedaController {
                     if (result.isPresent() && result.get() == ButtonType.OK) {
                         tbResultadoAlumno.getItems().remove(alumnoSeleccionado);
                         bdController.eliminarAlumno(String.valueOf(alumnoSeleccionado.getIdUcam()));
+                        ArchivoController.borrarArchivoEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes", alumnoSeleccionado.getNIA() + ".txt");
                     }
                 }
             }

@@ -452,25 +452,27 @@ public class BDController {
         return false;
     }
 
-    public void actualizarExpedienteEnBaseDeDatos(int nia) {
+    public void actualizarExpedienteEnBaseDeDatos(int nia, String valor) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
-             PreparedStatement statement = connection.prepareStatement("UPDATE alumnos SET expediente = 'SI' WHERE nia = ?");
+             PreparedStatement statement = connection.prepareStatement("UPDATE alumnos SET expediente = ? WHERE nia = ?");
         ) {
             // Ejecutar la consulta
-            statement.setInt(1, nia);
+            statement.setString(1, valor);
+            statement.setInt(2, nia);
+
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int obtenerExpedientes() {
+    public int obtenerExpedientes(String valor) {
         int contador = 0;
 
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM alumnos WHERE expediente LIKE ?");
         ) {
-            statement.setString(1, "SI");
+            statement.setString(1, valor);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     contador = resultSet.getInt(1);

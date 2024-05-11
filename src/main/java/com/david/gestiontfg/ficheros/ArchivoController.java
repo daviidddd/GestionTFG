@@ -79,6 +79,11 @@ public class ArchivoController {
                         guardarEnArchivo(numeroExpediente, resultado.toString());
                         String nombre = numeroExpediente + ".txt";
                         mostrarAlerta2(nombre,"Expediente leído y procesado", resultado.toString());
+
+                        // Actualizar alumno
+                        BDController bdController = new BDController();
+                        bdController.actualizarExpedienteEnBaseDeDatos(numeroExpediente, "SI");
+
                         LogController.registrarAccion("Alta y procesamiento expediente " + archivoPDF.getName());
                     } else {
                         mostrarAlerta("Error", "Hubo un error al procesar el archivo PDF.");
@@ -356,33 +361,6 @@ public class ArchivoController {
         }
     }
 
-    // OBSERVAR LOS CAMBIOS (ALTAS/BAJAS) DE LOS EXPEDIENTES EN RESOURCES/EXPEDIENTES
-    public void observarDirectorio() {
-        BDController bdController = new BDController();
-
-        // Ruta al directorio de expedientes
-        Path directorioExpedientes = Paths.get("src", "main", "resources", "expedientes");
-
-        // Obtener la lista de archivos en el directorio
-        File[] archivos = directorioExpedientes.toFile().listFiles();
-
-        if (archivos != null) {
-            for (File archivo : archivos) {
-                if (archivo.isFile() && archivo.getName().endsWith(".txt")) {
-                    // Obtener el NIA del nombre del archivo
-                    String nombreArchivo = archivo.getName();
-                    int nia = Integer.parseInt(nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.')));
-
-                    // Verificar si el NIA existe en la base de datos
-                    if (bdController.existeNIAEnBaseDeDatos(nia))
-                        // Actualizar el campo expediente en la base de datos
-                        bdController.actualizarExpedienteEnBaseDeDatos(nia);
-
-                }
-            }
-        }
-    }
-
     // GUARDAR INFORMACION DEL EXPEDIENTE EN RESOURCES/EXPEDIENTES
     public void guardarEnArchivo(int numeroExpediente, String contenido) {
         // Directorio donde se guardarán los archivos
@@ -472,11 +450,22 @@ public class ArchivoController {
                         archivo.delete();
                     }
                 }
+            }
+        }
+    }
+
+    public static void borrarArchivoEnDirectorio(String rutaDirectorio, String archivo) {
+        File archivoAEliminar = new File(rutaDirectorio, archivo);
+        // Verificar si el archivo existe
+        if (archivoAEliminar.exists()) {
+            // Intentar eliminar el archivo
+            if (archivoAEliminar.delete()) {
+                System.out.println("Archivo eliminado exitosamente.");
             } else {
-                //System.out.println("El directorio está vacío.");
+                System.out.println("No se pudo eliminar el archivo.");
             }
         } else {
-            //System.out.println("El directorio no existe o no es válido.");
+            System.out.println("El archivo no existe en el directorio.");
         }
     }
 
