@@ -271,6 +271,7 @@ public class PantallaPrincipalController {
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
                 cargarTablaAlumnos();
+                cargarProgressBarExpedientes();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -303,6 +304,7 @@ public class PantallaPrincipalController {
             // Configurar el comportamiento de cierre del Stage asociado al modal
             stage.setOnCloseRequest(event -> {
                 cargarTablaTFG();
+                cargarProgressBarTFG();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -332,6 +334,7 @@ public class PantallaPrincipalController {
             stage.setOnCloseRequest(event -> {
                 cargarExpedientes();
                 cargarTablaAlumnos();
+                cargarProgressBarExpedientes();
                 // Habilitar la interacción con la pantalla principal cuando se cierra el modal
                 panePrincipal.setDisable(false);
             });
@@ -672,7 +675,7 @@ public class PantallaPrincipalController {
                 contentStream.beginText();
                 contentStream.setFont(arial, 16);
                 contentStream.newLineAtOffset(margin, y);
-                contentStream.showText("Asignaciones TFG - Año " + Calendar.getInstance().get(Calendar.YEAR));
+                contentStream.showText("Asignaciones Finales TFG - Año " + Calendar.getInstance().get(Calendar.YEAR));
                 contentStream.newLineAtOffset(0, -20);
                 contentStream.endText();
                 y -= 20;
