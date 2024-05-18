@@ -17,6 +17,7 @@ public class ArchivoController {
 
     // PROCESAR TODOS LOS EXPEDIENTES SELECCIONADOS
     public void procesarExpedientes() {
+        int contador = 0;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(
@@ -26,13 +27,15 @@ public class ArchivoController {
 
         if (archivosPDF != null && !archivosPDF.isEmpty()) {
             for (File archivoPDF : archivosPDF) {
-                procesarExpedientePDF(archivoPDF);
+                if (procesarExpedientePDF(archivoPDF))
+                    contador++;
             }
+            mostrarAlerta("Alta de expedientes", "Se han dado de alta " + contador + " expedientes.");
         }
     }
 
     // PROCESAR EXPEDIENTE EN FORMATO PDF - ASIGNATURAS, NOTAS y NIA
-    private void procesarExpedientePDF(File archivoPDF) {
+    private boolean procesarExpedientePDF(File archivoPDF) {
         try {
             // Obtener el NIA usando el script nia.py
             Configuracion configuracion = Configuracion.getInstance();
@@ -76,13 +79,15 @@ public class ArchivoController {
                         // Guardar el resultado en un archivo con el nombre del NIA
                         guardarEnArchivo(numeroExpediente, resultado.toString());
                         String nombre = numeroExpediente + ".txt";
-                        mostrarAlerta2(nombre,"Expediente leído y procesado", resultado.toString());
+                        //mostrarAlerta2(nombre,"Expediente leído y procesado", resultado.toString());
 
                         // Actualizar alumno
                         BDController bdController = new BDController();
                         bdController.actualizarExpedienteEnBaseDeDatos(numeroExpediente, "SI");
 
                         LogController.registrarAccion("Alta y procesamiento expediente " + archivoPDF.getName());
+
+                        return true;
                     } else {
                         mostrarAlerta("Error", "Hubo un error al procesar el archivo PDF.");
                         LogController.registrarAccion("ERROR Alta y procesamiento expediente " + archivoPDF.getName());
@@ -100,6 +105,7 @@ public class ArchivoController {
             mostrarAlerta("Error", "Hubo un error al ejecutar los scripts de Python.");
             LogController.registrarAccion("ERROR Ejecucion scripts python " + archivoPDF.getName());
         }
+        return false;
     }
 
     // PROCESAR DOCUMENTO PDF DE TFGs
@@ -123,6 +129,7 @@ public class ArchivoController {
     }
 
     public void procesarSolicitudes() {
+        int contador = 0;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(
@@ -132,12 +139,14 @@ public class ArchivoController {
 
         if (archivosPDF != null && !archivosPDF.isEmpty()) {
             for (File archivoPDF : archivosPDF) {
-                procesarSolicitudPDF(archivoPDF);
+                if (procesarSolicitudPDF(archivoPDF))
+                    contador++;
             }
+            mostrarAlerta("Alta de solicitudes", "Se han dado de alta " + contador + " solicitudes.");
         }
     }
 
-    public void procesarSolicitudPDF(File archivoPDF) {
+    public boolean procesarSolicitudPDF(File archivoPDF) {
         try {
             // Definir la ruta del script tfg.py
             Configuracion configuracion = Configuracion.getInstance();
@@ -242,15 +251,15 @@ public class ArchivoController {
                     bdController.sumarSolicitanteTFG(solicitud.getTfg4());
                     bdController.sumarSolicitanteTFG(solicitud.getTfg5());
 
-                    mostrarAlerta("Alta de solicitudes", "El fichero " + archivoPDF.getName() + " ha sido procesado satisfactoriamente");
+                    return true;
 
                 }
-            } else {
-                mostrarAlerta("Alta de solicitudes", "No se pudo procesar el fichero " + archivoPDF.getName());
             }
+            return false;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // FORMATEAR Y CREAR .txt CON LOS DATOS EN RAW DEL FICHERO ORIGINAL
@@ -325,8 +334,6 @@ public class ArchivoController {
             for (File archivo : archivos) {
                 archivo.delete();
             }
-        } else {
-            System.out.println("El directorio está vacío o no se pudo acceder.");
         }
     }
 
@@ -458,12 +465,8 @@ public class ArchivoController {
         if (archivoAEliminar.exists()) {
             // Intentar eliminar el archivo
             if (archivoAEliminar.delete()) {
-                System.out.println("Archivo eliminado exitosamente.");
-            } else {
-                System.out.println("No se pudo eliminar el archivo.");
+
             }
-        } else {
-            System.out.println("El archivo no existe en el directorio.");
         }
     }
 

@@ -1,7 +1,8 @@
 CREATE DATABASE gestion;
 
-CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
-GRANT ALL PRIVILEGES ON gestion.* TO 'test'@'localhost';
+DROP USER IF EXISTS 'administrador'@'localhost';
+CREATE USER 'administrador'@'localhost' IDENTIFIED BY 'AdministradorTFG_0001';
+GRANT ALL PRIVILEGES ON gestion.* TO 'administrador'@'localhost';
 FLUSH PRIVILEGES;
 
 USE gestion;

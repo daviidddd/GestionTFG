@@ -8,8 +8,8 @@ import java.util.*;
 
 public class BDController {
     public static final String URL = "jdbc:mysql://localhost:3306/gestion";
-    public static final String USUARIO = "test@localhost";
-    public static final String CONTRASENA = "test";
+    public static final String USUARIO = "administrador";
+    public static final String CONTRASENA = "AdministradorTFG_0001";
 
     public boolean iniciarSesionUsuario(String correo, String contrasena) {
         String query = "SELECT * FROM autorizados WHERE correo = ? AND contrasena = ?";
