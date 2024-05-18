@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -99,6 +100,93 @@ public class PantallaPrincipalController {
     }
 
     public void initialize() throws FileNotFoundException {
+        // Acciones de las tablas -> Modificar y Eliminar
+        tbTFGs.setOnMouseClicked(event -> {
+            TFG tfgSeleccionado = tbTFGs.getSelectionModel().getSelectedItem();
+            if (tfgSeleccionado != null) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { // Doble clic izquierdo
+                    // Lógica para el doble clic izquierdo
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-tfg.fxml"));
+
+                    try {
+                        Parent root = fxmlLoader.load();
+                        DetalleTFGController controller = fxmlLoader.getController();
+                        controller.initData(tfgSeleccionado);
+
+                        Scene scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.setTitle(tfgSeleccionado.getCodigo());
+                        stage.setResizable(false);
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+
+                        tbTFGs.getItems().clear();
+                        cargarTablaTFG();
+                        cargarProgressBarTFG();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este TFG?");
+                    alert.setTitle("Eliminar TFG");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbTFGs.getItems().remove(tfgSeleccionado);
+                        bdController.eliminarTFGPorCodigo(tfgSeleccionado.getCodigo());
+                        cargarProgressBarTFG();
+                    }
+                }
+            }
+        });
+
+        tbAlumnos.setOnMouseClicked(event -> {
+            Alumno alumnoSeleccionado = tbAlumnos.getSelectionModel().getSelectedItem();
+            if (alumnoSeleccionado != null) {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { // Doble clic izquierdo
+                    // Lógica para el doble clic izquierdo
+                    Stage stage = new Stage();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("detalle-alumno.fxml"));
+
+                    try {
+                        Parent root = fxmlLoader.load();
+                        DetalleAlumnoController controller = fxmlLoader.getController();
+                        controller.initData(alumnoSeleccionado);
+
+                        Scene scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.setTitle(alumnoSeleccionado.getCorreo());
+                        stage.setResizable(false);
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+
+                        tbAlumnos.getItems().clear();
+                        cargarTablaAlumnos();
+                        cargarProgressBarExpedientes();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este alumno?");
+                    alert.setTitle("Eliminar alumno");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbAlumnos.getItems().remove(alumnoSeleccionado);
+                        bdController.eliminarAlumno(String.valueOf(alumnoSeleccionado.getIdUcam()));
+                        cargarTablaAlumnos();
+                        cargarProgressBarExpedientes();
+                        ArchivoController.borrarArchivoEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes", alumnoSeleccionado.getNIA() + ".txt");
+                    }
+                }
+            }
+        });
+
         // Configurar las columnas de las tablas
         colIDUcamAlumno.setCellValueFactory(cellData -> cellData.getValue().idUcamProperty().asObject());
         colCorreoAlumno.setCellValueFactory(cellData -> cellData.getValue().correoProperty());
@@ -117,6 +205,7 @@ public class PantallaPrincipalController {
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
 
+        // Comprobar si es la aplicación esta configurada correctamente
         if (!Configuracion.configuracionInicial())
             configuracionInicial(true);
         else
@@ -805,6 +894,55 @@ public class PantallaPrincipalController {
             alert.setContentText("No se ha podido llevar a cabo la asignación automática de TFG.");
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    protected void purgarAlumnos() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea borrar TODOS los alumnos dados de alta en el sistema?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                bdController.eliminarAlumnos();
+                cargarProgressBarTFG();
+                mostrarAlerta("Borrado exitoso", "Los TFG se han eliminado éxitosamente.");
+                LogController.registrarAccion("IMPORTANTE: Purgar TFG");
+            }
+        });
+    }
+
+    @FXML
+    protected void purgarTFG() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea borrar TODOS los TFG dados de alta en el sistema?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                bdController.eliminarTFGS();
+                ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs");
+                cargarProgressBarTFG();
+                mostrarAlerta("Borrado exitoso", "Los alumnos se han eliminado éxitosamente.");
+                LogController.registrarAccion("IMPORTANTE: Purgar alumnos");
+            }
+        });
+    }
+
+    @FXML
+    protected void purgarExpedientes() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea borrar TODOS los expedientes?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                ArchivoController.borrarArchivosEnDirectorio(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes");
+                cargarProgressBarExpedientes();
+                mostrarAlerta("Borrado exitoso", "Los expedientes se han eliminado éxitosamente.");
+                LogController.registrarAccion("IMPORTANTE: Purgar expedientes");
+            }
+        });
     }
 
     private void mostrarAlerta(String titulo, String contenido) {

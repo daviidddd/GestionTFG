@@ -99,7 +99,7 @@
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
                   <MenuItem fx:id="miAltaAlumnos" mnemonicParsing="false" onAction="#cargarAlumnosClick" text="Alta de alumnos" />
-                  <MenuItem fx:id="miBajaAlumnos" mnemonicParsing="false" text="Baja de alumnos" />
+                  <MenuItem fx:id="miBajaAlumnos" mnemonicParsing="false" onAction="#purgarAlumnos" text="Baja de alumnos" />
                </items>
             </MenuButton>
          </children>
@@ -120,7 +120,7 @@
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
                <items>
                   <MenuItem fx:id="miAltaTFG" mnemonicParsing="false" onAction="#cargarTFGClick" text="Alta de TFGs" />
-                  <MenuItem fx:id="miBajaTFG" mnemonicParsing="false" text="Baja de TFGs" />
+                  <MenuItem fx:id="miBajaTFG" mnemonicParsing="false" onAction="#purgarTFG" text="Baja de TFGs" />
                </items>
             </MenuButton>
          </children>
@@ -138,7 +138,7 @@
             <MenuButton layoutX="836.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" text="Gestionar">
               <items>
                 <MenuItem fx:id="miAltaExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Alta de expedientes" />
-                <MenuItem fx:id="miBajaExpedientes" mnemonicParsing="false" text="Baja de expedientes" />
+                <MenuItem fx:id="miBajaExpedientes" mnemonicParsing="false" onAction="#purgarExpedientes" text="Baja de expedientes" />
               </items>
             </MenuButton>
             <ProgressBar id="ratioDisponiblesOcupados" fx:id="ratioExpedientes" layoutX="609.0" layoutY="17.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="119.0" progress="0.08" />

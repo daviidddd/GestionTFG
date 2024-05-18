@@ -184,6 +184,7 @@ public class BDController {
             Set<Integer> alumnosAsignados = new HashSet<>();
 
             try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+                boolean asignado = false;
                 while (rs.next()) {
                     String tfg = rs.getString("tfg");
                     int alumno = rs.getInt("alumno");
@@ -203,10 +204,11 @@ public class BDController {
                             // Agregar al alumno al conjunto de alumnos asignados
                             alumnosAsignados.add(alumno);
 
-                            return true;
+                            asignado = true;
                         }
                     }
                 }
+                return asignado;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -759,6 +761,30 @@ public class BDController {
         ) {
             statement.setInt(1, NIA);
 
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarAlumnos() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM alumnos");
+        ) {
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarTFGS() {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM tfgs");
+        ) {
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
