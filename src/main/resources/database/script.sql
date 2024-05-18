@@ -1,4 +1,4 @@
-CREATE DATABASE gestion;
+CREATE DATABASE gestion CREATE DATABASE gestion CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP USER IF EXISTS 'administrador'@'localhost';
 CREATE USER 'administrador'@'localhost' IDENTIFIED BY 'AdministradorTFG_0001';
@@ -16,27 +16,27 @@ CREATE TABLE alumnos (
                          nia int NOT NULL,
                          expediente varchar(2) DEFAULT NULL,
                          PRIMARY KEY (id_ucam)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE asignatura (
                             id int NOT NULL AUTO_INCREMENT,
                             nombre varchar(100) NOT NULL,
                             PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE autorizados (
                              correo varchar(25) NOT NULL,
                              contrasena varchar(25) NOT NULL,
                              ult_inicio_sesion datetime DEFAULT NULL,
                              PRIMARY KEY (correo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE puntuaciones (
                               tfg varchar(20) NOT NULL,
                               orden int NOT NULL,
                               alumno int NOT NULL,
                               puntuacion int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE solicitudes (
                              correo varchar(55) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE solicitudes (
                              pto_tfg4 int NOT NULL,
                              pto_tfg5 int NOT NULL,
                              PRIMARY KEY (correo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE tfgs (
                       id int NOT NULL AUTO_INCREMENT,
@@ -77,10 +77,10 @@ CREATE TABLE tfgs (
                       adjudicado varchar(50) DEFAULT NULL,
                       tecnologias text,
                       PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=1123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 CREATE TABLE tutor (
                        id int NOT NULL AUTO_INCREMENT,
                        nombre varchar(100) NOT NULL,
                        PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
