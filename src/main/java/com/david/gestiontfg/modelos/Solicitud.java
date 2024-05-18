@@ -68,7 +68,6 @@ public class Solicitud {
         String[] tfgSeleccionados = {solicitud.getTfg1(), solicitud.getTfg2(), solicitud.getTfg3(), solicitud.getTfg4(), solicitud.getTfg5()};
         String rutaAbsoluta = Paths.get(System.getProperty("user.home"), "GestorUCAM", "config", "puntuacion.json").toString();
 
-
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(new File(rutaAbsoluta))))) {
 
             BDController bdController = new BDController();
@@ -139,40 +138,6 @@ public class Solicitud {
                     }
                 }
             }
-
-            /*for (int i = 0; i < experienciasTFG.length; i++) {
-                double experiencia = experienciasTFG[i];
-
-                for (int j = 0; j < experienciaProfesional.size(); j++) {
-                    JsonObject rango = experienciaProfesional.get(j).getAsJsonObject();
-                    int inicio = rango.getAsJsonArray("rango").get(0).getAsInt();
-                    int fin = rango.getAsJsonArray("rango").get(1).getAsInt();
-                    if (inicio <= experiencia && (fin == -1 || experiencia <= fin)) {
-                        int puntos = rango.get("puntos").getAsInt();
-                        // Asignar los puntos a las propiedades correspondientes
-                        switch (i) {
-                            case 0:
-                                this.ptosTFG1 = new SimpleIntegerProperty(puntos);
-                                break;
-                            case 1:
-                                this.ptosTFG2 = new SimpleIntegerProperty(puntos);
-                                break;
-                            case 2:
-                                this.ptosTFG3 = new SimpleIntegerProperty(puntos);
-                                break;
-                            case 3:
-                                this.ptosTFG4 = new SimpleIntegerProperty(puntos);
-                                break;
-                            case 4:
-                                this.ptosTFG5 = new SimpleIntegerProperty(puntos);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    }
-                }
-            }*/
 
             //Obtener el array de rangos para la experiencia profesional
             JsonArray asignaturasRelacionadasPuntuacion = puntacion.getAsJsonArray("asignaturas_relacionadas");

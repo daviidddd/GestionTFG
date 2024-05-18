@@ -134,7 +134,7 @@ public class GestionarTFGController {
     @FXML
     protected void altaTFGFicheroClick() {
         ArchivoController archivoController = new ArchivoController();
-        archivoController.procesarTFGs();
+        archivoController.procesarTFG();
         altaTFG();
     }
 

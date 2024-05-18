@@ -35,6 +35,8 @@
                   <MenuItem id="miCargarTFG" fx:id="miCargarTFGS" mnemonicParsing="false" onAction="#cargarTFGClick" text="TFG" />
                   <MenuItem id="miCargarExpedientes" fx:id="miCargarExpedientes" mnemonicParsing="false" onAction="#cargarExpendientesClick" text="Expedientes" />
                   <MenuItem fx:id="miCargarSolicitudes" mnemonicParsing="false" onAction="#cargarSolicitudesClick" text="Solicitudes" />
+                  <MenuItem fx:id="miCargarAsignaturas" mnemonicParsing="false" onAction="#cargarAsignaturasClick" text="Asignaturas" />
+                  <MenuItem fx:id="miCargarTutores" mnemonicParsing="false" onAction="#cargarTutoresClick" text="Tutores" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Asginaciones">
@@ -49,13 +51,12 @@
                 </items></Menu>
             <Menu mnemonicParsing="false" text="Actividad">
               <items>
-                <MenuItem mnemonicParsing="false" text="Ver" />
                   <MenuItem mnemonicParsing="false" onAction="#exportarActividad" text="Exportar" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ayuda">
               <items>
-                <MenuItem fx:id="miManualUsuario" mnemonicParsing="false" text="Manual de usuario" />
+                <MenuItem fx:id="miManualUsuario" mnemonicParsing="false" onAction="#manualUsuario" text="Manual de usuario" />
               </items>
             </Menu>
         </menus>
@@ -199,6 +200,32 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Asignaturas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbAsignatura" layoutX="155.0" layoutY="47.0" prefHeight="245.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                           <columns>
+                              <TableColumn fx:id="colNomAsignatura" minWidth="0.0" prefWidth="930.0" resizable="false" text="Asignatura" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Tutores">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbTutor" layoutX="155.0" layoutY="47.0" prefHeight="245.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                           <columns>
+                              <TableColumn fx:id="colNomTutor" minWidth="0.0" prefWidth="930.0" resizable="false" text="Tutor" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

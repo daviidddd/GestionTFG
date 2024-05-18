@@ -1,6 +1,6 @@
 package com.david.gestiontfg.ficheros;
 
-import com.david.gestiontfg.config.Configuracion;
+import com.david.gestiontfg.configuracion.Configuracion;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.bbdd.BDController;
 import com.david.gestiontfg.modelos.Solicitud;
@@ -11,8 +11,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class ArchivoController {
@@ -105,7 +103,7 @@ public class ArchivoController {
     }
 
     // PROCESAR DOCUMENTO PDF DE TFGs
-    public void procesarTFGs() {
+    public void procesarTFG() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
         fileChooser.getExtensionFilters().addAll(

@@ -1,8 +1,6 @@
 package com.david.gestiontfg.bbdd;
 
-import com.david.gestiontfg.modelos.Alumno;
-import com.david.gestiontfg.modelos.Solicitud;
-import com.david.gestiontfg.modelos.TFG;
+import com.david.gestiontfg.modelos.*;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -149,6 +147,60 @@ public class BDController {
         return false;
     }
 
+    public boolean registrarAsignatura(String asignatura) {
+        String checkQuery = "SELECT COUNT(*) FROM asignatura WHERE nombre = ?";
+        String insertQuery = "INSERT INTO asignatura(nombre) VALUES (?)";
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+
+            // Verificar si la asignatura ya existe
+            checkStmt.setString(1, asignatura);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                // La asignatura ya existe
+                return false;
+            }
+
+            // Insertar la asignatura si no existe
+            insertStmt.setString(1, asignatura);
+            int rowsInserted = insertStmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean registrarTutor(String asignatura) {
+        String checkQuery = "SELECT COUNT(*) FROM tutor WHERE nombre = ?";
+        String insertQuery = "INSERT INTO tutor(nombre) VALUES (?)";
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement checkStmt = connection.prepareStatement(checkQuery);
+             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+
+            // Verificar si la asignatura ya existe
+            checkStmt.setString(1, asignatura);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                // La asignatura ya existe
+                return false;
+            }
+
+            // Insertar la asignatura si no existe
+            insertStmt.setString(1, asignatura);
+            int rowsInserted = insertStmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void sumarSolicitanteTFG(String tfg) {
         try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
              PreparedStatement statement = connection.prepareStatement("UPDATE tfgs SET solicitantes = COALESCE(solicitantes, 0) + 1 WHERE codigo = ?")) {
@@ -251,6 +303,46 @@ public class BDController {
         }
 
         return alumnosActivos;
+    }
+
+    public List<Asignatura> obtenerAsignaturas() {
+        List<Asignatura> asignaturasActivas = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM asignatura");
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String nombre = resultSet.getString("nombre");
+
+                Asignatura asignatura = new Asignatura(nombre);
+                asignaturasActivas.add(asignatura);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return asignaturasActivas;
+    }
+
+    public List<Tutor> obtenerTutores() {
+        List<Tutor> tutoresActivos = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM tutor");
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String nombre = resultSet.getString("nombre");
+
+                Tutor tutor = new Tutor(nombre);
+                tutoresActivos.add(tutor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tutoresActivos;
     }
 
     public List<TFG> obtenerTFGs() {
@@ -718,6 +810,34 @@ public class BDController {
              PreparedStatement statement = connection.prepareStatement("DELETE FROM alumnos WHERE id_ucam = ?");
         ) {
             statement.setString(1, id);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarAsignatura(String asignatura) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM asignatura WHERE nombre = ?");
+        ) {
+            statement.setString(1, asignatura);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarTutor(String tutor) {
+        try (Connection connection = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM tutor WHERE nombre = ?");
+        ) {
+            statement.setString(1, tutor);
 
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;

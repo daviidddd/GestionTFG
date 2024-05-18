@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class GestionarSolicitudesController {
-
     @FXML
     public Button btnCargarSolicitudes;
 

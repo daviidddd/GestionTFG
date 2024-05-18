@@ -1,11 +1,13 @@
 package com.david.gestiontfg;
 
 import com.david.gestiontfg.bbdd.BDController;
-import com.david.gestiontfg.config.Configuracion;
+import com.david.gestiontfg.configuracion.Configuracion;
 import com.david.gestiontfg.ficheros.ArchivoController;
 import com.david.gestiontfg.logs.LogController;
 import com.david.gestiontfg.modelos.Alumno;
+import com.david.gestiontfg.modelos.Asignatura;
 import com.david.gestiontfg.modelos.TFG;
+import com.david.gestiontfg.modelos.Tutor;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -29,9 +35,13 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.*;
+import java.net.URI;
+import java.util.List;
 
 public class PantallaPrincipalController {
     @FXML
@@ -68,6 +78,14 @@ public class PantallaPrincipalController {
     private TableColumn<Alumno, Integer> colNIA;
     @FXML
     private TableColumn<Alumno, String> colExp;
+    @FXML
+    private TableView<Asignatura> tbAsignatura;
+    @FXML
+    private TableColumn<Asignatura, String> colNomAsignatura;
+    @FXML
+    private TableView<Tutor> tbTutor;
+    @FXML
+    private TableColumn<Tutor, String> colNomTutor;
     @FXML
     private Label lblTFGActivos;
     @FXML
@@ -187,6 +205,44 @@ public class PantallaPrincipalController {
             }
         });
 
+        tbAsignatura.setOnMouseClicked(event -> {
+            Asignatura asignaturaSeleccionada = tbAsignatura.getSelectionModel().getSelectedItem();
+            if (asignaturaSeleccionada != null) {
+                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este alumno?");
+                    alert.setTitle("Eliminar alumno");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbAsignatura.getItems().remove(asignaturaSeleccionada);
+                        bdController.eliminarAsignatura(String.valueOf(asignaturaSeleccionada.getNombre()));
+                        cargarTablaAsignaturas();
+                    }
+                }
+            }
+        });
+
+        tbTutor.setOnMouseClicked(event -> {
+            Tutor tutorSeleccionado = tbTutor.getSelectionModel().getSelectedItem();
+            if (tutorSeleccionado != null) {
+                if (event.getButton() == MouseButton.SECONDARY && event.getClickCount() == 1) { // Clic derecho
+                    // Lógica para el clic derecho
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "¿Está seguro de que desea eliminar este tutor?");
+                    alert.setTitle("Eliminar tutor");
+                    alert.setHeaderText(null);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        tbTutor.getItems().remove(tutorSeleccionado);
+                        bdController.eliminarTutor(String.valueOf(tutorSeleccionado.getTutor()));
+                        cargarTablaTutores();
+                    }
+                }
+            }
+        });
+
         // Configurar las columnas de las tablas
         colIDUcamAlumno.setCellValueFactory(cellData -> cellData.getValue().idUcamProperty().asObject());
         colCorreoAlumno.setCellValueFactory(cellData -> cellData.getValue().correoProperty());
@@ -194,9 +250,13 @@ public class PantallaPrincipalController {
         colCodigoTFG.setCellValueFactory(cellData -> cellData.getValue().codigoProperty());
         colTituloTFG.setCellValueFactory(cellData -> cellData.getValue().tituloProperty());
         colExp.setCellValueFactory(cellData -> cellData.getValue().expedienteProperty());
+        colNomTutor.setCellValueFactory(cellData -> cellData.getValue().tutorProperty());
+        colNomAsignatura.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
 
         tbAlumnos.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         tbTFGs.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        tbTutor.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        tbAsignatura.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         colIDUcamAlumno.setStyle("-fx-alignment: CENTER;");
         colCorreoAlumno.setStyle("-fx-alignment: CENTER;");
@@ -204,6 +264,9 @@ public class PantallaPrincipalController {
         colCodigoTFG.setStyle("-fx-alignment: CENTER;");
         colTituloTFG.setStyle("-fx-alignment: CENTER;");
         colExp.setStyle("-fx-alignment: CENTER;");
+
+        colNomAsignatura.setStyle("-fx-alignment: CENTER;");
+        colNomTutor.setStyle("-fx-alignment: CENTER;");
 
         // Comprobar si es la aplicación esta configurada correctamente
         if (!Configuracion.configuracionInicial())
@@ -214,6 +277,8 @@ public class PantallaPrincipalController {
         // Poblar tablas con los registros de la BBDD
         cargarTablaAlumnos();
         cargarTablaTFG();
+        cargarTablaAsignaturas();
+        cargarTablaTutores();
 
         // Poblar campos con estadísticas
         cargarExpedientes();
@@ -237,6 +302,18 @@ public class PantallaPrincipalController {
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
         List<Alumno> listaAlumnos = bdController.obtenerAlumnos();
         lblAlumnosActivos.setText(listaAlumnos.size() + " alumnos activos");
+    }
+
+    private void cargarTablaAsignaturas() {
+        tbAsignatura.getItems().clear();
+        tbAsignatura.getItems().addAll(bdController.obtenerAsignaturas());
+        List<Asignatura> listaAsignaturas = bdController.obtenerAsignaturas();
+    }
+
+    private void cargarTablaTutores() {
+        tbTutor.getItems().clear();
+        tbTutor.getItems().addAll(bdController.obtenerTutores());
+        List<Tutor> listaTutores = bdController.obtenerTutores();
     }
 
     private void cargarTablaTFG() {
@@ -339,7 +416,7 @@ public class PantallaPrincipalController {
     }
 
     @FXML
-    public void cargarAlumnosClick() {
+    protected void cargarAlumnosClick() {
         // Ventana para cargar alumnos manualmente o mediante fichero
         panePrincipal.setDisable(true);
 
@@ -372,7 +449,7 @@ public class PantallaPrincipalController {
     }
 
     @FXML
-    public void cargarTFGClick() {
+    protected void cargarTFGClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
         panePrincipal.setDisable(true);
 
@@ -405,7 +482,7 @@ public class PantallaPrincipalController {
     }
 
     @FXML
-    public void cargarExpendientesClick() {
+    protected void cargarExpendientesClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
         panePrincipal.setDisable(true);
 
@@ -435,7 +512,63 @@ public class PantallaPrincipalController {
     }
 
     @FXML
-    public void cargarSolicitudesClick() {
+    protected void cargarAsignaturasClick() {
+        // Ventana para cargar asignaturas manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-asignaturas.fxml"));
+        try {
+            Parent root = fxmlLoader. load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Subida de Asignaturas");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                cargarTablaAsignaturas();
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void cargarTutoresClick() {
+        // Ventana para cargar tutores manualmente o mendiante fichero
+        panePrincipal.setDisable(true);
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cargar-tutores.fxml"));
+        try {
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Subida de Tutores");
+            stage.setResizable(false);
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Configurar el comportamiento de cierre del Stage asociado al modal
+            stage.setOnCloseRequest(event -> {
+                cargarTablaTutores();
+                // Habilitar la interacción con la pantalla principal cuando se cierra el modal
+                panePrincipal.setDisable(false);
+            });
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void cargarSolicitudesClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
         panePrincipal.setDisable(true);
 
@@ -943,6 +1076,16 @@ public class PantallaPrincipalController {
                 LogController.registrarAccion("IMPORTANTE: Purgar expedientes");
             }
         });
+    }
+
+    @FXML
+    protected void manualUsuario() {
+        try {
+            URI uri = new URI("https://github.com/daviidddd/GestionTFG/tree/master");
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarAlerta(String titulo, String contenido) {

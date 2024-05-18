@@ -1,6 +1,6 @@
 package com.david.gestiontfg;
 
-import com.david.gestiontfg.config.Configuracion;
+import com.david.gestiontfg.configuracion.Configuracion;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
