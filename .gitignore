@@ -16,6 +16,11 @@ src/main/resources/tfgs/*txt
 *.iws
 *.iml
 *.ipr
+.idea
+
+### Maven
+mvnw
+mvnw.cmd
 
 ### Eclipse ###
 .apt_generated
