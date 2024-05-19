@@ -38,7 +38,6 @@ public class GestionarAlumnosController {
     private TableView tbAlumnosAlta;
     private BDController bdController;
     private Stage stage;
-
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -51,6 +50,7 @@ public class GestionarAlumnosController {
         btnAltaAlumnoFichero.setBackground(Background.EMPTY);
     }
 
+    // ALTA DE ALUMNO MANUAL
     @FXML
     protected void altaAlumnoClick() {
         int idUcam = Integer.parseInt(txtIDUcam.getText());
@@ -78,6 +78,7 @@ public class GestionarAlumnosController {
         }
     }
 
+    // ALTA DE ALUMNO MEDIANTE FICHERO EXCEL
     @FXML
     protected void altaAlumnoFicheroClick() {
         FileChooser selectorFichero = new FileChooser();
@@ -144,6 +145,7 @@ public class GestionarAlumnosController {
         }
     }
 
+    // LIMPIA TODO EL FORMULARIO
     protected void limpiarFormulario() {
         txtIDUcam.setText("");
         txtNombre.setText("");

@@ -297,6 +297,7 @@ public class PantallaPrincipalController {
         cargarProgressBarTFG();
     }
 
+    // CARGA LA INFORMACION DE LA BBDD EN TABLA
     private void cargarTablaAlumnos() {
         tbAlumnos.getItems().clear();
         tbAlumnos.getItems().addAll(bdController.obtenerAlumnos());
@@ -304,18 +305,21 @@ public class PantallaPrincipalController {
         lblAlumnosActivos.setText(listaAlumnos.size() + " alumnos activos");
     }
 
+    // CARGA LA INFORMACION DE LA BBDD EN TABLA
     private void cargarTablaAsignaturas() {
         tbAsignatura.getItems().clear();
         tbAsignatura.getItems().addAll(bdController.obtenerAsignaturas());
         List<Asignatura> listaAsignaturas = bdController.obtenerAsignaturas();
     }
 
+    // CARGA LA INFORMACION DE LA BBDD EN TABLA
     private void cargarTablaTutores() {
         tbTutor.getItems().clear();
         tbTutor.getItems().addAll(bdController.obtenerTutores());
         List<Tutor> listaTutores = bdController.obtenerTutores();
     }
 
+    // CARGA LA INFORMACION DE LA BBDD EN TABLA
     private void cargarTablaTFG() {
         tbTFGs.getItems().clear();
         tbTFGs.getItems().addAll(bdController.obtenerTFGs());
@@ -327,6 +331,7 @@ public class PantallaPrincipalController {
             lblTFGActivos.setText(listaTFG.size() + " TFG disponibles");
     }
 
+    // CARGA LOS EXPEDIENTES ACTIVOS
     private void cargarExpedientes() {
         // Ruta del directorio que contiene los expedientes
         String directorioExpedientes = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes";
@@ -359,11 +364,13 @@ public class PantallaPrincipalController {
         lblExpedientesActivos.setText(numExpedientes + " expedientes disponibles");
     }
 
+    // CARGA LAS SOLICITUDES ACTIVAS
     public void cargarSolicitudes() {
         int solicitudes = bdController.obtenerSolicitudesTam();
         lblSolicitudesActivas.setText(solicitudes + " solicitudes activas");
     }
 
+    // CARGA LA ALERTA SI LA APLICACION NO ESTA CONFIGURADA
     private void configuracionInicial(Boolean estado) throws FileNotFoundException {
         InputStream inputStream = getClass().getResourceAsStream("/image/warning.png");
         Image image = new Image(inputStream);
@@ -382,6 +389,7 @@ public class PantallaPrincipalController {
         miAltaSolicitudes.setDisable(estado);
     }
 
+    // OBTIENE EL PORCENTAJE DE TFG ASIGNADOS
     private void cargarProgressBarTFG() {
         int contadorAdjudicados = bdController.obtenerTFGAdjudicado();
         int contadorTotal = bdController.obtenerTFGs().size();
@@ -399,6 +407,7 @@ public class PantallaPrincipalController {
 
     }
 
+    // OBTIENE EL PORCENTAJE DE ALUMNOS CON EXPEDIENTES
     private void cargarProgressBarExpedientes() {
         int contadorSi = bdController.obtenerExpedientes("SI");
         int contadorNo = bdController.obtenerAlumnosTam();
@@ -415,6 +424,7 @@ public class PantallaPrincipalController {
             this.ratioExpedientes.setStyle("-fx-accent: #004379;");
     }
 
+    // CARGA LOS ALUMNOS
     @FXML
     protected void cargarAlumnosClick() {
         // Ventana para cargar alumnos manualmente o mediante fichero
@@ -448,6 +458,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA LOS TFG
     @FXML
     protected void cargarTFGClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
@@ -481,6 +492,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA LOS EXPEDIENTES DE LOS ALUMNOS
     @FXML
     protected void cargarExpendientesClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
@@ -511,6 +523,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA LAS ASIGNATURAS
     @FXML
     protected void cargarAsignaturasClick() {
         // Ventana para cargar asignaturas manualmente o mendiante fichero
@@ -539,6 +552,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA LOS TUTORES
     @FXML
     protected void cargarTutoresClick() {
         // Ventana para cargar tutores manualmente o mendiante fichero
@@ -567,6 +581,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA LAS SOLICITUDES DE LOS ALUMNOS
     @FXML
     protected void cargarSolicitudesClick() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
@@ -595,6 +610,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CARGA INFORMACION DEL SISTEMA
     @FXML
     protected void cargarInformacionSistema() {
         // Obtener la información del sistema
@@ -621,6 +637,7 @@ public class PantallaPrincipalController {
         alert.showAndWait();
     }
 
+    // PERMITE CARGAR LAS CONFIGURACIONES A LAS RUTAS DE LOS EJECUTABLES
     @FXML
     protected void cargarConfiguracion() {
         // Ventana para cargar TFGs manualmente o mendiante fichero
@@ -661,6 +678,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CIERRA SESION
     @FXML
     protected void cerrarSesionClick() {
         // Crear una alerta de confirmación
@@ -694,12 +712,14 @@ public class PantallaPrincipalController {
         }
     }
 
+    // CIERRA APP
     @FXML
     protected void salirClick() {
         Platform.exit();
         LogController.registrarAccion("Cierre aplicación");
     }
 
+    // BUSQUEDA
     @FXML
     protected void busquedaClick() {
         String valorBusqueda = txtBusqueda.getText();
@@ -744,6 +764,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // ELIMINA TODOS LOS DATOS DE BBDD Y DIRECTORIOS LOCALES, EXCEPTO ASIGNATURAS Y TUTORES
     @FXML
     protected void formatearSistemaClick() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -770,6 +791,7 @@ public class PantallaPrincipalController {
         });
     }
 
+    // BORRA LAS ASIGNACIONES EN BBDD
     @FXML
     protected void borrarAsignaciones() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -786,6 +808,7 @@ public class PantallaPrincipalController {
         });
     }
 
+    // EXPORTA LA ACTIVIDAD
     @FXML
     protected void exportarActividad() {
         FileChooser fileChooser = new FileChooser();
@@ -844,6 +867,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // EXPORTA ASIGNACIONES EN DOCUMENTO PDF
     @FXML
     protected void exportarAsignaciones() {
         try {
@@ -1010,6 +1034,7 @@ public class PantallaPrincipalController {
         return fragmentos;
     }
 
+    // ASIGNA LOS TFG
     @FXML
     protected void asignacionAutomatica() {
         BDController bdController = new BDController();
@@ -1029,6 +1054,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // PURGA TODOS LOS ALUMNOS DE LAS BBDD
     @FXML
     protected void purgarAlumnos() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -1045,6 +1071,7 @@ public class PantallaPrincipalController {
         });
     }
 
+    // PURGA EL DIRECTORIO LOCAL Y LA BBDD DE EXPEDIENTES
     @FXML
     protected void purgarTFG() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -1062,6 +1089,7 @@ public class PantallaPrincipalController {
         });
     }
 
+    // PURGA EL DIRECTORIO LOCAL DE EXPEDIENTES
     @FXML
     protected void purgarExpedientes() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -1078,6 +1106,7 @@ public class PantallaPrincipalController {
         });
     }
 
+    // MUESTRA MANUAL DE USUSARIO
     @FXML
     protected void manualUsuario() {
         try {
@@ -1088,6 +1117,7 @@ public class PantallaPrincipalController {
         }
     }
 
+    // ALERTA SIMPLE
     private void mostrarAlerta(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -1096,6 +1126,7 @@ public class PantallaPrincipalController {
         alert.showAndWait();
     }
 
+    // RESTAURA ESTADISTICAS
     private void restaurarEstadisticas(int solicitudes, int expedientes, int TFG, int alumnos) {
         lblSolicitudesActivas.setText(solicitudes + " solicitudes activas");
         lblExpedientesActivos.setText(expedientes + " expedientes activos");

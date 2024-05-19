@@ -26,6 +26,7 @@ public class Configuracion {
         return instancia;
     }
 
+    // CARGA Y VERIFICA LA CONFIGURACION INICIAL
     private void cargarConfiguracion() {
         properties = new Properties();
         try (InputStream input = new FileInputStream(ARCHIVO_CONFIG)) {
@@ -45,6 +46,7 @@ public class Configuracion {
         }
     }
 
+    // PROPIEDADES PREDETERMINADAS
     private void configurarPropiedadesPredeterminadas2() {
         // Configuración predeterminada
         properties.setProperty("python.path", "");
@@ -54,6 +56,7 @@ public class Configuracion {
         guardarConfiguracion();
     }
 
+    // CREACION DEL DIRECTORIO RAIZ DE LA APLICACION
     public void crearDirectorioHome(String[] directories) {
         String owner = "daviidddd"; // Nombre del propietario del repositorio
         String repo = "GestionTFG"; // Nombre del repositorio
@@ -107,6 +110,7 @@ public class Configuracion {
 
     }
 
+    // DESCARGA LOS ARCHIVOS DEL REPOSITORIO DE GITHUB
     private void descargarArchivos(List<GHContent> directoryContents, File targetDir) {
         for (GHContent content : directoryContents) {
             String fileName = content.getName();
@@ -132,16 +136,19 @@ public class Configuracion {
         }
     }
 
+    // ASIGNA LA RUTA DE PYTHON
     public void asignarPython(String path) {
         properties.setProperty("python.path", path);
         guardarConfiguracion();
     }
 
+    // ASIGNA LA RUTA DE MYSQL
     public void asignarMySQL(String path) {
         properties.setProperty("mysql.path", path);
         guardarConfiguracion();
     }
 
+    // COMPROBACION DE CONFIGURACION INICIAL
     public static boolean configuracionInicial() {
         if (!(properties.getProperty("mysql.path").isEmpty() || properties.getProperty("python.path").isEmpty())){
             properties.setProperty("configuracion_inicial", "true");
@@ -154,6 +161,7 @@ public class Configuracion {
         }
     }
 
+    // GUARDA LA CONFIGURACION
     public static void guardarConfiguracion() {
         try (OutputStream output = new FileOutputStream(ARCHIVO_CONFIG)) {
             properties.store(output, "CONFIGURACION GESTION TFGS UCAM");

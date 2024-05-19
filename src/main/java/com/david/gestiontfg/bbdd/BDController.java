@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class BDController {
+    // CREDENCIALES DEL USUARIO POR DEFECTO
     public static final String URL = "jdbc:mysql://localhost:3306/gestion";
     public static final String USUARIO = "administrador";
     public static final String CONTRASENA = "AdministradorTFG_0001";

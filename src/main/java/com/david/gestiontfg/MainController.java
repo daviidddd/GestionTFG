@@ -37,6 +37,7 @@ public class MainController {
         this.bdController = new BDController();
     }
 
+    // INICIO DE SESION
     @FXML
     protected void iniciarSesionClick() {
         String correo = txtCorreo.getText();
@@ -78,6 +79,7 @@ public class MainController {
         }
     }
 
+    // REGISTRO DE USUARIO
     @FXML
     protected void registrarseClick() {
         String correo = txtCorreoReg.getText();

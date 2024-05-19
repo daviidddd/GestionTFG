@@ -15,6 +15,8 @@ public class PantallaCargaController implements Initializable {
     private ImageView imgViewCarga;
     @FXML
     private ImageView imgViewCarga2;
+
+    //PANTALLA DE TRANSICION
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {

@@ -11,6 +11,7 @@ public class GestionarExpedientesController {
         this.bdController = new BDController();
     }
 
+    // ALTA DE EXPEDIENTE MEDIANTE DOCUMENTO PDF
     @FXML
     protected void altaExpedienteClick() {
         ArchivoController archivoController = new ArchivoController();

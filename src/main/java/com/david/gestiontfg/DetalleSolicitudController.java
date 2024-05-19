@@ -69,8 +69,8 @@ public class DetalleSolicitudController {
     @FXML
     private TextField txtPtoTFG5;
     private String correoAntiguoAlumno;
-
     private Set<String> elementosSeleccionados = new HashSet<>();
+    // INICIALIZA LA INFORMACION DE LA SOLICITUD
     public void initData(Solicitud solicitud) {
         btnModificarSolicitudDetalle.setVisible(false);
         txtAlumnoSolicitud.setDisable(true);
@@ -91,6 +91,7 @@ public class DetalleSolicitudController {
         addComboBoxListener(cbDetalleTFG5);
     }
 
+    // CARGA TODOS LOS TFGS DISPONIBLES EN LOS COMBOBOX
     private void cargarTFGs() {
         BDController bdController = new BDController();
         List<String> tfgs = bdController.obtenerTFGSCodigo();
@@ -117,6 +118,7 @@ public class DetalleSolicitudController {
         });
     }
 
+    // ACTUALIZA LOS TFG EN FUNCION DE SI ESTA ESCOGIDO O NO
     private void updateComboBoxes() {
         for (String item : elementosSeleccionados) {
             for (ComboBox<String> comboBox : getComboBoxes()) {
@@ -127,6 +129,7 @@ public class DetalleSolicitudController {
         }
     }
 
+    // CARGA LOS VALORES INICIALES AL ABRIRSE EL FORMULARIO
     private void setValoresIniciales(Solicitud solicitud) {
         lblSolicitud.setText("/" + solicitud.getCorreoElectronico());
         txtAlumnoSolicitud.setText(solicitud.getCorreoElectronico());
@@ -150,6 +153,7 @@ public class DetalleSolicitudController {
         return new ComboBox[]{cbDetalleTFG1, cbDetalleTFG2, cbDetalleTFG3, cbDetalleTFG4, cbDetalleTFG5};
     }
 
+    // ELIMINA LA SOLICITUD EN BBDD
     @FXML
     private void eliminarSolicitud() {
         try {
@@ -176,6 +180,7 @@ public class DetalleSolicitudController {
         }
     }
 
+    // MODIFICA LA SOLICITUD EN BBDD
     @FXML
     private void modificarSolicitud() {
         try {
@@ -224,12 +229,14 @@ public class DetalleSolicitudController {
         }
     }
 
+    // HABILITA LA EDICION DE LOS ELEMENTOS
     @FXML
     private void habilitarEdicionSolicitud() {
         isEdicionInactiva(false);
         btnModificarSolicitudDetalle.setVisible(true);
     }
 
+    // CARGA LAS PUNTUACIONES DE LA SOLICITUD
     private void cargarPuntuacion(Solicitud solicitud) {
         solicitud.calcularPuntuacionSimple(solicitud);
         txtPtoNota.setText(String.valueOf(solicitud.getPtosNotaMedia()));
@@ -241,6 +248,7 @@ public class DetalleSolicitudController {
         txtPtoTFG5.setText(String.valueOf(solicitud.getPtosTFG5()));
     }
 
+    // CAMBIA LOS ESTADOS DEPENDIENDO DE SI ESTA ACTIVA O NO LA EDICION
     private void isEdicionInactiva(Boolean estado) {
         txtNotaMedia.setDisable(estado);
         txtCreditosRestantes.setDisable(estado);

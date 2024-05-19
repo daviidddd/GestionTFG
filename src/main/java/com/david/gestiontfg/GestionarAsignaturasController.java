@@ -14,10 +14,12 @@ public class GestionarAsignaturasController {
     @FXML
     private TextField txtAsignatura;
 
+    // ALTA DE ASIGNATURA MANUAL
     @FXML
     protected void altaAsignaturaClick() {
         String asignatura = txtAsignatura.getText().trim();
 
+        // Comprueba que no este vacia
         if (asignatura.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

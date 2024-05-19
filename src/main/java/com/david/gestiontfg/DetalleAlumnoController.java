@@ -171,6 +171,4 @@ public class DetalleAlumnoController {
         btnModificarAlumnoDetalle.setVisible(false);
     }
 
-
-
 }

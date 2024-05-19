@@ -108,7 +108,7 @@ public class ArchivoController {
         return false;
     }
 
-    // PROCESAR DOCUMENTO PDF DE TFGs
+    // PROCESAR DOCUMENTO PDF DE TFG
     public void procesarTFG() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivos PDF");
@@ -128,6 +128,7 @@ public class ArchivoController {
         }
     }
 
+    // PROCESAR DOCUMENTO PDF DE SOLICITUDES
     public void procesarSolicitudes() {
         int contador = 0;
         FileChooser fileChooser = new FileChooser();
@@ -146,6 +147,7 @@ public class ArchivoController {
         }
     }
 
+    // PROCESA TODA LA INFORMACION DE LA SOLICITUD + CALCULA PUNTUACION + INSERCION EN BBDD
     public boolean procesarSolicitudPDF(File archivoPDF) {
         try {
             // Definir la ruta del script tfg.py
@@ -394,57 +396,7 @@ public class ArchivoController {
         alerta.showAndWait();
     }
 
-    // ALERTA DE EXPEDIENTE LEIDO CORRECTAMENTE
-    public void mostrarAlerta2(String nombre, String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-
-        Label cabecera = new Label("Contenido leído y tratado:" + nombre);
-        cabecera.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
-
-        Label ruta = new Label(System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "expedientes" + File.separator + nombre);
-       ruta.setStyle("-fx-font-size: 13;");
-
-        TextArea textArea = new TextArea(mensaje);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        ScrollPane scrollPane = new ScrollPane(textArea);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setPrefSize(400, 300);
-
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(javafx.geometry.Orientation.VERTICAL);
-        splitPane.getItems().addAll(cabecera, scrollPane);
-
-        // Ajustar el tamaño del SplitPane
-        AnchorPane.setTopAnchor(splitPane, 0.0);
-        AnchorPane.setBottomAnchor(splitPane, 0.0);
-        AnchorPane.setLeftAnchor(splitPane, 0.0);
-        AnchorPane.setRightAnchor(splitPane, 0.0);
-
-        GridPane gridPane = new GridPane();
-        gridPane.setVgap(30);
-        gridPane.addRow(0, cabecera);
-        gridPane.addRow(1, ruta);
-        gridPane.addRow(2, scrollPane);
-
-        AnchorPane anchorPane = new AnchorPane(gridPane);
-        AnchorPane.setTopAnchor(gridPane, 0.0);
-        AnchorPane.setBottomAnchor(gridPane, 0.0);
-        AnchorPane.setLeftAnchor(gridPane, 0.0);
-        AnchorPane.setRightAnchor(gridPane, 0.0);
-
-        alerta.getDialogPane().setContent(anchorPane);
-
-        Stage stage = (Stage) alerta.getDialogPane().getScene().getWindow();
-        stage.setAlwaysOnTop(true);
-
-        alerta.showAndWait();
-    }
-
+    // BORRA TODOS LOS ARCHIVOS DE UN DIRECTORIO
     public static void borrarArchivosEnDirectorio(String rutaDirectorio) {
         File directorio = new File(rutaDirectorio);
         if (directorio.exists() && directorio.isDirectory()) {
@@ -459,6 +411,7 @@ public class ArchivoController {
         }
     }
 
+    // BORRA UN ARCHIVO ESPECIFICO EN UN DIRECTORIO
     public static void borrarArchivoEnDirectorio(String rutaDirectorio, String archivo) {
         File archivoAEliminar = new File(rutaDirectorio, archivo);
         // Verificar si el archivo existe
@@ -470,6 +423,7 @@ public class ArchivoController {
         }
     }
 
+    // CUENTA LOS ARCHIVOS EN UN DIRECTORIO
     public static int contarArchivosDirectorio(String directorioPath) {
         File directorio = new File(directorioPath);
         int numArchivosTxt = 0;

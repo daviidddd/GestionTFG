@@ -9,6 +9,7 @@ public class GestionarTutoresController {
     @FXML
     private TextField txtTutor;
 
+    // ALTA DE TUTOR MANUAL
     @FXML
     protected void altaTutorClick() {
         String asignatura = txtTutor.getText().trim();

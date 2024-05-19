@@ -251,16 +251,19 @@ public class ModalBusquedaController {
 
     }
 
+    // CARGA DATOS FILTRADOS TFG
     public void cargarDatosTFGs() {
         List<TFG> listaTFG = bdController.obtenerTFGsFiltro(valorBusqueda);
         tbResultadoTFG.getItems().addAll(listaTFG);
     }
 
+    // CARGA DATOS FILTRADOS ALUMNOS
     public void cargarDatosAlumnos() {
         List<Alumno> listaAlumnos = bdController.obtenerAlumnosFiltro(valorBusqueda);
         tbResultadoAlumno.getItems().addAll(listaAlumnos);
     }
 
+    // CARGA DATOS FILTRADOS SOLICITUDES
     public void cargarDatosSolicitud() {
         List<Solicitud> listaSolicitudes = bdController.obtenerSolicitudesFiltro(valorBusqueda);
         tbResultadoSolicitud.getItems().addAll(listaSolicitudes);

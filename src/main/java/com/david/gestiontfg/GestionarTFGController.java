@@ -45,6 +45,7 @@ public class GestionarTFGController {
         this.bdController = new BDController();
     }
 
+    // INICIALIZA LA INFORMACION DEL FORMULARIO
     public void initData() {
         cargarComboTutores();
         cargarComboAsignaturas();
@@ -52,6 +53,7 @@ public class GestionarTFGController {
         btnAltaTFGFichero.setBackground(Background.EMPTY);
     }
 
+    // AÑADE TUTORES AL COMBO
     protected void cargarComboTutores() {
         BDController bdController = new BDController();
         List<String> tutores = bdController.obtenerTutoresGrado();
@@ -63,6 +65,7 @@ public class GestionarTFGController {
         cbTutor.setItems(items);
     }
 
+    // AÑADE ASIGNATURAS AL COMBO
     protected void cargarComboAsignaturas() {
         BDController bdController = new BDController();
         List<String> asignaturas = bdController.obtenerAsignaturasGrado();
@@ -74,6 +77,7 @@ public class GestionarTFGController {
         cbAsignatura.setItems(items);
     }
 
+    // AÑADE TUTOR
     @FXML
     protected void anadirTutor() {
         String tutorExistente = "";
@@ -81,6 +85,7 @@ public class GestionarTFGController {
         txtTutor.setText(tutorExistente + cbTutor.getSelectionModel().getSelectedItem().toString() + ", ");
     }
 
+    // AÑADE ASIGNATURA
     @FXML
     protected void anadirAsignatura() {
         String asignaturaExistente = "";
@@ -88,16 +93,19 @@ public class GestionarTFGController {
         txtAsignaturas.setText(asignaturaExistente + cbAsignatura.getSelectionModel().getSelectedItem().toString() + ", ");
     }
 
+    // ELIMINA TODOS LOS TUTORES
     @FXML
     protected void borrarTutores() {
         txtTutor.setText("");
     }
 
+    // ELIMINA TODAS LAS ASIGNATURAS
     @FXML
     protected void borrarAsignaturas() {
         txtAsignaturas.setText("");
     }
 
+    // ALTA MANUAL DE TFG
     @FXML
     protected void altaTFGClick() {
         String codigo = txtCodigo.getText();
@@ -131,6 +139,7 @@ public class GestionarTFGController {
         }
     }
 
+    // ALTA DE TFG MEDIANTE DOCUMENTO PDF
     @FXML
     protected void altaTFGFicheroClick() {
         ArchivoController archivoController = new ArchivoController();
@@ -138,6 +147,7 @@ public class GestionarTFGController {
         altaTFG();
     }
 
+    // COGE TODOS LOS DOCUMENTOS DEL DIRECTORIO RAIZ
     private void altaTFG() {
         String directorio = System.getProperty("user.home") + File.separator + "GestorUCAM" + File.separator + "tfgs";
         //String directorio = "src/main/resources/tfgs";
@@ -158,6 +168,7 @@ public class GestionarTFGController {
         }
     }
 
+    // PROCESA EL FICHERO DE TFG PARA SU ALTA
     private void procesarArchivo(File archivo) {
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
@@ -205,6 +216,7 @@ public class GestionarTFGController {
         return texto;
     }
 
+    // BORRA LOS DATOS DE LOS CAMPOS
     protected void limpiarFormulario() {
         txtCodigo.setText("");
         txtTitulo.setText("");

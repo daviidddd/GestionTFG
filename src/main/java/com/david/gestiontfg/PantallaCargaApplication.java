@@ -47,10 +47,10 @@ public class PantallaCargaApplication extends Application {
         });
     }
 
+    // METODO PRINCIPAL
     public static void main(String[] args) {
         Configuracion configuracion = Configuracion.getInstance();
         String pythonPath = configuracion.obtenerPythonPath();
-        System.out.println("Python Path: " + pythonPath);
         launch(args);
     }
 }

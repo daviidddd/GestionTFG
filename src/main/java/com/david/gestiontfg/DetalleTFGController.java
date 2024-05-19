@@ -46,6 +46,7 @@ public class DetalleTFGController {
     private Label lblTFGDetalle;
     private static String codigoAntiguo = null;
 
+    // INICIALIZA LA INFORMACION DEL FORMULARIO
     public void initData(TFG tfg) {
         setCodigoAntiguo(tfg.getCodigo());
         configTextAreas();
@@ -73,6 +74,7 @@ public class DetalleTFGController {
         txtAsignaturasAsignadas.setWrapText(true);
     }
 
+    // CARGA LOS TUTORES DE LA BBDD EN COMBOBOX
     private void cargarTutores() {
         BDController bdController = new BDController();
         List<String> tutores = bdController.obtenerTutoresGrado();
@@ -85,6 +87,7 @@ public class DetalleTFGController {
 
     }
 
+    // CARGA LAS ASIGNATURAS DE LA BBDD EN COMBOBOX
     private void cargarAsignaturas() {
         BDController bdController = new BDController();
         List<String> asignaturas = bdController.obtenerAsignaturasGrado();
@@ -97,6 +100,7 @@ public class DetalleTFGController {
 
     }
 
+    // CAMBIA EL ESTADO DE LOS ELEMENTOS DEPENDIENDO DE SI ESTA ACTIVA LA EDICION
     private void estadoElementos(Boolean estado) {
         txtCodigoDetalle.setDisable(estado);
         txtTituloDetalle.setDisable(estado);
@@ -111,24 +115,28 @@ public class DetalleTFGController {
         txtAsignaturasAsignadas.setDisable(estado);
     }
 
+    // HABILITA EDICION
     @FXML
     private void habilitarEdicion() {
         estadoElementos(false);
         btnModificarTFGDetalle.setVisible(true);
     }
 
+    // INSERTA ASIGNATURA EN TEXTO
     @FXML
     private void insertarTutor() {
         if (!cbTutorDetalle.getValue().isEmpty())
             txtTutoresAsignados.setText(txtTutoresAsignados.getText() + cbTutorDetalle.getValue() + ", ");
     }
 
+    // INSERTA ASIGNATURA EN TEXTO
     @FXML
     private void insertarAsignatura() {
         if (!cbAsignaturaDetalle.getValue().isEmpty())
             txtAsignaturasAsignadas.setText(txtAsignaturasAsignadas.getText() + cbAsignaturaDetalle.getValue() + ", ");
     }
 
+    // MODIFICA TFG EN BBDD
     @FXML
     private void modificarTFG() {
         try {
@@ -162,6 +170,7 @@ public class DetalleTFGController {
         }
     }
 
+    // ELIMINA TFG EN BBDD
     @FXML
     private void eliminarTFG() {
         try {
@@ -188,11 +197,13 @@ public class DetalleTFGController {
         }
     }
 
+    // BORRA EL TEXTO DE ASIGNATURAS
     @FXML
     private void limpiarAsignaturas() {
         txtAsignaturasAsignadas.setText("");
     }
 
+    // BORRA EL TEXTO DE TUTORES
     @FXML
     private void limpiarTutores() {
         txtTutoresAsignados.setText("");
