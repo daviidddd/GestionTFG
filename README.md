@@ -48,9 +48,9 @@ pip install PyPDF2
 
 ### Creación de la base de datos en MySQL
 
-Gran parte de la información será gestionada mediante base de datos por lo que es necesario su creación.
+Gran parte de la información será gestionada mediante base de datos por lo que es necesario su creación. Para ello descarga el archivo .sql dentro de https://github.com/daviidddd/GestionTFG/blob/fae3ffc132ba90d28e57c33a119d0e592b856cb5/src/main/resources/database/script.sql y ejecuta el siguiente comando en tu terminal.
 
 ```bash 
-mysql -u tu_usuario -p tu_base_de_datos < ~/GestorUCAM/scripts/bbdd.sql
+mysql -u tu_usuario -p tu_base_de_datos < script.sql
 ```
 
